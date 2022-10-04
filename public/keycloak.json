@@ -1,0 +1,8 @@
+{
+  "realm": "networkportal",
+  "auth-server-url": "https://keycloak-ofse-api.herokuapp.com/auth/",
+  "ssl-required": "external",
+  "resource": "React-client",
+  "public-client": true,
+  "confidential-port": 0
+}
