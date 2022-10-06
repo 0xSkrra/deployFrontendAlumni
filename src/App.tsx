@@ -2,7 +2,9 @@ import { useKeycloak } from '@react-keycloak/web';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Layout from './components/Layout';
-import StartPage from './components/StartPage';
+import PostCard from './components/PostCard';
+import StartPage from './components/startPage';
+import Dashboard from './view/Dashboard';
 
 function App() {
   const { initialized } = useKeycloak()
@@ -15,9 +17,9 @@ function App() {
     <BrowserRouter> 
     <Layout>
       <Routes>
-        <Route path="/" element={<StartPage />} /> 
-        
+        <Route path="/" element={<StartPage />} />
         <Route path="/home" element={<></>}/>
+        <Route path='/dash' element={<Dashboard />}/>
         
       </Routes>
       </Layout>  

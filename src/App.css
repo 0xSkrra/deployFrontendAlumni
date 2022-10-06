@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.react-calendar {
+  width: fit-content !important;
+  height: fit-content !important;
+}
+
+card-container {
+  width: 100vw !important;
+  display: flex;
+}
+
+.dashboard {
+  width: fit-content !important;
+}
