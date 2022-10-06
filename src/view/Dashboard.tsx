@@ -10,14 +10,14 @@ const Dashboard = () => {
         setView(!view)
     }
   return (
-    <div className="dashboard">
+    <div className="dashboard w-screen">
         {/*sidebar, top view*/}
-        <button color="primary"
-        onClick={onClick}
-        >button</button>
         {view && <TimelineComp /> }
         {!view && <CalendarView /> }
-        
+        <button color="primary" className="block"
+        onClick={onClick}
+        >button</button>
+        <aside className="w-30"></aside>
     </div>
   )
 }

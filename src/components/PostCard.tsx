@@ -7,13 +7,13 @@ import { ReactElement, JSXElementConstructor, ReactFragment, ReactPortal } from 
   | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined }) => {
 
   return (
-    <div className='card-container pt-4 mg-2 pb-3'>
-      <div className="card-head bg-slate-500 h-10 rounded-t-md">
+    <div className='card-container pt-4 mg-2 pb-3 w-100 items-stretch'>
+      <div className="card-head bg-slate-500 h-10 rounded-t-md self-stretch">
           <img src="../assets/abstract-user.png" alt="ProfilePic" className="h-10 w-10 inline"></img>
           <p className="bg-slate-500 pl-3 inline">{props.name}</p>
       </div>
       <div className="card-content pl-1.5 pr-1.5 pb-1.5 shadow-lg rounded-b-lg">
-        <span className="text-center">{props.content}</span>
+        <span className="text-center self-stretch">{props.content}</span>
       </div>  
     </div>
     
