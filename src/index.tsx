@@ -1,27 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import keycloak from './keycloak'
 import './index.css';
 import App from './App';
-import { initialize } from './keycloak';
+import { ReactKeycloakProvider } from '@react-keycloak/web';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-// Initialize Keycloak
-initialize()
-  .then(() => { // If No Keycloak Error occurred - Display the App
-    root.render(
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    );
-  })
-  .catch(() => {
-    root.render(
-      <React.StrictMode>
-        <p>Could Not Connect To Keycloak.</p>
-      </React.StrictMode>
-    );
-  });
+root.render(
+  <React.StrictMode>
+    <ReactKeycloakProvider
+      authClient={keycloak}
+      initOptions={{
+            checkLoginIframe: 'false',
+            onLoad: "check-sso",
+            silentCheckSsoRedirectUri:
+              window.location.origin + "/silent-check-sso.html",
+            promiseType: 'native'
+      }}
+      onEvent={console.log}
+      
+    >
+      <App />
+    </ReactKeycloakProvider>
+  </React.StrictMode>,
+)
 
