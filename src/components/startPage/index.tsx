@@ -11,9 +11,7 @@ const StartPage = () => {
     keycloak?.login()
   }, [keycloak])
 
-  const logout = useCallback( async () => {
-    keycloak?.logout()
-  }, [keycloak])
+
 
   //
   useEffect( () => {
