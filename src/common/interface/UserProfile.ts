@@ -5,6 +5,12 @@ export interface UserProfile{
     fun_fact: string,
     picture: string,
     isAuthenticated: boolean
+    authoredPosts: [];
+    recievedPosts: [];
+    authoredEvents: [];
+    topics: [];
+    groups: [];
+    respondedEvents: [];
 }
 
 export const defaultUserProfile: UserProfile = {
@@ -13,5 +19,11 @@ export const defaultUserProfile: UserProfile = {
     bio: "",
     fun_fact: "",
     picture: "",
-    isAuthenticated: false
+    isAuthenticated: false,
+    authoredPosts: [],
+    recievedPosts: [],
+    authoredEvents: [],
+    topics: [],
+    groups: [],
+    respondedEvents: [],
 }

@@ -7,11 +7,13 @@ interface baseLayoutProps{
 const Layout = ({children}: baseLayoutProps) => {
 
   return (   
-  <div className="flex flex-row">
-    <Navbar />
-    <div className="flex row max-w-[75%] mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-      {children}
+  <div className="flex">
+    <div className="h-screen sticky top-0">
+      <Navbar />
     </div>
+    <main className="h-screen w-screen">
+      {children}
+    </main>
   </div>
 )
 }
