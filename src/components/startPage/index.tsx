@@ -19,6 +19,7 @@ const StartPage = () => {
     if(keycloak.authenticated){
       if(userState.User.id === -1) getUserProfile().then((u) => userState.setUser(u))
     }else userState.setUser(defaultUserProfile)
+
     
   }, [keycloak.authenticated, userState])
 
