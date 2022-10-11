@@ -1,8 +1,9 @@
 export interface UserProfile{
     id: number,
+    username: string,
     status: string,
     bio: string,
-    fun_fact: string,
+    funFact: string,
     picture: string,
     isAuthenticated: boolean
     authoredPosts: [];
@@ -15,9 +16,10 @@ export interface UserProfile{
 
 export const defaultUserProfile: UserProfile = {
     id: -1,
+    username: "",
     status: "",
     bio: "",
-    fun_fact: "",
+    funFact: "",
     picture: "",
     isAuthenticated: false,
     authoredPosts: [],
