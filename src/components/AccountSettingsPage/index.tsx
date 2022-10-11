@@ -1,24 +1,35 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { UserProfile } from "../../common/interface/UserProfile";
+import { updateUserProfile } from "../../common/util/API";
 import { useUserStore } from "../../common/util/Store/userStore";
 import { InputField } from "../util/inputField"
 
 const AccountSettings = () => {
-  const user: UserProfile = useUserStore.getState().User
-  const [userEdited, setUserEdited] = useState(user)
-  const onChangeInput = (e: any) => {
-    console.log(e)
+  const userState = useUserStore.getState()
+  const [userEdited, setUserEdited] = useState(userState.User)
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    
+    updateUserProfile(userEdited)
+    .then( (u) => userState.setUser(u))
+    .catch((e) => console.log(e))
+
   }
   return (
-  <div className="flex flex-col  h-screen items-center space-y-10 ">
-    <div className="bg-rounded-md flex flex-col items-center py-60 max-w-lg min-w-[75%] space-y-5 rounded-lg border border-gray-300 shadow-md">
-      <div className="space-y-5 self-center max-w-[50%]">
-        <InputField onChange={onChangeInput} label={'Fun Fact'} value={userEdited.fun_fact} />
-        <InputField onChange={onChangeInput} label={'Account Bio'} value={userEdited.bio} />
-        <InputField onChange={onChangeInput} label={'Picture url'} value={userEdited.picture} />
-        <button type='button'
+  <div className="flex flex-col h-screen items-center py-5 mt-10  ">
+
+    <div className="bg-rounded-md max-h-[95%] flex flex-col items-center min-h-[90%] max-w-lg min-w-[75%]  rounded-lg  shadow-xl">
+    <h1 className="text-5xl mt-10 mb-10 ">Settings for {userEdited.username}</h1>
+      <div className=" self-center py-30">
+      
+        <form className="space-y-5" onSubmit={onSubmit}>
+        <InputField onChange={(e) => userEdited.status = e.target.value } label={'Work Status'} value={userEdited.status} />
+        <InputField onChange={(e) => userEdited.funFact = e.target.value } label={'Fun Fact'} value={userEdited.funFact} />
+        <InputField onChange={(e) => userEdited.bio = e.target.value} label={'Account Bio'} value={userEdited.bio} />
+        <InputField onChange={(e) => userEdited.picture = e.target.value} label={'Picture url'} value={userEdited.picture} />
+        <button type='submit'
                 className='flex mt-2 break-inside bg-blue-600 rounded-3xl px-8 py-4 mb-4 w-full hover:bg-blue-400'
-                onClick={() => console.log(user.picture)}>
+                >
                 <div className='flex items-center justify-between flex-1'>
                   <span className='text-lg font-medium text-white'>Update user profile   </span>
                   <svg width='17' height='17' viewBox='0 0 17 17' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -28,6 +39,7 @@ const AccountSettings = () => {
                   </svg>
                 </div>
               </button>
+            </form>
       </div>
     </div>
 </div>
