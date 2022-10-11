@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { defaultUserProfile, UserProfile } from "../../common/interface/UserProfile"
 import { getUserById } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore"
-
-interface props{
-    userId?: number
-}
 
 const AccountPage = () => {
     const [user, setUser] = useState<UserProfile>(defaultUserProfile)

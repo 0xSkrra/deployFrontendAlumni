@@ -1,12 +1,11 @@
 import { FormEvent, useState } from "react";
-import { UserProfile } from "../../common/interface/UserProfile";
 import { updateUserProfile } from "../../common/util/API";
 import { useUserStore } from "../../common/util/Store/userStore";
 import { InputField } from "../util/inputField"
 
 const AccountSettings = () => {
   const userState = useUserStore.getState()
-  const [userEdited, setUserEdited] = useState(userState.User)
+  const [userEdited] = useState(userState.User)
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     

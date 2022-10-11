@@ -1,7 +1,6 @@
 import { useKeycloak } from '@react-keycloak/web'
 import { useCallback, useEffect } from 'react'
-import { Navigate } from 'react-router-dom'
-import { defaultUserProfile, UserProfile } from '../../common/interface/UserProfile'
+import { defaultUserProfile } from '../../common/interface/UserProfile'
 import { getUserProfile } from '../../common/util/API'
 import { useUserStore } from '../../common/util/Store/userStore'
 
