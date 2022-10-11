@@ -3,7 +3,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import AccountSettings from './components/AccountSettingsPage';
 import Layout from './components/Layout';
-import StartPage from './components/StartPage';
+import StartPage from './components/startPage';
+import Dashboard from './view/Dashboard';
 
 function App() {
   const { initialized } = useKeycloak()
@@ -17,8 +18,9 @@ function App() {
     <Layout>
       <Routes>
         <Route path="/" element={<StartPage />} /> 
-        
         <Route path="/account/settings" element={<AccountSettings />}/>
+        <Route path="/home" element={<></>}/>
+        <Route path='/dash' element={<Dashboard />}/>
         
       </Routes>
       </Layout>  

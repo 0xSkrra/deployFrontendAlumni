@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+
+.react-calendar {
+  /*width: fit-content !important;
+  height: fit-content !important;*/
+  background-color: #2b2d42 !important;
+  color: whitesmoke;
+}
+
+card-container {
+  width: 100vw !important;
+  display: flex;
+}
+
+.dashboard {
+  width: fit-content !important;
+  height: 100vh;
+  width: 100vw !important;
+  background-color: #2b2d42;
+  color: whitesmoke;
+}
