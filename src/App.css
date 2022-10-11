@@ -38,8 +38,10 @@
 }
 
 .react-calendar {
-  width: fit-content !important;
-  height: fit-content !important;
+  /*width: fit-content !important;
+  height: fit-content !important;*/
+  background-color: #2b2d42 !important;
+  color: whitesmoke;
 }
 
 card-container {
@@ -49,4 +51,8 @@ card-container {
 
 .dashboard {
   width: fit-content !important;
+  height: 100vh;
+  width: 100vw !important;
+  background-color: #2b2d42;
+  color: whitesmoke;
 }

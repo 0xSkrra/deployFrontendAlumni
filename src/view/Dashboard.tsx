@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import CalendarView from "../components/CalendarView"
+import CalendarView from "../components/Calendar/CalendarView"
 import TimelineComp from "../components/TimelineComp"
 
 

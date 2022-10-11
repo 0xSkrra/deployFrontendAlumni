@@ -2,6 +2,7 @@ import Calendar from 'react-calendar'
 import {useState} from 'react'
 import 'react-calendar/dist/Calendar.css';
 import { time } from 'console';
+import AddNewEvent from '../AddNewEvent';
 
 
 const CalendarView = () => {
@@ -10,7 +11,6 @@ const CalendarView = () => {
     const [selectDate, setSelectDate] = useState(false)
     const [calendarText, setCalendarText] = useState("No date is selected")
 
-    let placeholderTime:string = '00:00'
     const [hideInput, setHideInput] = useState(true)
     
     const onDateChange = (newDate: Date) => {
@@ -27,7 +27,6 @@ const CalendarView = () => {
 
     const handleAddDateClick = () => {
       let inputTime:string = getTimeNow()
-      placeholderTime = inputTime
       setHideInput(!hideInput)
       console.log(inputTime);
       
@@ -47,24 +46,13 @@ const CalendarView = () => {
 
     return (
       <div>
-           <Calendar onChange={onDateChange} value={date} 
-           selectRange={false} onClickDay={() => setDate} 
-           className="react-calendar"
-           />
-           <button onClick={logDate}>date</button>
-           <button onClick={handleAddDateClick}>Add Event</button>
-           { hideInput === false && <div><input placeholder='Event description'></input>
-              <div>
-                <>
-                <input placeholder="00" className="w-6"></input>:
-                <input placeholder="00" className="w-6"></input>
-                </>
-                <>
-                <input placeholder="00" className="w-6"></input>:
-                <input placeholder="00" className="w-6"></input>
-                </>
-              </div>
-           </div> }
+        <button onClick={logDate}>get my date</button>
+        <Calendar onChange={(onDateChange)} value={date} 
+        selectRange={false} onClickDay={() => setDate} 
+        className="react-calendar"
+        />
+        <AddNewEvent />
+           
       </div>
     )
 }
