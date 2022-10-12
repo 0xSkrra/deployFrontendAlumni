@@ -1,6 +1,6 @@
-import { UserProfile } from "./UserProfile";
+import { UserProfile } from "../../../interface/UserProfile";
 
-export interface userState{
+export interface UserSlice{
     User: UserProfile,
     setUser: (user: UserProfile) => void,
     removeUser: () => void,

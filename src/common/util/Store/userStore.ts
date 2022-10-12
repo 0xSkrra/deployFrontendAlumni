@@ -1,12 +1,13 @@
 import create from "zustand";
-import {persist} from "zustand/middleware"
+import {devtools, persist} from "zustand/middleware"
 import { defaultUserProfile, UserProfile } from "../../interface/UserProfile";
-import { userState } from "../../interface/userState";
+import { UserSlice } from "./Slices/UserSlice";
 
 
-export const useUserStore = create<userState, [["zustand/persist", userState]]>(
-    persist(
-      (set, get) => ({
+export const useUserStore = create<UserSlice>()(
+  devtools(  
+  persist(
+      (set) => ({
         User: defaultUserProfile,
         setUser: (newUser: UserProfile) => set(() => ({ User: newUser })),
         removeUser: () => set(() => ({ User: defaultUserProfile })),
@@ -17,3 +18,4 @@ export const useUserStore = create<userState, [["zustand/persist", userState]]>(
       }
     )
   )
+)
