@@ -14,6 +14,14 @@ export interface UserProfile{
     respondedEvents: [];
 }
 
+export interface UserProfilePatch{
+    id: number,
+    status: string,
+    bio: string,
+    funFact: string,
+    picture: string
+}
+
 export const defaultUserProfile: UserProfile = {
     id: -1,
     username: "",
