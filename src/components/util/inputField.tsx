@@ -1,4 +1,3 @@
-import React from 'react'
 interface propsInterface{
     label: string,
     value: string
