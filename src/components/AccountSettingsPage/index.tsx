@@ -1,16 +1,20 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { defaultUserProfile } from "../../common/interface/UserProfile";
 import { updateUserProfile } from "../../common/util/API";
 import { useUserStore } from "../../common/util/Store/userStore";
 import { InputField } from "../util/inputField"
 
 const AccountSettings = () => {
-  const userState = useUserStore.getState()
-  const [userEdited] = useState(userState.User)
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const userState = useUserStore((state) => state)
+  const [userEdited, setUserEdited] = useState(defaultUserProfile)
+  useEffect(() => {
+    setUserEdited(userState.User)
+  }, [userState.User])
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    
+
     updateUserProfile(userEdited)
-    .then( (u) => userState.setUser(u))
+    .then( () => userState.setUser(userEdited))
     .catch((e) => console.log(e))
 
   }

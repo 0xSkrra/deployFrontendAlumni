@@ -6,14 +6,15 @@ import { useUserStore } from "../../common/util/Store/userStore"
 
 const AccountPage = () => {
     const [user, setUser] = useState<UserProfile>(defaultUserProfile)
+    const userState = useUserStore((state) => state)
     const {id} = useParams()
 
     useEffect(() => {
         if(id !== undefined) getUserById(+id!).then((u) => setUser(u))
         else{
-            setUser(useUserStore.getState().User)
+            setUser(userState.User)
         }
-    }, [id])
+    }, [id, userState.User])
     
   return (
     <div className="md:min-w-[85%] md:min-h-[85%] w-full mt-2 lg:w-4/12 px-4 mx-auto">
@@ -25,7 +26,7 @@ const AccountPage = () => {
                 <img onError={({currentTarget}) => {
                     currentTarget.src ="https://cdn-icons-png.flaticon.com/512/892/892694.png"
                     currentTarget.onerror = null }}
-                    alt="..." src="https://cdn-icons-png.flaticon.com/512/892/892694.png" 
+                    alt="..." src={user.picture} 
                     className="shadow-xl rounded-full w-32 md:w-48 lg:w-96  border-none -m-12 -ml-20 lg:-ml-16"/>
             </div>
             </div>
