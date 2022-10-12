@@ -2,7 +2,7 @@
 
 import {useState, useEffect} from 'react'
 import PopupView from '../../view/PopupView'
-import {topics} from './api-values'
+import {topics} from './test-api-values'
 import ListDetail from './ListDetail'
 
 // no paginations as of yet
