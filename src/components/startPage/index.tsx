@@ -1,34 +1,33 @@
 import { useKeycloak } from '@react-keycloak/web'
 import { useCallback, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
-import { defaultUserProfile, UserProfile } from '../../common/interface/UserProfile'
-import { getUserProfile } from '../../common/util/API'
+import { getOrCreateUserProfile } from '../../common/util/API'
 import { useUserStore } from '../../common/util/Store/userStore'
 
 const StartPage = () => {
   const {keycloak} = useKeycloak()
-  const userState = useUserStore.getState()
+  const userState = useUserStore((state) => state)
+  useEffect(() => {
+    if(keycloak.authenticated){
+      if(userState.User.id === -1 || typeof userState.User === 'string') getOrCreateUserProfile().then((u) => userState.setUser(u))
+    }
+  }, [keycloak.authenticated, userState])
+
   const login = useCallback( async () => {
     keycloak?.login()
   }, [keycloak])
 
+  //
 
 
   //
-  useEffect( () => {
-    if(keycloak.authenticated){
-      if(userState.User.id === -1) getUserProfile().then((u) => userState.setUser(u))
-    }else userState.setUser(defaultUserProfile)
-    
-  }, [keycloak.authenticated, userState])
-
-  //
-  //if(keycloak.authenticated) return <Navigate to='/profile'></Navigate>
+  if(keycloak.authenticated) return <Navigate to='/account'></Navigate>
   //
 
   return (
-
+    
     <div className="bg-white max-w-[90%]">
+      {keycloak.token}
     <div className="flex justify-center h-screen">
         <div className="hidden bg-cover md:block lg:w-2/3" >
             <div className="flex items-center h-full px-20">
