@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import AccountPage from './components/AccountPage';
 import AccountSettings from './components/AccountSettingsPage';
+import DashboardPage from './components/DashboardPage';
 import Layout from './components/Layout';
 import StartPage from './components/StartPage';
 import PrivateRoute from './routes/utils';
@@ -28,7 +29,7 @@ function App() {
               <AccountSettings />
             </PrivateRoute>
           }/>
-          <Route path='/timeline' element={
+          <Route path='/dashboard' element={
             <PrivateRoute>
               <Dashboard />
             </PrivateRoute>
@@ -42,7 +43,13 @@ function App() {
             <PrivateRoute>
               <AccountPage />
             </PrivateRoute>
-            }/>       
+            }/>
+
+            <Route path="/timeline" element={
+            <PrivateRoute>
+              <DashboardPage />
+            </PrivateRoute>
+            }/>     
 
       </Routes>
       </Layout>  
