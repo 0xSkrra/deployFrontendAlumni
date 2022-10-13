@@ -1,5 +1,6 @@
 import axios from "./api"
 import { UserProfile, UserProfilePatch } from "../../interface/UserProfile"
+import { Post } from "../../interface/Post"
 
 export const getOrCreateUserProfile = async (): Promise<UserProfile> => {
     const userData: UserProfile = (await axios.get(`/api/users`)
@@ -20,7 +21,6 @@ export const updateUserProfile = async (user: UserProfile): Promise<number> => {
         funFact: user.funFact,
         picture: user.picture
     }
-    console.log(userToPatch)
     const status = (await axios.patch(`/api/users/${user.id}`, userToPatch)).status
     return status
 }
@@ -28,4 +28,9 @@ export const updateUserProfile = async (user: UserProfile): Promise<number> => {
 export const getUserById = async (id: number): Promise<UserProfile> => {
     const user: UserProfile = (await axios.get(`/api/users/${id}`)).data
     return user
+}
+
+export const getAllPosts = async (): Promise<Post[]> => {
+    const posts: Post[] = (await axios.get('/api/posts')).data
+    return posts
 }
