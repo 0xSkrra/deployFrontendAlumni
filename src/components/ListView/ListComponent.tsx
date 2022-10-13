@@ -2,12 +2,15 @@
 
 import {useState, useEffect} from 'react'
 import PopupView from '../../view/PopupView'
-import {topics} from './test-api-values'
 import ListDetail from './ListDetail'
+import { getUserTopics } from '../../common/util/API'
+import ListRow from './ListRow'
+import { IGroup, ITopic } from '../../common/interface/Endpoints'
 
 // no paginations as of yet
 const ListComponent = () => {
-    const [hover, setHover] = useState(false)
+    const [content, setContent] = useState<React.ReactNode|React.ReactNode[]>(<>Loading...</>)
+
     const [showDetail, setShowDetail] = useState<boolean>(false)
     const [activeDetail, setActiveDetail] = useState("")
     const handleClickList = (el:any) => {
@@ -16,31 +19,24 @@ const ListComponent = () => {
         console.log(el)
         setShowDetail(true)
     }
-    
-    
-        // maybe add a hideDesc button if it's so important to widdle me
-    const listElements = topics.map(topics => {
+    const getListData = async () => {
+        console.log("data request...");
         
-        return (
-            <div className='p-0.5 w-50'
-            
-                onClick={() => handleClickList(topics) }>
-                <div className='border-2 border-gray-50 text-center'>
-                    <div className='list-desc'>
-                    {topics.name}
-                    </div>
-                    { hover &&
-                    <div className=' w-100vw'>
-                    {topics.description}
-                  </div> }
-                </div>
-            </div>
-        )
-    })
-
+        const data = await getUserTopics()
+        const newContent = data.map((x) => {
+            return <ListRow el={x}
+            click={handleClickList}
+             /> }
+            )
+        setContent(newContent)
+    }
+    useEffect(() => {
+        getListData()
+    }, [])
+    
     return (
         <div>
-            {listElements}
+            {content}
             <PopupView clickClose={() => setShowDetail(false)}
                 trigger={showDetail} 
                 children={<ListDetail item={activeDetail}

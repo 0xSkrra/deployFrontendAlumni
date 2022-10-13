@@ -1,6 +1,6 @@
 import {useState} from 'react'
-import CalendarView from './Calendar/CalendarView'
-import CalendarPopup from './Calendar/CalendarPopup'
+/* import CalendarView from './Calendar/CalendarView' */
+import PopupView from '../view/PopupView'
 import { Calendar } from 'react-calendar'
 
 const AddNewEvent = () => {
@@ -15,6 +15,13 @@ const AddNewEvent = () => {
     setCalendarPopup(false)
     
   }
+
+  function addTimeToDate(date:Date, hour:number, minute:number) {
+    date.setHours(hour)
+    date.setMinutes(minute)
+    return date
+  }
+
   /* function populateNumList(end:number, increment:number){
     for (let i = 0; i < end; i++) {
       
@@ -45,7 +52,7 @@ const AddNewEvent = () => {
             {/*<input placeholder='date' className='startDateInput'>{dateSelect}</input>*/}
             <br/><p className='inline'>{dateSelect.getDay()}/</p>
             <p className='inline'>{dateSelect.getMonth()}/</p><p className='inline'>{dateSelect.getFullYear()}</p>
-            <CalendarPopup clickClose={() => setCalendarPopup(!calendarPopup)} 
+            <PopupView clickClose={() => setCalendarPopup(!calendarPopup)} 
               trigger={calendarPopup} children={<Calendar
                 selectRange={false} onClickDay={e => handleDateSelect(e)}
                 className="react-calendar" 

@@ -11,8 +11,8 @@ export interface IGroup {
 
 export interface ITopic {
     id: number,
-    name: string,
-    description: string,
+    title: string,
+    body: string,
     isPrivate: boolean,
     posts: [],//IPost[]|null,
     users: [],//IUser[]|null,
