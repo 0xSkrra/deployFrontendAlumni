@@ -7,11 +7,12 @@ import { useUserStore } from '../../common/util/Store/userStore'
 const StartPage = () => {
   const {keycloak} = useKeycloak()
   const userState = useUserStore((state) => state)
+
   useEffect(() => {
-    if(keycloak.authenticated){
-      if(userState.User.id === -1 || typeof userState.User === 'string') getOrCreateUserProfile().then((u) => userState.setUser(u))
-    }
-  }, [keycloak.authenticated, userState])
+      if(keycloak.authenticated){
+        if(userState.User.id === -1 || typeof userState.User === 'string') getOrCreateUserProfile().then((u) => userState.setUser(u))
+      }
+    }, [keycloak.authenticated, userState])
 
   const login = useCallback( async () => {
     keycloak?.login()

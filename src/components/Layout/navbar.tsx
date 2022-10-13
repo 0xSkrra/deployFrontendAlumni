@@ -12,7 +12,7 @@ const Navbar = () => {
     userState.setUser(defaultUserProfile)
     }, [userState])
 
-    if (userState.User.id === -1) return <></>
+    if (!keycloak.authenticated) return <></>
 
 return (
 
