@@ -1,3 +1,7 @@
+import { Group } from "./Group";
+import { Post } from "./Post";
+import { Topic } from "./Topic";
+
 export interface UserProfile{
     id: number,
     username: string,
@@ -6,12 +10,12 @@ export interface UserProfile{
     funFact: string,
     picture: string,
     isAuthenticated: boolean
-    authoredPosts: [];
-    recievedPosts: [];
-    authoredEvents: [];
-    topics: [];
-    groups: [];
-    respondedEvents: [];
+    authoredPosts: Post[];
+    recievedPosts: Post[];
+    authoredEvents: Event[];
+    topics: Topic[];
+    groups: Group[];
+    respondedEvents: Event[];
 }
 
 export interface UserProfilePatch{
