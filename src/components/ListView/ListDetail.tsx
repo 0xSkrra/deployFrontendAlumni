@@ -1,12 +1,17 @@
-import { IGroup, ITopic } from '../../common/interface/Endpoints'
+import { Group } from '../../common/interface/Group'
+import { Topic } from '../../common/interface/Topic'
 
+interface ListDetailProps {
+  title:string,
+  body:string,
+}
 
-const ListDetail = (props:any|/* IGroup |  */ITopic) => {
+const ListDetail = ({title, body}:ListDetailProps) => {
   return (
     <div className='bg-slate-500 h-60vh w-40vw'>
         <p>Detail view is here</p>
-        <p>{props.item.title}</p>
-        <p>{props.item.body}</p>
+        <p>{title}</p>
+        <p>{body}</p>
         
     </div>
   )

@@ -9,8 +9,6 @@ import keycloak from "../../../keycloak";
  */
 const setAuthorizationHeader = (headers: AxiosRequestHeaders, keycloak: any) => {
   const { token } = keycloak
-  console.log(token)
-  console.log(process.env.REACT_APP_ALUMNI_URL)
   return {
     ...headers,
     "Content-Type": "application/json",
