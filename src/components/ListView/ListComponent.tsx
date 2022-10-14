@@ -3,35 +3,36 @@
 import {useState, useEffect} from 'react'
 import PopupView from '../../view/PopupView'
 import ListDetail from './ListDetail'
-import { getUserTopics } from '../../common/util/API'
+import { getUserGroups, getUserTopics } from '../../common/util/API'
 import ListRow from './ListRow'
-import { IGroup, ITopic } from '../../common/interface/Endpoints'
+import { Topic } from '../../common/interface/Topic'
+import { Group } from '../../common/interface/Group'
 
 // no paginations as of yet
-const ListComponent = () => {
+const ListComponent = (props:any) => {
     const [content, setContent] = useState<React.ReactNode|React.ReactNode[]>(<>Loading...</>)
 
     const [showDetail, setShowDetail] = useState<boolean>(false)
-    const [activeDetail, setActiveDetail] = useState("")
-    const handleClickList = (el:any) => {
+    const [activeDetail, setActiveDetail] = useState<Topic|Group>()
+    const handleClickList = (el:Topic|Group) => {
         setActiveDetail(el)
-        console.log(activeDetail);
-        console.log(el)
+    }
+    const handleSetDetail = () =>
+    {
         setShowDetail(true)
     }
-    const getListData = async () => {
-        console.log("data request...");
+    const getListData = async (props:any) => {
         
-        const data = await getUserTopics()
-        const newContent = data.map((x) => {
-            return <ListRow el={x}
-            click={handleClickList}
+        const data = await props.apiFunction()
+        const newContent = data.map((x:any) => {
+            return <ListRow el={x} key={x.id}
+            click={() => {handleClickList(x);handleSetDetail();}}
              /> }
             )
-        setContent(newContent)
+        return setContent(newContent)
     }
     useEffect(() => {
-        getListData()
+        getListData(props)
     }, [])
     
     return (
@@ -39,7 +40,7 @@ const ListComponent = () => {
             {content}
             <PopupView clickClose={() => setShowDetail(false)}
                 trigger={showDetail} 
-                children={<ListDetail item={activeDetail}
+                children={<ListDetail key={props.activeDetail?.id!} body={activeDetail?.body!} title={activeDetail?.title!}
                 />} 
             />
         </div>

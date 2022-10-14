@@ -1,7 +1,8 @@
 import axios from "./api"
-import { IGroup, ITopic } from "../../interface/Endpoints"
 import { UserProfile, UserProfilePatch } from "../../interface/UserProfile"
 import { Post } from "../../interface/Post"
+import { Topic } from "../../interface/Topic"
+import { Group } from "../../interface/Group"
 
 
 export const getOrCreateUserProfile = async (): Promise<UserProfile> => {
@@ -35,7 +36,6 @@ export const getUserById = async (id: number): Promise<UserProfile> => {
 export const getAllPosts = async (): Promise<Post[]> => {
     const posts: Post[] = (await axios.get('/api/posts')).data
     return posts
-
 }
 
 export const PostAPost = async (): Promise<Post> => {
@@ -48,14 +48,10 @@ export const PostAPost = async (): Promise<Post> => {
     
     return post
 }
-// alumni api requests
-//const alApi = process.env.REACT_APP_ALUMNI_URL + "/Topics"
-const alApi = "https://alumniwebapi.azurewebsites.net/api"
-//const alApi = "http://localhost:7067/api/Groups"
-export const getUserTopics = async (): Promise<ITopic[]> => {
-    return (await axios.get(`${alApi}/Topics`)).data
+export const getUserTopics = async (): Promise<Topic[]> => {
+    return (await axios.get(`/api/Topics`)).data
 }
 
-export const getUserGroups = async (): Promise<IGroup[]> => {
-    return (await axios.get(`${alApi}/Groups`)).data
+export const getUserGroups = async (): Promise<Group[]> => {
+    return (await axios.get(`/api/Groups`)).data
 }

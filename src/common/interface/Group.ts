@@ -1,5 +1,6 @@
 export interface Group {
+    id: number,
     title: string,
-    description: string,
-    banner: string, //if any
+    body: string|null,
+    isPrivate: boolean,
 };
