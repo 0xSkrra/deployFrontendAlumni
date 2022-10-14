@@ -29,7 +29,7 @@ function App() {
               <AccountSettings />
             </PrivateRoute>
           }/>
-          <Route path='/dashboard' element={
+          <Route path='/dash' element={
             <PrivateRoute>
               <Dashboard />
             </PrivateRoute>

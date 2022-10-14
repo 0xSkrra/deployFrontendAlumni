@@ -37,6 +37,17 @@ export const getAllPosts = async (): Promise<Post[]> => {
     return posts
 
 }
+
+export const PostAPost = async (): Promise<Post> => {
+    const postData = {
+        title: 'BING BONG',
+        body: "A BROG",
+        groupId: 1
+    }
+    const post: Post = (await axios.post('/api/posts', postData)).data
+    
+    return post
+}
 // alumni api requests
 //const alApi = process.env.REACT_APP_ALUMNI_URL + "/Topics"
 const alApi = "https://alumniwebapi.azurewebsites.net/api"
