@@ -6,7 +6,7 @@ import AccountSettings from './components/AccountSettingsPage';
 import DashboardPage from './components/DashboardPage';
 import GroupList from './components/GroupPage/GroupList';
 import Layout from './components/Layout';
-import StartPage from './components/startPage';
+import StartPage from './components/StartPage';
 import TopicList from './components/TopicPage/TopicList';
 import PrivateRoute from './routes/utils';
 import Dashboard from './view/Dashboard';

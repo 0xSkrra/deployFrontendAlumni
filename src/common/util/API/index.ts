@@ -38,14 +38,12 @@ export const getAllPosts = async (): Promise<Post[]> => {
     return posts
 }
 
-export const PostAPost = async (): Promise<Post> => {
+export const addCommentToPost = async (postId: number, comment: string): Promise<Post> => {
     const postData = {
-        title: 'BING BONG',
-        body: "A BROG",
-        groupId: 1
+        body: comment,
+        parentId: postId
     }
     const post: Post = (await axios.post('/api/posts', postData)).data
-    
     return post
 }
 export const getUserTopics = async (): Promise<Topic[]> => {

@@ -2,7 +2,7 @@ import { useKeycloak } from "@react-keycloak/web"
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Post } from "../../common/interface/Post"
-import { getAllPosts, PostAPost } from "../../common/util/API"
+import { getAllPosts } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore"
 import PostModal from "../util/postModal"
 
