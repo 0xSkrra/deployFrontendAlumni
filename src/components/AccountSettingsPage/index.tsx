@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { defaultUserProfile } from "../../common/interface/UserProfile";
 import { updateUserProfile } from "../../common/util/API";
 import { useUserStore } from "../../common/util/Store/userStore";
+import keycloak from "../../keycloak";
 import { InputField } from "../util/inputField"
 
 const AccountSettings = () => {
@@ -24,7 +25,7 @@ const AccountSettings = () => {
     <div className="bg-rounded-md max-h-[95%] flex flex-col items-center min-h-[90%] max-w-lg min-w-[75%]  rounded-lg  shadow-xl">
     <h1 className="text-5xl mt-10 mb-10 ">Settings for {userEdited.username}</h1>
       <div className=" self-center py-30">
-      
+        
         <form className="space-y-5" onSubmit={onSubmit}>
         <InputField onChange={(e) => userEdited.status = e.target.value } label={'Work Status'} value={userEdited.status} />
         <InputField onChange={(e) => userEdited.funFact = e.target.value } label={'Fun Fact'} value={userEdited.funFact} />

@@ -55,3 +55,23 @@ export const getUserTopics = async (): Promise<Topic[]> => {
 export const getUserGroups = async (): Promise<Group[]> => {
     return (await axios.get(`/api/Groups`)).data
 }
+
+export const addTopicMember = async (userId: number, topicId: number): Promise<any> => {
+
+    return (await axios.put(`api/Topics/${topicId}/Join`, [userId])).status
+}
+
+export const addGroupMember = async (groupId: number): Promise<any> => {
+
+    return (await axios.put(`api/Groups/${groupId}/Join`))
+}
+
+export const leaveGroup = async (groupId: number): Promise<any> => {
+
+    return (await axios.delete(`api/Groups/${groupId}/Leave`))
+}
+
+export const leaveTopic = async (topicId: number): Promise<any> => {
+
+    return (await axios.delete(`api/Topics/${topicId}/Leave`))
+}
