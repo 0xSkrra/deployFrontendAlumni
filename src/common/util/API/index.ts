@@ -3,6 +3,7 @@ import { UserProfile, UserProfilePatch } from "../../interface/UserProfile"
 import { Post } from "../../interface/Post"
 import { Topic } from "../../interface/Topic"
 import { Group } from "../../interface/Group"
+import { PaginationResponseObject } from "../../interface/pagination"
 
 
 export const getOrCreateUserProfile = async (): Promise<UserProfile> => {
@@ -33,19 +34,17 @@ export const getUserById = async (id: number): Promise<UserProfile> => {
     return user
 }
 
-export const getAllPosts = async (): Promise<Post[]> => {
-    const posts: Post[] = (await axios.get('/api/posts')).data
-    return posts
+export const getAllPosts = async (page:number, itemsPerPage: number): Promise<PaginationResponseObject> => {
+    const posts  = (await axios.get(`/api/posts?Page=${page}&ItemsPerPage=${itemsPerPage}`))
+    return posts.data
 }
 
-export const PostAPost = async (): Promise<Post> => {
+export const addCommentToPost = async (postId: number, comment: string): Promise<Post> => {
     const postData = {
-        title: 'BING BONG',
-        body: "A BROG",
-        groupId: 1
+        body: comment,
+        parentId: postId
     }
     const post: Post = (await axios.post('/api/posts', postData)).data
-    
     return post
 }
 export const getUserTopics = async (): Promise<Topic[]> => {
