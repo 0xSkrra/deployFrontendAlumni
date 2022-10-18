@@ -21,13 +21,11 @@ import Dashboard from './view/Dashboard';
 function App() {
   const { initialized, keycloak } = useKeycloak()
   const userState = useUserStore((state) => state)
-  const store = useBoundStore((state) => state)
 
   useEffect(() => {
     if(keycloak.authenticated){
       if(userState.User.id === -1 || typeof userState.User === 'string') getOrCreateUserProfile().then((u) =>{ 
         userState.setUser(u)
-        store.fetch()
       })
     }
   }, [keycloak.authenticated, userState])
