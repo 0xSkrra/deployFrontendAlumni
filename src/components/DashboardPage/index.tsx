@@ -10,7 +10,7 @@ import PostModal from "../util/postModal"
 
 
 const DashboardPage = () => {
-    const [postsSimpleView, setPostsSimpleView] = useState<React.ReactNode|React.ReactNode[]>(<></>)
+    const [postsRaw, setPostsRaw] = useState<Post[]>([])
     const [detailedPostView, setDetailedPostView] = useState<React.ReactNode|React.ReactNode[]>(<></>)
     const [pagination, setPagination] = useState<Paginate>(defaultPaginate)
     const postsPerPage = 7
@@ -38,15 +38,8 @@ const DashboardPage = () => {
         const headers = response.pagination
         // save posts to store here... create post store first...
 
-        const newPosts = relatedPosts.map((x) => {
-            return x.parentId === null ?  (
-            <PostItem post={x} onClickPost={() => onClickPost(x)}/>
-            )
-            : <React.Fragment key={x.id}></React.Fragment>
-        })
-
         // save states
-        setPostsSimpleView(newPosts)
+        setPostsRaw(relatedPosts)
         setPagination(headers)
         }
         fetchAndCreatePosts()
@@ -54,21 +47,25 @@ const DashboardPage = () => {
     //
     // PAGINATION METHODS
     //
-    const onClickNextPage = () => {
+    const onClickNextPage = async () => {
         setPagination((state) => ({...state, CurrentPage: state.CurrentPage+1 }))
     }
-    const onClickPrevPage = () => {
+    const onClickPrevPage = async () => {
         setPagination((state) => ({...state, CurrentPage: state.CurrentPage-1}))
     }
-    const onClickSpecificPage = (page: number) => {
+    const onClickSpecificPage = async (page: number) => {
         setPagination((state) => ({...state, CurrentPage: page}))
     }
 
     return (
         <div className="p-4 mb-4 flex flex-row rounded-lg ">
             <div className="flex flex-col min-w-[70%]"> 
-                {postsSimpleView}
-
+                {postsRaw.map((p) => {
+                    return p.parentId === null ?  (
+                        <PostItem key={p.id} post={p} onClickPost={() => onClickPost(p)}/>
+                        )
+                        : <React.Fragment key={p.id}></React.Fragment>
+                })}
                 {/* 
                 PAGINATION
                 */}
@@ -78,13 +75,13 @@ const DashboardPage = () => {
                         <ul className="flex list-style-none">
                         {pagination.HasPrevious && (
                             <>
-                            <li onClick={onClickPrevPage} className="page-item"><button
+                            <li onClick={async () => await onClickPrevPage()} className="page-item"><button
                             className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 focus:shadow-none"
                             aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                             </button></li>
                             <li className="page-item"><button
-                            onClick={() => onClickSpecificPage(pagination.CurrentPage-1)}
+                            onClick={async () => await onClickSpecificPage(pagination.CurrentPage-1)}
                             className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             >{pagination.CurrentPage-1}</button></li>
                             
@@ -97,12 +94,12 @@ const DashboardPage = () => {
                         {pagination.HasNext && (
                         <>
                         <li className="page-item"><button
-                            onClick={() => onClickSpecificPage(pagination.CurrentPage+1)}
+                            onClick={async () => await onClickSpecificPage(pagination.CurrentPage+1)}
                             className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             >{pagination.CurrentPage+1}</button></li>
 
                         
-                            <li onClick={onClickNextPage} className="page-item"><button
+                            <li onClick={async () => await onClickNextPage()} className="page-item"><button
                             className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
@@ -116,7 +113,7 @@ const DashboardPage = () => {
             
             {detailedPostView} {/* MODAL FOR POST DETAILED VIEW */}
 
-            
+
             {/*
             UPCOMING EVENTS HERE
             */}
