@@ -1,6 +1,5 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import { addPost } from "../../common/util/API"
-import { Topic } from "../../common/interface/Topic";
 import { useUserStore } from "../../common/util/Store/userStore";
 import { Post } from "../../common/interface/Post";
 

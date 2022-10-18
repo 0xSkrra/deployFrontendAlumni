@@ -1,5 +1,3 @@
-import { Group } from "./Group";
-import { Topic } from "./Topic";
 import { UserProfile } from "./UserProfile";
 
 export interface Post {

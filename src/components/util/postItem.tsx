@@ -8,7 +8,7 @@ const postItem = ({post, onClickPost}: postItemProps) => {
   return (
     <ol key={post.id} className="mt-2 divide-y divider-gray-200 max-h-full max-w-full">
                 <li onClick={onClickPost} >
-                    <div  className=" p-3 hover:cursor-pointer border border-gray-300 max-h-20 rounded-lg sm:flex hover:bg-gray-100">
+                    <div  className=" p-3 hover:cursor-pointer border border-gray-200 max-h-20 rounded-lg sm:flex hover:bg-gray-100">
                         <div className="flex-col rounded">                
                         <img className=" w-12 h-12 rounded-full mr-3 sm:mb-0" src={post.author?.picture} alt=""/>
                         </div>
