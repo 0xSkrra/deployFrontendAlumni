@@ -43,7 +43,7 @@ export const getAllPostsForTopic= async (topicId: number, page:number, itemsPerP
     return posts.data
 }
 
-export const getGroupPosts = async (groupId: number, page:number, itemsPerPage: number): Promise<PaginationResponseObject> => {
+export const getGroupPosts = async (groupId: number, page:number, itemsPerPage: number): Promise<PostPaginationResponse> => {
     const posts  = (await axios.get(`/api/posts/group/${groupId}?Page=${page}&ItemsPerPage=${itemsPerPage}`))
     return posts.data
 }
@@ -98,26 +98,21 @@ export const addPost = async (title: string, description: string): Promise<Post>
 }
 
 
-<<<<<<< HEAD
 export const addTopicMember = async (topicId: number): Promise<any> => {
-=======
-export const addTopicMember = async ( topicId: number): Promise<any> => {
->>>>>>> 85b7cc35ef992c4a0c50bd73a2c78511b805a771
 
-    return (await axios.put(`api/Topics/${topicId}/Join`).then(r => r.status))
+    return (await axios.post(`api/Topics/${topicId}/join`))
 }
 
 export const addGroupMember = async (groupId: number): Promise<any> => {    
-    const req = (await axios.put(`api/Groups/${groupId}/Join`).then(r => r.status))
-    return req
+    return (await axios.post(`api/Groups/${groupId}/Join`))
 }
 
 export const leaveGroup = async (groupId: number): Promise<any> => {
 
-    return (await axios.delete(`api/Groups/${groupId}/Leave`).then(r => r.status))
+    return (await axios.delete(`api/Groups/${groupId}/Leave`))
 }
 
 export const leaveTopic = async (topicId: number): Promise<any> => {
 
-    return (await axios.delete(`api/Topics/${topicId}/Leave`).then(r => r.status))
+    return (await axios.delete(`api/Topics/${topicId}/Leave`))
 }
