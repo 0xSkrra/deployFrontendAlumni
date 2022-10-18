@@ -39,6 +39,9 @@ const PostModal = ({postToDisplay, removeModalMethod}: PostModalProps) => {
                     </div> 
                     <div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-center p-4 border-t border-gray-200 rounded-b-md">
                     <div className="w-[75%] px-3 mb-2 mt-2">
+                    <div className="mb-4 w-full flex flex-col bg-gray-100">
+                            <Comments comments={comments}/>
+                        </div>
                         <form onSubmit={(e) => onSubmitkNewComment(e)}>
                             <div className="mb-4 w-full bg-gray-100 rounded-lg border-2 border-gray-300">
                                 <div className="py-2 px-4 bg-gray-100 rounded-t-lg ">
@@ -55,9 +58,7 @@ const PostModal = ({postToDisplay, removeModalMethod}: PostModalProps) => {
                                 </div>
                             </div>
                         </form>
-                        <div className="mb-4 w-full flex flex-col bg-gray-100">
-                            <Comments comments={comments}/>
-                        </div>
+                        
                     </div>
                 </div>
                 </div>
