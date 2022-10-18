@@ -100,20 +100,19 @@ export const addPost = async (title: string, description: string): Promise<Post>
 
 export const addTopicMember = async (topicId: number): Promise<any> => {
 
-    return (await axios.put(`api/Topics/${topicId}/Join`).then(r => r.status))
+    return (await axios.post(`api/Topics/${topicId}/join`))
 }
 
 export const addGroupMember = async (groupId: number): Promise<any> => {    
-    const req = (await axios.put(`api/Groups/${groupId}/Join`).then(r => r.status))
-    return req
+    return (await axios.post(`api/Groups/${groupId}/Join`))
 }
 
 export const leaveGroup = async (groupId: number): Promise<any> => {
 
-    return (await axios.delete(`api/Groups/${groupId}/Leave`).then(r => r.status))
+    return (await axios.delete(`api/Groups/${groupId}/Leave`))
 }
 
 export const leaveTopic = async (topicId: number): Promise<any> => {
 
-    return (await axios.delete(`api/Topics/${topicId}/Leave`).then(r => r.status))
+    return (await axios.delete(`api/Topics/${topicId}/Leave`))
 }
