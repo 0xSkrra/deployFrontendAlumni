@@ -10,7 +10,7 @@ import DashboardPage from './components/DashboardPage';
 import GroupList from './components/GroupPage/GroupList';
 import GroupTimeline from './components/GroupPage/GroupTimeline';
 import Layout from './components/Layout';
-import StartPage from './components/StartPage';
+import StartPage from './components/startPage';
 import TopicList from './components/TopicPage/TopicList';
 import TopicTimeline from './components/TopicPage/TopicTimeline';
 import PrivateRoute from './routes/utils';

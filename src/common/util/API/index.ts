@@ -43,7 +43,7 @@ export const getAllPostsForTopic= async (topicId: number, page:number, itemsPerP
     return posts.data
 }
 
-export const getGroupPosts = async (groupId: number, page:number, itemsPerPage: number): Promise<PaginationResponseObject> => {
+export const getGroupPosts = async (groupId: number, page:number, itemsPerPage: number): Promise<PostPaginationResponse> => {
     const posts  = (await axios.get(`/api/posts/group/${groupId}?Page=${page}&ItemsPerPage=${itemsPerPage}`))
     return posts.data
 }
