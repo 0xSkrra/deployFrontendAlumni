@@ -1,6 +1,5 @@
 import React from 'react'
 import { Post } from '../../common/interface/Post'
-import { GetPostMembership } from '../../common/util/API'
 interface postItemProps{
     post: Post
     onClickPost: () => void
