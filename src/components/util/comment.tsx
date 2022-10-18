@@ -43,7 +43,10 @@ const Comment = ({comment}: commentProps) => {
 
   {/* PARENT COMMENT */}
   <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed w-full">
-    <strong>{comment.author?.username}</strong> <span className="text-xs text-gray-400">{comment.lastUpdated}</span>
+    <strong>{comment.author?.username}</strong> <span className="text-xs text-gray-400"> on {comment.lastUpdated}</span>
+    <div className="text-end">
+    <span className="text-sm text-gray-400 text-end">delete</span>
+    </div>
     <p className="text-sm">
       {comment.body}
     </p>
@@ -58,17 +61,14 @@ const Comment = ({comment}: commentProps) => {
   )
 }
 const Comments = ({comments}: commentsProps) => {
-  const [postComments, setPostComments] = useState<React.ReactNode|React.ReactNode[]>(<></>)
-  useEffect(() => {
-    const newComments = comments.map((x) => {
-      return ( <Comment key={x.id} comment={x} />)
-    })
-    
-    setPostComments(newComments)
-  }, [comments])
+  console.log('second checkpoint   ', comments ,' type ' , typeof comments)
+  const newComments = comments.map((x) => {
+    return <Comment key={x.id} comment={x} />
+  })
+  
   return (
     <div className="flex space-y-3 flex-col">
-      {postComments}
+      {newComments}
     </div>
   )
 }

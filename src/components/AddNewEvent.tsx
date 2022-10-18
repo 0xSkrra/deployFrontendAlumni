@@ -2,6 +2,7 @@ import {useState} from 'react'
 /* import CalendarView from './Calendar/CalendarView' */
 import PopupView from '../view/PopupView'
 import { Calendar } from 'react-calendar'
+import DatePicker from "react-datepicker"
 
 const AddNewEvent = () => {
 
@@ -22,12 +23,6 @@ const AddNewEvent = () => {
     return date
   }
 
-  /* function populateNumList(end:number, increment:number){
-    for (let i = 0; i < end; i++) {
-      
-    }
-  } */
-
   return (
     <div>
       <button onClick={() => setHideInput(!hideInput)}>Event</button>
@@ -38,6 +33,7 @@ const AddNewEvent = () => {
           <div className='pt-2'>
             <>
             <p className='inline pr-2'>Start time</p>
+            <DatePicker selected={dateSelect} onChange={(date:Date) => setDateSelect(date)} />
             <input placeholder="00" className="w-5 inline"></input>:
             <input placeholder="00" className="w-5 inline"></input>
             </><br />

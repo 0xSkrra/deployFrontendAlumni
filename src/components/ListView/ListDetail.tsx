@@ -13,6 +13,9 @@ const ListDetail = ({title, body}:ListDetailProps) => {
         <p>{title}</p>
         <p>{body}</p>
         
+        <div>
+          
+        </div>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { ReactNode, useEffect, useState } from "react"
 import { Post } from "../../common/interface/Post"
 import { addCommentToPost } from "../../common/util/API"
 import Comments from "./comment"
@@ -10,12 +10,13 @@ interface PostModalProps{
 
 const PostModal = ({postToDisplay, removeModalMethod}: PostModalProps) => {
   const [newPostComment, setNewPostComment] = useState("")
-  const onSubmitkNewComment = (e: React.FormEvent<HTMLFormElement>): void => {
+  const [comments, setComments] = useState(postToDisplay.replies!)
+  const onSubmitkNewComment = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
     if(newPostComment.length < 1) return
-    addCommentToPost(postToDisplay.id ,newPostComment)
-    .then( (result) => postToDisplay.replies?.push(result))
-    .catch((err) => console.log(err))
+    const newComment = await addCommentToPost(postToDisplay.id ,newPostComment)
+    setComments((state) => [...state, newComment])
+    setNewPostComment("")
   }
   return (
     <div className="absolute transition bg-gray-100 ease-in-out delay-150 h-screen duration-300 top-0 left-[25%] bottom-0 w-full max-w-[53%] py-50 shadow-md overflow-x-hidden overflow-y-auto"
@@ -45,7 +46,7 @@ const PostModal = ({postToDisplay, removeModalMethod}: PostModalProps) => {
                                     <textarea onChange={(e) => {
                                         e.preventDefault()
                                         setNewPostComment(e.target.value)
-                                    }} id="comment" defaultValue={newPostComment} rows={4} className="px-0 w-full text-sm text-gray-900 bg-gray-100 border-0 border-transparent focus:border-transparent focus:ring-0" placeholder="Write a comment..." required></textarea>
+                                    }} id="comment" value={newPostComment} rows={4} className="p-2  outline-0 border-b border-gray-200  w-full text-sm text-gray-900 bg-gray-100" placeholder="Write a comment..." required></textarea>
                                 </div>
                                 <div className="flex justify-between items-center py-2 px-3 ">
                                 <button type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800">
@@ -55,7 +56,7 @@ const PostModal = ({postToDisplay, removeModalMethod}: PostModalProps) => {
                             </div>
                         </form>
                         <div className="mb-4 w-full flex flex-col bg-gray-100">
-                            <Comments comments={postToDisplay.replies!}/>
+                            <Comments comments={comments}/>
                         </div>
                     </div>
                 </div>
