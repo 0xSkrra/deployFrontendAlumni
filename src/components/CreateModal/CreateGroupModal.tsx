@@ -7,7 +7,7 @@ import { useUserStore } from "../../common/util/Store/userStore";
 export default function CreateGroupModal() {
 
     const [showModal, setShowModal] = useState(false);
-    const [group, setGroup] = useState<Group>({id: 0, title: "", body: "", isPrivate: false})
+    const [group, setGroup] = useState<Group>({id: 0, title: "", body: "", isPrivate: false, posts: [], users: [], events: []})
     const userState = useUserStore((state) => state)
 
     const postGroup = async () => {

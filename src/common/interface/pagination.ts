@@ -1,4 +1,6 @@
+import { Group } from "./Group"
 import { Post } from "./Post"
+import { Topic } from "./Topic"
 
 export interface PostPaginationResponse{
     pagination: Paginate
@@ -13,8 +15,8 @@ export interface Paginate{
 }
 export const defaultPaginate: Paginate = {
     CurrentPage: 1,
-    ElementCount: -1,
-    PageCount: -1,
+    ElementCount: 0,
+    PageCount: 0,
     HasPrevious: false,
     HasNext: false
 }
