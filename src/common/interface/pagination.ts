@@ -1,6 +1,6 @@
 import { Post } from "./Post"
 
-export interface PaginationResponseObject{
+export interface PostPaginationResponse{
     pagination: Paginate
     data: Post[]
 }

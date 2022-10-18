@@ -3,7 +3,7 @@ import { UserProfile, UserProfilePatch } from "../../interface/UserProfile"
 import { Post } from "../../interface/Post"
 import { Topic } from "../../interface/Topic"
 import { Group } from "../../interface/Group"
-import { PaginationResponseObject } from "../../interface/pagination"
+import { PostPaginationResponse } from "../../interface/pagination"
 
 
 export const getOrCreateUserProfile = async (): Promise<UserProfile> => {
@@ -34,8 +34,12 @@ export const getUserById = async (id: number): Promise<UserProfile> => {
     return user
 }
 
-export const getAllPosts = async (page:number, itemsPerPage: number): Promise<PaginationResponseObject> => {
+export const getAllPosts = async (page:number, itemsPerPage: number): Promise<PostPaginationResponse> => {
     const posts  = (await axios.get(`/api/posts?Page=${page}&ItemsPerPage=${itemsPerPage}`))
+    return posts.data
+}
+export const getAllPostsForTopic= async (topicId: number, page:number, itemsPerPage: number): Promise<PostPaginationResponse> => {
+    const posts  = (await axios.get(`/api/posts/topic/${topicId}?Page=${page}&ItemsPerPage=${itemsPerPage}`))
     return posts.data
 }
 
