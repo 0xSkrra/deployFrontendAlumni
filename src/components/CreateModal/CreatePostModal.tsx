@@ -7,7 +7,11 @@ import { Post } from "../../common/interface/Post";
 export default function CreatePostModal() {
 
     const [showModal, setShowModal] = useState(false);
-    const [post, setPost] = useState<Post>({id: 0, title: "", body: "", lastUpdated: "", target:undefined})
+    const [post, setPost] = useState<Post>({id: 0, title: "", body: "", lastUpdated: "",author: undefined,parentId: undefined, replies: undefined,
+    recieverId: 0,
+    topicId: 0,
+    groupId: 0,
+    eventId: 0})
     const userState = useUserStore((state) => state)
 
     const postTopic = async () => {

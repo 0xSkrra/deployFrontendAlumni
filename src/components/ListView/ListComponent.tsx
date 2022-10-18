@@ -41,7 +41,7 @@ const ListComponent = (props:any) => {
     
     return (
         <div>
-            <div className='grid grid-flow-rows grid-cols-2 gap-6 mt-2'>
+            <div className='grid grid-flow-rows grid-cols-2 gap-6 mt-2 mx-2 px-1'>
                 {content}
             </div>
             
