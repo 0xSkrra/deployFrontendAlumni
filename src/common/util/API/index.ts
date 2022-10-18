@@ -55,7 +55,38 @@ export const getUserGroups = async (): Promise<Group[]> => {
     return (await axios.get(`/api/Groups`)).data
 }
 
-export const addTopicMember = async (topicId: number): Promise<any> => {
+
+export const addGroup = async (title: string, description: string, isPrivate: boolean): Promise<Group> => {
+    const groupData = {
+        title: title,
+        body: description,
+        isPrivate: isPrivate
+    }
+    const group: Group = (await axios.post('/api/groups', groupData)).data
+    return group
+}
+
+export const addTopic = async (title: string, description: string): Promise<Topic> => {
+    const topicData = {
+        title: title,
+        body: description,
+    }
+    const topic: Topic = (await axios.post('/api/topics', topicData)).data
+    return topic
+}
+
+// Fix pls
+export const addPost = async (title: string, description: string): Promise<Post> => {
+    const postData = {
+        title: title,
+        body: description,
+    }
+    const post: Post = (await axios.post('/api/posts', postData)).data
+    return post
+}
+
+
+export const addTopicMember = async (userId: number, topicId: number): Promise<any> => {
 
     return (await axios.put(`api/Topics/${topicId}/Join`).then(r => r.status))
 }
