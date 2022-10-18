@@ -1,13 +1,11 @@
-import Kalend, { CalendarEvent, CalendarView } from 'kalend'
-import React, { useEffect, useState } from 'react'
+import  { CalendarEvent } from 'kalend'
+import  { useEffect, useState } from 'react'
 import 'kalend/dist/styles/index.css'; // import styles
 import { getUserEvents } from '../../common/util/API';
-import { useBoundStore } from '../../common/util/Store/Store';
 import { Event } from '../../common/interface/Event';
 import Calendar from './calendar';
 const EventPage = () => {
     const [events, setEvents] = useState<Event[]>([])
-    const fetchedEvents = useBoundStore((state) => state.Events)
     useEffect(() => {
         const getData = async () => {
             const response = await getUserEvents().then(r => {return r})

@@ -1,11 +1,8 @@
-import { useKeycloak } from "@react-keycloak/web"
-import React, { useCallback, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import React, { useEffect, useState } from "react"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
 import { getAllPosts, getUserEvents } from "../../common/util/API"
 import { Event } from "../../common/interface/Event"
-import { useUserStore } from "../../common/util/Store/userStore"
 import PostItem from "../util/postItem"
 import PostModal from "../util/postModal"
 import dayjs from 'dayjs'
@@ -18,9 +15,6 @@ const DashboardPage = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [events, setEvents] = useState<Event[]>([])
     const postsPerPage = 7
-    const userState = useUserStore((state) => state)
-    const {keycloak} = useKeycloak()
-    const navigate = useNavigate()
 
     // 
     // HANDLE POST CLICK

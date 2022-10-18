@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Post } from "../../common/interface/Post"
 import { addCommentToPost } from "../../common/util/API"
 import Comments from "./comment"

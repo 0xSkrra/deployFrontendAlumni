@@ -1,6 +1,4 @@
-import { Group } from "./Group"
 import { Post } from "./Post"
-import { Topic } from "./Topic"
 
 export interface PostPaginationResponse{
     pagination: Paginate

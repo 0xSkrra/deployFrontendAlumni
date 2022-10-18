@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { getOrCreateUserProfile } from './common/util/API';
-import { useBoundStore } from './common/util/Store/Store';
 import { useUserStore } from './common/util/Store/userStore';
 import AccountPage from './components/AccountPage';
 import AccountSettings from './components/AccountSettingsPage';

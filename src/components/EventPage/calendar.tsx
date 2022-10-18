@@ -1,7 +1,6 @@
 import Kalend, { CalendarEvent, CalendarView } from 'kalend'
 import 'kalend/dist/styles/index.css'; // import styles
 import { useState } from 'react';
-import { Event } from '../../common/interface/Event';
 import CreateEventModal from '../CreateModal/CreateEventModal';
 
 export interface calendarProps{

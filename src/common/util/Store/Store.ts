@@ -1,14 +1,11 @@
 import create, { StateCreator } from "zustand";
 import {devtools, persist} from "zustand/middleware"
 import { Group } from "../../interface/Group";
-import { Post } from "../../interface/Post";
 import { Topic } from "../../interface/Topic";
 import { getUserEvents, getUserGroups, getUserTopics } from "../API";
 import { EventSlice } from "./Slices/EventSlice";
 import { GroupSlice } from "./Slices/GroupSlice";
-import { PostSlice } from "./Slices/PostSlice";
 import { TopicSlice } from "./Slices/TopicSlice";
-import { UserSlice } from "./Slices/UserSlice";
 
 
 const createTopicSlice: StateCreator<
@@ -75,6 +72,7 @@ const createEventSlice: StateCreator<
     set(() => ({ loading: false }))
     try{
       const response = (await getUserEvents().then((r) => {return r}))
+      console.log(response)
     }
     catch(err){
       console.log(err)

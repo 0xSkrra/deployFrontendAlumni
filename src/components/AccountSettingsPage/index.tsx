@@ -2,7 +2,6 @@ import { FormEvent, useEffect, useState } from "react";
 import { defaultUserProfile } from "../../common/interface/UserProfile";
 import { updateUserProfile } from "../../common/util/API";
 import { useUserStore } from "../../common/util/Store/userStore";
-import keycloak from "../../keycloak";
 import { InputField } from "../util/inputField"
 
 const AccountSettings = () => {

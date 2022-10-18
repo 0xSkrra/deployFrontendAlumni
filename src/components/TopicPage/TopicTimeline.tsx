@@ -1,10 +1,8 @@
-import { useKeycloak } from "@react-keycloak/web"
-import React, { useCallback, useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import React, {  useEffect, useState } from "react"
+import {  useParams } from "react-router-dom"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
-import { getAllPosts, getAllPostsForTopic } from "../../common/util/API"
-import { useUserStore } from "../../common/util/Store/userStore"
+import {  getAllPostsForTopic } from "../../common/util/API"
 import PostItem from "../util/postItem"
 import PostModal from "../util/postModal"
 
