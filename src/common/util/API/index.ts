@@ -55,22 +55,53 @@ export const getUserGroups = async (): Promise<Group[]> => {
     return (await axios.get(`/api/Groups`)).data
 }
 
-export const addTopicMember = async (userId: number, topicId: number): Promise<any> => {
 
-    return (await axios.put(`api/Topics/${topicId}/Join`, [userId])).status
+export const addGroup = async (title: string, description: string, isPrivate: boolean): Promise<Group> => {
+    const groupData = {
+        title: title,
+        body: description,
+        isPrivate: isPrivate
+    }
+    const group: Group = (await axios.post('/api/groups', groupData)).data
+    return group
 }
 
-export const addGroupMember = async (groupId: number): Promise<any> => {
+export const addTopic = async (title: string, description: string): Promise<Topic> => {
+    const topicData = {
+        title: title,
+        body: description,
+    }
+    const topic: Topic = (await axios.post('/api/topics', topicData)).data
+    return topic
+}
 
-    return (await axios.put(`api/Groups/${groupId}/Join`))
+// Fix pls
+export const addPost = async (title: string, description: string): Promise<Post> => {
+    const postData = {
+        title: title,
+        body: description,
+    }
+    const post: Post = (await axios.post('/api/posts', postData)).data
+    return post
+}
+
+
+export const addTopicMember = async (userId: number, topicId: number): Promise<any> => {
+
+    return (await axios.put(`api/Topics/${topicId}/Join`).then(r => r.status))
+}
+
+export const addGroupMember = async (groupId: number): Promise<any> => {    
+    const req = (await axios.put(`api/Groups/${groupId}/Join`).then(r => r.status))
+    return req
 }
 
 export const leaveGroup = async (groupId: number): Promise<any> => {
 
-    return (await axios.delete(`api/Groups/${groupId}/Leave`))
+    return (await axios.delete(`api/Groups/${groupId}/Leave`).then(r => r.status))
 }
 
 export const leaveTopic = async (topicId: number): Promise<any> => {
 
-    return (await axios.delete(`api/Topics/${topicId}/Leave`))
+    return (await axios.delete(`api/Topics/${topicId}/Leave`).then(r => r.status))
 }

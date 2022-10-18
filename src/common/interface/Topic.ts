@@ -1,12 +1,12 @@
 import { Post } from "./Post";
+import { UserProfile } from "./UserProfile";
 
 
 export interface Topic {
     id: number,
     title: string,
     body: string,
-    isPrivate: boolean,
-    posts: [],//IPost[]|null,
-    users: [],//IUser[]|null,
-    events: [],//IEvent[]|null,
+    posts: Post[],//IPost[]|null,
+    users: UserProfile[],//IUser[]|null,
+    events: Event[],//IEvent[]|null,
 };
