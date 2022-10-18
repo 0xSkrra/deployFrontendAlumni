@@ -98,11 +98,7 @@ export const addPost = async (title: string, description: string): Promise<Post>
 }
 
 
-<<<<<<< HEAD
 export const addTopicMember = async (topicId: number): Promise<any> => {
-=======
-export const addTopicMember = async ( topicId: number): Promise<any> => {
->>>>>>> 85b7cc35ef992c4a0c50bd73a2c78511b805a771
 
     return (await axios.put(`api/Topics/${topicId}/Join`).then(r => r.status))
 }
