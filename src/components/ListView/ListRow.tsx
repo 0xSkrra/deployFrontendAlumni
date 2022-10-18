@@ -1,5 +1,6 @@
 
 
+import { spawn } from 'child_process'
 import { group } from 'console'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -28,7 +29,6 @@ const ListRow = (props:any) => {
     
 
     const handleClick = () => {
-         
         if (pathname === "/groups"){
             const req = addGroupMember(props.el.id)
             const updatedUser = {...user, groups: [...user.groups ,props.el ]}
@@ -53,7 +53,7 @@ const ListRow = (props:any) => {
             const req = leaveGroup(props.el.id)
             const updatedUser = {...user, groups: userState.User.groups.filter(g => g.id !== props.el.id)}
             userState.setUser(updatedUser)
-            const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership))
+            const promise = req.then(s => s.status<400?setMembership(!membership): setMembership(membership))
         }
         else if (pathname === `/topics`) {
             let req = leaveTopic(props.el.id)
@@ -64,6 +64,7 @@ const ListRow = (props:any) => {
         else{
             alert("no action was taken since you're not in a valid spot")
         }
+        
     }
 
 
@@ -87,26 +88,53 @@ const ListRow = (props:any) => {
 
     
     
-    return (
-            <div className='p-0 w-15 shadow-xl' >
-                <div className='border-2 border-gray-50 h-50'>
-                    <div className='list-desc bg-slate-200' onClick={navigateToProp}>
+   return (
+            <div className='p-0 w-15 shadow-2xl rounded-lg' >
+                <div >
+                <div className='border-2 border-gray-100 h-50 rounded-lg hover:bg-slate-300' onClick={navigateToProp}>
+                    <div className='list-desc'>
                         <h2 className='font-bold text-xl mb-2 mx-2'>{props.el.title}</h2>
-                        <p className='text-left justify-start m-2' >{props.el.users.length} members</p>
+                        {props.el.users.length !== 1 && <p className='text-left justify-start m-2' >{props.el.users.length} members</p>}
+                        {props.el.users.length == 1 && <p className='text-left justify-start m-2' >{props.el.users.length} member</p>}
                     </div>
                     <div className='w-30 m-2 overflow-hidden overflow-ellipsis whitespace-prewrap h-12 listrowdescription'
-                        onClick={navigateToProp}>
+                        >
                         <p className=''>{props.el.body}</p>
                         
                     </div>
-                    <div>
+                </div>
+                    <div >
                         {!membership && <button className='bg-blue-300 text-left justify-end align-bottom m-2 px-2 py-1 rounded-md' onClick={() => handleClick()}>Join Community</button>}
                         {membership && <button className='bg-red-300 text-left justify-end align-bottom m-2 px-2 py-1 rounded-md' onClick={() => handleLeave()}>Leave Community</button>}
-                    </div>
+                        
+                    </div> 
+
                 </div>
             </div>
         )
 
+        /*return (
+        <div className="max-w-sm rounded overflow-hidden shadow-lg">    
+        <div className="px-6 py-4">
+            <div className="font-bold text-xl mb-2">
+                <h2 className='font-bold text-xl mb-2 mx-2'>{props.el.title}</h2>
+                {props.el.users.length !== 1 && <p className='text-left justify-start m-2' >{props.el.users.length} members</p>}
+                {props.el.users.length == 1 && <p className='text-left justify-start m-2' >{props.el.users.length} member</p>}
+            </div>
+            <p className="text-gray-700 text-base listrowdescription">
+            {props.el.body}
+            </p>
+        </div>
+        <div className="px-6 pt-4 pb-2">
+            {!membership && <button className='bg-blue-300 text-left justify-end align-bottom m-2 px-2 py-1 rounded-md' onClick={() => handleClick()}>Join Community</button>}
+            {membership && <button className='bg-red-300 text-left justify-end align-bottom m-2 px-2 py-1 rounded-md' onClick={() => handleLeave()}>Leave Community</button>}
+        </div>
+        </div>
+        )*/
+
 }
+
+
+
 
 export default ListRow

@@ -3,7 +3,8 @@ import React, { useCallback, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
-import { getAllPosts, getAllPostsForTopic } from "../../common/util/API"
+import { Topic } from "../../common/interface/Topic"
+import { getAllPosts, getAllPostsForTopic, getTopicById } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore"
 import PostItem from "../util/postItem"
 import PostModal from "../util/postModal"
@@ -14,6 +15,7 @@ const TopicTimeline = () => {
     const [detailedPostView, setDetailedPostView] = useState<React.ReactNode|React.ReactNode[]>(<></>)
     const [pagination, setPagination] = useState<Paginate>(defaultPaginate)
     const [loading, setLoading] = useState<boolean>(false)
+    const [topic, setTopic] = useState<Topic>()
     const postsPerPage = 7
     const params = useParams()
     const id = typeof params.id === 'undefined' ? -1 : params.id
@@ -49,6 +51,20 @@ const TopicTimeline = () => {
         }
         fetchAndCreatePosts()
     },[pagination.CurrentPage, topicId])
+
+
+
+    useEffect(() => {
+        const fetchTopic = async () => {
+            setLoading(true)
+            const response = (await getTopicById(topicId))
+            const relatedTopic: Topic = response
+            setLoading(false)
+            setTopic(relatedTopic)
+        }
+        fetchTopic()
+    },[topicId])
+
     //
     // PAGINATION METHODS
     //
@@ -63,8 +79,15 @@ const TopicTimeline = () => {
     }
 
     return (
+
+        <div>
+           
         <div className="p-4 mb-4 flex flex-row rounded-lg ">
+
             <div className="flex flex-col min-w-[70%]"> 
+            <div className="text-3xl text-gray-800 font-semibold justify-center flex">
+                <h1>{topic?.title}</h1>
+            </div> 
                 {postsRaw.map((p) => {
                     return p.parentId === null ?  (
                         <PostItem key={p.id} post={p} onClickPost={() => onClickPost(p)}/>
@@ -83,35 +106,35 @@ const TopicTimeline = () => {
                             <li className="page-item"><button
                             onClick={async () => await onClickPrevPage()}
                             disabled={!pagination.HasPrevious || loading}
-                            className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+                            className="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                             </button></li>
                             <li className="page-item"><button
                             onClick={async () => await onClickSpecificPage(pagination.CurrentPage-1)}
                             disabled={!pagination.HasPrevious || loading}
-                            className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+                            className="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             >{pagination.CurrentPage-1}</button></li>
                             
                             </>
                         )}
 
                         <li className="page-item"><button
-                            className="page-link relative block py-1.5  px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 text-gray-800 bg-gray-200 focus:shadow-none"
+                            className="page-link relative block py-1.5  px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 text-gray-800 bg-gray-200 focus:shadow-none"
                             >{pagination.CurrentPage}</button></li>
                         {pagination.HasNext && (
                         <>
                         <li className="page-item"><button
                             onClick={async () => await onClickSpecificPage(pagination.CurrentPage+1)}
                             disabled={!pagination.HasNext|| loading}
-                            className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+                            className="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             >{pagination.CurrentPage+1}</button></li>
 
                         
                             <li className="page-item"><button
                              onClick={async () => await onClickNextPage()}
                              disabled={!pagination.HasNext || loading}
-                            className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+                            className="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                             </button></li>
@@ -154,7 +177,7 @@ const TopicTimeline = () => {
                 </ol>
             </div>
         </div>
-
+        </div>
         )
     }
 

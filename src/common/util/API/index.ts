@@ -67,6 +67,11 @@ export const getUserGroups = async (): Promise<Group[]> => {
     return (await axios.get(`/api/Groups`)).data
 }
 
+export const getTopicById = async (id:number): Promise<Topic> => {
+    const topic = (await axios.get(`/api/Topics/${id}`))
+    return topic.data
+}
+
 
 export const addGroup = async (title: string, description: string, isPrivate: boolean): Promise<Group> => {
     const groupData = {
