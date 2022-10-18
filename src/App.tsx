@@ -3,10 +3,12 @@ import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { getOrCreateUserProfile } from './common/util/API';
+import { useBoundStore } from './common/util/Store/Store';
 import { useUserStore } from './common/util/Store/userStore';
 import AccountPage from './components/AccountPage';
 import AccountSettings from './components/AccountSettingsPage';
 import DashboardPage from './components/DashboardPage';
+import EventPage from './components/EventPage';
 import GroupList from './components/GroupPage/GroupList';
 import GroupTimeline from './components/GroupPage/GroupTimeline';
 import Layout from './components/Layout';
@@ -19,9 +21,14 @@ import Dashboard from './view/Dashboard';
 function App() {
   const { initialized, keycloak } = useKeycloak()
   const userState = useUserStore((state) => state)
+  const store = useBoundStore((state) => state)
+
   useEffect(() => {
     if(keycloak.authenticated){
-      if(userState.User.id === -1 || typeof userState.User === 'string') getOrCreateUserProfile().then((u) => userState.setUser(u))
+      if(userState.User.id === -1 || typeof userState.User === 'string') getOrCreateUserProfile().then((u) =>{ 
+        userState.setUser(u)
+        store.fetch()
+      })
     }
   }, [keycloak.authenticated, userState])
 
@@ -80,6 +87,11 @@ function App() {
             <Route path="/topics/:id"      element={
               <PrivateRoute>
                 <TopicTimeline />
+              </PrivateRoute>
+            }/>
+            <Route path="/events"      element={
+              <PrivateRoute>
+                <EventPage />
               </PrivateRoute>
             }/>
 
