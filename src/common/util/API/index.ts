@@ -3,6 +3,7 @@ import { UserProfile, UserProfilePatch } from "../../interface/UserProfile"
 import { Post } from "../../interface/Post"
 import { Topic } from "../../interface/Topic"
 import { Group } from "../../interface/Group"
+import { Event } from "../../interface/Event"
 import { PostPaginationResponse } from "../../interface/pagination"
 
 
@@ -43,7 +44,7 @@ export const getAllPostsForTopic= async (topicId: number, page:number, itemsPerP
     return posts.data
 }
 
-export const getGroupPosts = async (groupId: number, page:number, itemsPerPage: number): Promise<PaginationResponseObject> => {
+export const getGroupPosts = async (groupId: number, page:number, itemsPerPage: number): Promise<PostPaginationResponse> => {
     const posts  = (await axios.get(`/api/posts/group/${groupId}?Page=${page}&ItemsPerPage=${itemsPerPage}`))
     return posts.data
 }
@@ -66,7 +67,9 @@ export const getUserTopics = async (): Promise<Topic[]> => {
 export const getUserGroups = async (): Promise<Group[]> => {
     return (await axios.get(`/api/Groups`)).data
 }
-
+export const getUserEvents = async (): Promise<Event[]> => {
+    return (await axios.get('/api/Events')).data
+}
 
 export const addGroup = async (title: string, description: string, isPrivate: boolean): Promise<Group> => {
     const groupData = {
