@@ -1,5 +1,5 @@
 export interface EventSlice{
     Events: Event[],
-    setEvents: (Events: Event[]) => void,
+    addEvent: (Events: Event) => void,
     removeEvents: () => void,
 }

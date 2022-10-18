@@ -10,5 +10,8 @@ export interface Post {
     author?: UserProfile,
     parentId?: Post,
     replies?: Post[]
-    target?: Topic | Group | Event | UserProfile, //trenger kun inkludere typen event dersom users skal kunne skrive posts/kommentarer i et event
+    recieverId: number,
+    topicId: number,
+    groupId: number,
+    eventId: number,
 }

@@ -2,6 +2,6 @@ import { Group } from "../../../interface/Group";
 
 export interface GroupSlice{
     Groups: Group[],
-    setGroups: (Groups: Group[]) => void,
+    addGroup: (Groups: Group) => void,
     removeGroups: () => void,
 }
