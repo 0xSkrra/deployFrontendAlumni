@@ -1,5 +1,5 @@
 import { useKeycloak } from "@react-keycloak/web"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
@@ -13,6 +13,7 @@ const DashboardPage = () => {
     const [postsRaw, setPostsRaw] = useState<Post[]>([])
     const [detailedPostView, setDetailedPostView] = useState<React.ReactNode|React.ReactNode[]>(<></>)
     const [pagination, setPagination] = useState<Paginate>(defaultPaginate)
+    const [loading, setLoading] = useState<boolean>(false)
     const postsPerPage = 7
     const userState = useUserStore((state) => state)
     const {keycloak} = useKeycloak()
@@ -31,19 +32,22 @@ const DashboardPage = () => {
     //
     // POSTS
     //
-    useEffect(() => {
-    const fetchAndCreatePosts = async () => {
-        const response = (await getAllPosts(pagination.CurrentPage, postsPerPage))
-        const relatedPosts: Post[] = response.data
-        const headers = response.pagination
-        // save posts to store here... create post store first...
 
-        // save states
-        setPostsRaw(relatedPosts)
-        setPagination(headers)
+    useEffect(() => {
+        const fetchAndCreatePosts = async () => {
+            setLoading(true)
+            const response = (await getAllPosts(pagination.CurrentPage, postsPerPage))
+            const relatedPosts: Post[] = response.data
+            const headers = response.pagination
+            // save posts to store here... create post store first...
+    
+            // save states
+            setPostsRaw(relatedPosts)
+            setPagination(headers)
+            setLoading(false)
         }
         fetchAndCreatePosts()
-    }, [pagination.CurrentPage])
+    },[pagination.CurrentPage])
     //
     // PAGINATION METHODS
     //
@@ -75,13 +79,16 @@ const DashboardPage = () => {
                         <ul className="flex list-style-none">
                         {pagination.HasPrevious && (
                             <>
-                            <li onClick={async () => await onClickPrevPage()} className="page-item"><button
-                            className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 focus:shadow-none"
+                            <li className="page-item"><button
+                            onClick={async () => await onClickPrevPage()}
+                            disabled={!pagination.HasPrevious || loading}
+                            className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                             </button></li>
                             <li className="page-item"><button
                             onClick={async () => await onClickSpecificPage(pagination.CurrentPage-1)}
+                            disabled={!pagination.HasPrevious || loading}
                             className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             >{pagination.CurrentPage-1}</button></li>
                             
@@ -95,11 +102,14 @@ const DashboardPage = () => {
                         <>
                         <li className="page-item"><button
                             onClick={async () => await onClickSpecificPage(pagination.CurrentPage+1)}
+                            disabled={!pagination.HasNext|| loading}
                             className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             >{pagination.CurrentPage+1}</button></li>
 
                         
-                            <li onClick={async () => await onClickNextPage()} className="page-item"><button
+                            <li className="page-item"><button
+                             onClick={async () => await onClickNextPage()}
+                             disabled={!pagination.HasNext || loading}
                             className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
