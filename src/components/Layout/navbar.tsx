@@ -13,7 +13,6 @@ const Navbar = () => {
     }, [userState])
 
     if (!keycloak.authenticated) return <></>
-
 return (
 
   <aside className="lg:w-96 flex-col md:min-w-65 hidden md:flex h-screen px-4 py-8 bg-white sm:border-t md:border-r">
