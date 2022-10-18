@@ -32,9 +32,9 @@ const Comment = ({comment}: commentProps) => {
     if(comment.replies?.length! > 1) return
     const newReplies = comment.replies?.map((c) => {
       return ( <CommentReply key={c.id} comment={c} /> )
-    }, [comment.replies])
+    })
     setReplies(newReplies)
-  })
+  }, [comment.replies])
   return (
   <div className="flex">
   <div className="flex-shrink-0 mr-3l">

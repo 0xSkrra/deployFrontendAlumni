@@ -10,8 +10,8 @@ export interface Post {
     author?: UserProfile,
     parentId?: Post,
     replies?: Post[]
-    recieverId: number,
-    topicId: number,
-    groupId: number,
-    eventId: number,
+    recieverId?: number,
+    topicId?: number,
+    groupId?: number,
+    eventId?: number,
 }
