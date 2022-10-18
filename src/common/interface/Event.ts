@@ -3,12 +3,12 @@ import { Topic } from "./Topic"
 import { UserProfile } from "./UserProfile"
 
 export interface Event{
-
+    id: number,
     name: string,
     description: string,
-    lastUpdated: Date,
-    startTime: Date,
-    endTime: Date,
+    lastUpdated: string,
+    startTime: string,
+    endTime: string,
     allowGuests: boolean
     banner: string,
     usersAccepted: UserProfile[],
