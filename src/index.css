@@ -36,6 +36,14 @@ code {
   max-width: 640px;
 }
 
+/* .listrowdescription {
+  overflow: 'hidden';
+  text-overflow: 'ellipsis';
+  display: '-webkit-box';
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: 'vertical';
+} */
+
 @media only screen and (max-width: 600px) {
   
   .popup-inner {

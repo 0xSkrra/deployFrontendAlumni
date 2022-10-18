@@ -2,9 +2,10 @@
 
 import { group } from 'console'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Group } from '../../common/interface/Group'
 import { Topic } from '../../common/interface/Topic'
-import { addGroupMember, addTopicMember, getUserGroups, getUserTopics, leaveGroup } from '../../common/util/API'
+import { addGroupMember, addTopicMember, getUserGroups, getUserTopics, leaveGroup, leaveTopic } from '../../common/util/API'
 import { useUserStore } from '../../common/util/Store/userStore'
 
 interface ListRowProps {
@@ -16,20 +17,27 @@ const ListRow = (props:any) => {
     const [membership, setMembership] = useState(false)
     const userState = useUserStore((state) => state)
     const pathname = window.location.pathname
+    const navigate = useNavigate()
+
+    const navigateToProp = () =>
+    {
+        console.log(pathname)
+        navigate(pathname + '/' + props.el.id)
+    }
+    
 
     const handleClick = () => {
-
+         
         if (pathname === "/groups"){
-            let req = addGroupMember(props.el.id)
-            console.log(props.el.id)
+            const req = addGroupMember(props.el.id)
             userState.User.groups = [...userState.User.groups, props.el]
-            setMembership(!membership)
-            console.log("join",req)
+            const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership))   
         }
+
         else if (pathname === `/topics`) {
-            //let req = addTopicMember(userState.User.id, props.el.id)
+            let req = addTopicMember(props.el.id)
             userState.User.topics = [...userState.User.topics, props.el]   
-            setMembership(!membership)
+            const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership))
         }
         else{
             alert("no action was taken since you're not in a valid spot")
@@ -38,16 +46,14 @@ const ListRow = (props:any) => {
 
     const handleLeave = () => {
         if (pathname === "/groups"){
-            let req = leaveGroup(props.el.id)
+            const req = leaveGroup(props.el.id)
             userState.User.groups = userState.User.groups.filter(g => g.id !== props.el.id)
-            setMembership(!membership)
-            console.log("leave",req);
-            
+            const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership))
         }
         else if (pathname === `/topics`) {
-            let req = addTopicMember(userState.User.id, props.el.id)
+            let req = leaveTopic(props.el.id)
             userState.User.topics = [...userState.User.topics, props.el] 
-            setMembership(!membership)
+            const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership))
         }
         else{
             alert("no action was taken since you're not in a valid spot")
@@ -76,13 +82,13 @@ const ListRow = (props:any) => {
     
     
     return (
-            <div className='p-0 w-15 shadow-xl' onClick={props.click} >
+            <div className='p-0 w-15 shadow-xl' onClick={navigateToProp} >
                 <div className='border-2 border-gray-50 h-50'>
                     <div className='list-desc bg-slate-200'>
-                        <h2 className='m-2'>{props.el.title}</h2>
+                        <h2 className='font-bold text-xl mb-2 mx-2'>{props.el.title}</h2>
                         <p className='text-left justify-start m-2' >{props.el.users.length} members</p>
                     </div>
-                    <div className='w-30 m-2 overflow-hidden overflow-ellipsis whitespace-prewrap h-12'>
+                    <div className='w-30 m-2 overflow-hidden overflow-ellipsis whitespace-prewrap h-12 listrowdescription'>
                         <p className=''>{props.el.body}</p>
                         
                     </div>
@@ -93,6 +99,7 @@ const ListRow = (props:any) => {
                 </div>
             </div>
         )
+
 }
 
 export default ListRow

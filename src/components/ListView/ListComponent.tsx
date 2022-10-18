@@ -41,14 +41,10 @@ const ListComponent = (props:any) => {
     
     return (
         <div>
-            <div className='grid grid-flow-rows grid-cols-2 gap-6'>
+            <div className='grid grid-flow-rows grid-cols-2 gap-6 mt-2'>
                 {content}
             </div>
-            {/* <PopupView clickClose={() => setShowDetail(false)}
-                trigger={showDetail} 
-                children={<ListDetail key={props.activeDetail?.id!} body={activeDetail?.body!} title={activeDetail?.title!}
-                />} 
-            /> */}
+            
         </div>
     )
 }
