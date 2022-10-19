@@ -1,6 +1,6 @@
 import { useKeycloak } from '@react-keycloak/web';
 import { useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { getOrCreateUserProfile } from './common/util/API';
 import { useUserStore } from './common/util/Store/userStore';
@@ -16,6 +16,7 @@ import TopicList from './components/TopicPage/TopicList';
 import TopicTimeline from './components/TopicPage/TopicTimeline';
 import PrivateRoute from './routes/utils';
 import Dashboard from './view/Dashboard';
+import NotFoundPage from './components/NotFoundPage';
 
 function App() {
   const { initialized, keycloak } = useKeycloak()
@@ -91,8 +92,11 @@ function App() {
                 <EventPage />
               </PrivateRoute>
             }/>
-
-
+            <Route path="*"  element={
+            <PrivateRoute>
+              <NotFoundPage />
+            </PrivateRoute>     
+          }/>
       </Routes>
       </Layout>  
     </BrowserRouter>
