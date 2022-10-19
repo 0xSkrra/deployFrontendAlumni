@@ -10,3 +10,12 @@ export interface Topic {
     users: UserProfile[],//IUser[]|null,
     events: Event[],//IEvent[]|null,
 };
+
+export const placeholderTopic = {
+    id: -1,
+    title: '',
+    body: '',
+    posts: [],
+    users: [],
+    events: []
+}
