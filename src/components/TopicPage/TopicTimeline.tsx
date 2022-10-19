@@ -2,8 +2,9 @@ import React, {  useEffect, useState } from "react"
 import {  useParams } from "react-router-dom"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
-import { Topic } from "../../common/interface/Topic"
-import {  getAllPostsForTopic, getTopicById } from "../../common/util/API"
+import { placeholderTopic, Topic } from "../../common/interface/Topic"
+import {  addTopicMember, getAllPostsForTopic, getTopicById, leaveTopic } from "../../common/util/API"
+import { useUserStore } from "../../common/util/Store/userStore"
 import PostItem from "../util/postItem"
 import PostModal from "../util/postModal"
 
@@ -13,7 +14,10 @@ const TopicTimeline = () => {
     const [detailedPostView, setDetailedPostView] = useState<React.ReactNode|React.ReactNode[]>(<></>)
     const [pagination, setPagination] = useState<Paginate>(defaultPaginate)
     const [loading, setLoading] = useState<boolean>(false)
-    const [topic, setTopic] = useState<Topic>()
+    const [topic, setTopic] = useState<Topic>(placeholderTopic)
+    const user = useUserStore((state) => state.User)
+    const [membership, setMembership] = useState<boolean>(false)
+    const userState = useUserStore((state) => state)
     const postsPerPage = 7
     const params = useParams()
     const id = typeof params.id === 'undefined' ? -1 : params.id
@@ -63,6 +67,37 @@ const TopicTimeline = () => {
         fetchTopic()
     },[topicId])
 
+
+    const checkMembership = () => {
+        let member = userState.User.topics.find(x => x.id===topic?.id)
+
+        if(member !== undefined){
+            setMembership(true)            
+        }
+    }
+
+    if (membership === false){
+    checkMembership()
+    }
+
+    const handleJoin = () => {
+        setLoading(true)
+        let req = addTopicMember(topic.id)
+        const updatedUser = {...user, topics: [...user.topics ,topic ]}
+        userState.setUser(updatedUser)
+        const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setLoading(false))
+
+    }
+
+    const handleLeave = async () => {
+        setLoading(true)
+
+        let req = leaveTopic(topic.id)
+        const updatedUser = {...user, topics: userState.User.topics.filter(t => t.id !== topic.id)}
+        userState.setUser(updatedUser)
+        const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setLoading(false))
+    }
+
     //
     // PAGINATION METHODS
     //
@@ -84,9 +119,8 @@ const TopicTimeline = () => {
 
             <div className="flex flex-col min-w-[70%]"> 
             <div className=" text-gray-800 ">
-                <div className= "justify-center flex"><h1 className="text-3xl font-semibold">{topic?.title}</h1></div>
-                
-                <div className= "justify-center flex"><p>{topic?.body}</p></div>
+                <div className= "justify-center flex mb-3"><h1 className="text-3xl font-semibold">{topic?.title}</h1></div>
+                <div className= "justify-center flex text-center mb-3"><p>{topic?.body}</p></div>
             </div> 
                 {postsRaw.map((p) => {
                     return p.parentId === null ?  (
@@ -156,8 +190,12 @@ const TopicTimeline = () => {
                     <li>
                         <div className=" p-3  border min-w-full border-gray-300 h-full rounded-lg sm:flex bg-gray-100">
                             <div className="flex flex-col text-gray-600">
-                            <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Actions</span></div>
+                            <div className="text-base font-normal mb-3 text-center">{topic.users.length!=1 && <span className="font-medium text-gray-900 ">{topic.users.length} Members</span>}
+                            {topic.users.length==1 && <span className="font-medium text-gray-900">{topic.users.length} Member</span>}
+                            </div>
                                 <div className="flex flex-row items-center space-x-2 mb-2">
+                                    {membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleLeave()}}>Leave Topic</button>}
+                                    {!membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleJoin()}}>Join Topic</button>}
                                 <button className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200">New Post</button>
                                 </div>
                                 <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Upcoming Events</span></div>
