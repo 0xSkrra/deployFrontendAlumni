@@ -31,7 +31,7 @@ return (
 
     <div className="flex flex-col justify-between flex-1 mt-6">
         <nav>
-            <NavLink to={'topics'}
+            <NavLink to={'timeline'}
                 className={({ isActive }) => {
                 return isActive ? 'active-nav-item' : ''
             }}>
@@ -46,7 +46,7 @@ return (
             </button>
             </NavLink>
 
-            <NavLink to={'timeline'}
+            <NavLink to={'topics'}
             className={({ isActive }) => {
             return isActive ? 'active-nav-item' : ''
             }}>
