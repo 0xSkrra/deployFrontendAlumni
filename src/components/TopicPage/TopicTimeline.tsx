@@ -83,8 +83,10 @@ const TopicTimeline = () => {
         <div className="p-4 mb-4 flex flex-row rounded-lg ">
 
             <div className="flex flex-col min-w-[70%]"> 
-            <div className="text-3xl text-gray-800 font-semibold justify-center flex">
-                <h1>{topic?.title}</h1>
+            <div className=" text-gray-800 ">
+                <div className= "justify-center flex"><h1 className="text-3xl font-semibold">{topic?.title}</h1></div>
+                
+                <div className= "justify-center flex"><p>{topic?.body}</p></div>
             </div> 
                 {postsRaw.map((p) => {
                     return p.parentId === null ?  (
