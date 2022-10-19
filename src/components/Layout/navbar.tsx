@@ -1,5 +1,5 @@
 import { useCallback} from "react"
-import {  NavLink, useNavigate } from "react-router-dom"
+import {  NavLink, useLocation, useNavigate } from "react-router-dom"
 import { defaultUserProfile } from "../../common/interface/UserProfile"
 import { useUserStore } from "../../common/util/Store/userStore"
 import keycloak from "../../keycloak"
@@ -88,7 +88,7 @@ return (
 
             <hr className="my-6 border-gray-200 " />
 
-            <NavLink to={'account/settings'}
+            <NavLink to={'/profile-settings/'}
             className={({ isActive }) => {
             return isActive ? 'active-nav-item' : ''
             }}>
@@ -111,7 +111,7 @@ return (
             </button>
         </nav>
 
-        <NavLink to={'account'}
+        <NavLink to={'/account'}
             className={({ isActive }) => {
             return isActive ? 'active-nav-item' : ''
         }}>
