@@ -16,7 +16,7 @@
     "dayjs": "^1.11.5",
     "flowbite": "^1.5.3",
     "flowbite-datepicker": "^1.2.2",
-    "kalend": "^0.16.2",
+    "kalend": "^0.16.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-calendar": "^3.9.0",
