@@ -74,7 +74,9 @@ export const getTopicById = async (id:number): Promise<Topic> => {
     const topic = (await axios.get(`/api/Topics/${id}`))
     return topic.data
 }
-
+export const getGroupById = async (id:number): Promise<Group> => {
+    return (await axios.get(`/api/groups/${id}`)).data
+}
 
 export const addGroup = async (title: string, description: string, isPrivate: boolean): Promise<Group> => {
     const groupData = {
