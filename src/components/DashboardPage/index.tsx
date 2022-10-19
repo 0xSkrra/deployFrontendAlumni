@@ -135,7 +135,7 @@ const DashboardPage = () => {
             {/*
             UPCOMING EVENTS HERE
             */}
-            <div className="flex flex-col min-h-full min-w-[30.5%]">
+            <div className="flex flex-col min-h-full w-md">
                 <ol className="mt-3 pl-8 min-h-full w-full max-w-full min-w-full divide-y divider-gray-200 ">
                     <li className="min-h-full">
                         <div className=" p-3  border min-w-full min-h-full border-gray-300 h-full rounded-lg sm:flex bg-gray-100">
