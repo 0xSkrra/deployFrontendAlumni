@@ -11,7 +11,7 @@ import EventPage from './components/EventPage';
 import GroupList from './components/GroupPage/GroupList';
 import GroupTimeline from './components/GroupPage/GroupTimeline';
 import Layout from './components/Layout';
-import StartPage from './components/startPage';
+import StartPage from './components/StartPage';
 import TopicList from './components/TopicPage/TopicList';
 import TopicTimeline from './components/TopicPage/TopicTimeline';
 import PrivateRoute from './routes/utils';
@@ -40,7 +40,7 @@ function App() {
       <Routes>
         <Route path="/" element={<StartPage />} /> 
 
-          <Route path="/account/settings" element={
+          <Route path="/profile-settings" element={
             <PrivateRoute>
               <AccountSettings />
             </PrivateRoute>
