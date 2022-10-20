@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Post } from "../../common/interface/Post"
 import { addCommentToPost } from "../../common/util/API"
 import Comments from "./comment"
+import { NewCommentSpinner } from "./spinner"
 
 interface PostModalProps{
     postToDisplay: Post
@@ -11,6 +12,7 @@ interface PostModalProps{
 const PostModal = ({postToDisplay, removeModalMethod}: PostModalProps) => {
   const [newPostComment, setNewPostComment] = useState("")
   const [comments, setComments] = useState(postToDisplay.replies!)
+  const [loading, setLoading] = useState<boolean>(false)
   const onSubmitkNewComment = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
     if(newPostComment.length < 1) return
@@ -42,9 +44,12 @@ const PostModal = ({postToDisplay, removeModalMethod}: PostModalProps) => {
                     <div className="mb-4 w-full flex flex-col bg-gray-100">
                             <Comments comments={comments}/>
                         </div>
+                        
                         <form onSubmit={(e) => onSubmitkNewComment(e)}>
+                            
                             <div className="mb-4 w-full bg-gray-100 rounded-lg border-2 border-gray-300">
                                 <div className="py-2 px-4 bg-gray-100 rounded-t-lg ">
+                                    
                                     <label htmlFor="comment" className="sr-only">Your comment</label>
                                     <textarea onChange={(e) => {
                                         e.preventDefault()

@@ -8,7 +8,7 @@ export interface Post {
     author?: UserProfile,
     parentId?: Post,
     replies?: Post[]
-    recieverId?: number,
+    receiverId?: number,
     topicId?: number,
     groupId?: number,
     eventId?: number,

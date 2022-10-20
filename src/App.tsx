@@ -1,6 +1,6 @@
 import { useKeycloak } from '@react-keycloak/web';
 import { useEffect } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { getOrCreateUserProfile } from './common/util/API';
 import { useUserStore } from './common/util/Store/userStore';
@@ -11,28 +11,41 @@ import EventPage from './components/EventPage';
 import GroupList from './components/GroupPage/GroupList';
 import GroupTimeline from './components/GroupPage/GroupTimeline';
 import Layout from './components/Layout';
-import StartPage from './components/startPage';
+import StartPage from './components/StartPage';
 import TopicList from './components/TopicPage/TopicList';
 import TopicTimeline from './components/TopicPage/TopicTimeline';
 import PrivateRoute from './routes/utils';
 import Dashboard from './view/Dashboard';
 import NotFoundPage from './components/NotFoundPage';
 import EventTimeline from './components/EventPage/EventTimeline';
+import { useBoundStore } from './common/util/Store/Store';
+import { defaultUserProfile } from './common/interface/UserProfile';
+import { Spinner } from './components/util/spinner';
 
 function App() {
   const { initialized, keycloak } = useKeycloak()
   const userState = useUserStore((state) => state)
-
+  const store = useBoundStore((state) => state)
   useEffect(() => {
     if(keycloak.authenticated){
       if(userState.User.id === -1 || typeof userState.User === 'string') getOrCreateUserProfile().then((u) =>{ 
         userState.setUser(u)
+        store.fetchEvents()
+        store.fetchGroups()
+        store.fetchTopics()
       })
+    }else if(!keycloak.authenticated){
+      if(userState.User.id !== -1 || typeof userState.User === 'string'){
+        userState.setUser(defaultUserProfile)
+        store.removeEvents()
+        store.removeTopics()
+        store.removeGroups()
+      }
     }
-  }, [keycloak.authenticated, userState])
-
+  }, [keycloak.authenticated, userState, store])
+  //console.log(store.Events)
   if (!initialized) {
-    return <div>Loading...</div>
+    return (<div className="h-screen w-screen"> <Spinner /></div>)
   }
 
   
@@ -42,7 +55,7 @@ function App() {
       <Routes>
         <Route path="/" element={<StartPage />} /> 
 
-          <Route path="/account/settings" element={
+          <Route path="/profile-settings" element={
             <PrivateRoute>
               <AccountSettings />
             </PrivateRoute>

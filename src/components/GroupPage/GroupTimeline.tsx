@@ -1,21 +1,23 @@
+<<<<<<< HEAD
 import { useKeycloak } from "@react-keycloak/web"
 import dayjs from "dayjs"
+=======
+>>>>>>> 5e022a6f67c8c71c974d6c9ccbf60b1c336d2fc7
 import React, { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import {  useParams } from "react-router-dom"
 import { Group, placeholderGroup } from "../../common/interface/Group"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
 import { addGroupMember, getGroupById, getGroupPosts, leaveGroup } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore"
 import PostItem from "../util/postItem"
-import PostModal from "../util/postModal"
+import { Spinner } from "../util/spinner"
 
 
 
 const GroupTimeline = () => {
 
     const [postsRaw, setPostsRaw] = useState<Post[]>([])
-    const [detailedPostView, setDetailedPostView] = useState<React.ReactNode|React.ReactNode[]>(<></>)
     const [pagination, setPagination] = useState<Paginate>(defaultPaginate)
     const postsPerPage = 7
     const [loading, setLoading] = useState<boolean>(false)
@@ -26,6 +28,7 @@ const GroupTimeline = () => {
     const [membership, setMembership] = useState<boolean>(false)
     const params = useParams()
     const id = typeof params.id === 'undefined' ? -1 : params.id
+<<<<<<< HEAD
     const [groupId, setGroupId] = useState(isNaN(+id) ? -1 : +id)
     const sortedEvents = group.events?.sort(function(a,b){
         // Turn your strings into dates, and then subtract them
@@ -37,17 +40,12 @@ const GroupTimeline = () => {
 
 
     
+=======
+    const [groupId] = useState(isNaN(+id) ? -1 : +id)
+>>>>>>> 5e022a6f67c8c71c974d6c9ccbf60b1c336d2fc7
 
-    const onClickPost = async (postToDisplay: Post) => {
-        // perhaps order post children from newest to oldest
-        const postJsx = (
-            <PostModal postToDisplay={postToDisplay} removeModalMethod={() => setDetailedPostView(<></>)}/>
-        )
-        setDetailedPostView(postJsx)
-    }
 
     useEffect(() => {
-        console.log("ficl   ",pagination.CurrentPage)
         const fetchAndCreatePosts = async () => {
             const response = (await getGroupPosts(+param.id! , pagination.CurrentPage, postsPerPage))
             const relatedPosts: Post[] = response.data
@@ -56,9 +54,7 @@ const GroupTimeline = () => {
 
             // save states
             setPostsRaw(relatedPosts)
-            console.log("prev");
             setPagination(headers)
-            console.log("post");
         }
         fetchAndCreatePosts()
     }, [pagination.CurrentPage, param.id])
@@ -113,6 +109,9 @@ const GroupTimeline = () => {
     const onClickSpecificPage = async (page: number) => {
         setPagination((state) => ({...state, CurrentPage: page}))
     }
+    
+    if(loading) return (
+        <Spinner />)
 
     return (
         <div>
@@ -125,7 +124,7 @@ const GroupTimeline = () => {
             </div> 
                 {postsRaw.map((p) => {
                     return p.parentId === null ?  (
-                        <PostItem key={p.id} post={p} onClickPost={() => onClickPost(p)}/>
+                        <PostItem key={p.id} post={p} />
                         )
                         : <React.Fragment key={p.id}></React.Fragment>
                 })}
@@ -180,7 +179,6 @@ const GroupTimeline = () => {
                 </div>
             </div>{/* PAGINATION END */}
             
-            {detailedPostView} {/* MODAL FOR POST DETAILED VIEW */}
 
 
             {/*

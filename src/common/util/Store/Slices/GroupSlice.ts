@@ -2,10 +2,10 @@ import { Group } from "../../../interface/Group";
 
 export interface GroupSlice{
     Groups: Group[],
-    loading: boolean,
-    hasErrors: boolean,
+    loadingGroups: boolean,
+    groupsHasErrors: boolean,
     addGroup: (Groups: Group) => void,
     removeGroups: () => void,
-    fetch: () => void
+    fetchGroups: () => void
     
 }

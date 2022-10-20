@@ -1,11 +1,10 @@
 import { useCallback} from "react"
-import {  NavLink, useNavigate } from "react-router-dom"
+import {  NavLink } from "react-router-dom"
 import { defaultUserProfile } from "../../common/interface/UserProfile"
 import { useUserStore } from "../../common/util/Store/userStore"
 import keycloak from "../../keycloak"
 
 const Navbar = () => {
-    const navigate = useNavigate()
     const userState = useUserStore((state) => state)
     const logout = useCallback( async () => {
     keycloak?.logout()
@@ -88,7 +87,7 @@ return (
 
             <hr className="my-6 border-gray-200 " />
 
-            <NavLink to={'account/settings'}
+            <NavLink to={'/profile-settings/'}
             className={({ isActive }) => {
             return isActive ? 'active-nav-item' : ''
             }}>
@@ -111,12 +110,16 @@ return (
             </button>
         </nav>
 
-        <NavLink to={'account'}
+        <NavLink to={'/account'}
             className={({ isActive }) => {
             return isActive ? 'active-nav-item' : ''
         }}>
         <div id="profileNavItem" className="flex items-center px-4 py-2 transition-colors duration-300 transform rounded-md hover:bg-gray-200 hover:cursor-pointer">
-            <img className="object-cover mx-2 rounded-full h-9 w-9" src={userState.User.picture} alt="avatar" />
+            <img onError={({currentTarget}) => {
+                                currentTarget.src ="\\assets\\default_profile_img.jpg"
+                                currentTarget.onerror = null }}
+                                src={userState.User ? userState.User.picture !== null ? userState.User.picture : '#ERROR' : '#ERROR'}
+            className="object-cover mx-2 rounded-full h-9 w-9"  alt="avatar" />
             <h4 className="mx-2 font-medium text-gray-800 hover:underline ">{keycloak.tokenParsed?.name}</h4>
         </div>
         </NavLink>

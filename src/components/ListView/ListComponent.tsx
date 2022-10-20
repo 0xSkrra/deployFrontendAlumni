@@ -7,6 +7,7 @@ import { getUserGroups, getUserTopics } from '../../common/util/API'
 import ListRow from './ListRow'
 import { Topic } from '../../common/interface/Topic'
 import { Group } from '../../common/interface/Group'
+import { Spinner } from '../util/spinner'
 
 interface ListComponentProps{
     apiFunction: () => Group[]|Topic[]
@@ -14,8 +15,8 @@ interface ListComponentProps{
 }
 // no paginations as of yet
 const ListComponent = (props:any) => {
-    const [content, setContent] = useState<React.ReactNode|React.ReactNode[]>(<>Loading...</>)
-
+    const [content, setContent] = useState<React.ReactNode|React.ReactNode[]>(<></>)
+    const [loading, setLoading] = useState(true)
     const [showDetail, setShowDetail] = useState<boolean>(false)
     const [activeDetail, setActiveDetail] = useState<Topic|Group>()
     const handleClickList = (el:Topic|Group) => {
@@ -26,18 +27,21 @@ const ListComponent = (props:any) => {
         setShowDetail(true)
     }
     const getListData = async (props:any) => {
-        
+        setLoading(true)
         const data = await props.apiFunction()
         const newContent = data.map((x:Topic|Group) => {
             return <ListRow el={x} key={x.id}
             click={() => {handleClickList(x);handleSetDetail();}}
              /> }
             )
+        setLoading(false)
         return setContent(newContent)
     }
     useEffect(() => {
         getListData(props)
     }, [])
+
+    if(loading) return (<div className='h-screen w-screen'> <Spinner /></div>)
     
     return (
         <div>

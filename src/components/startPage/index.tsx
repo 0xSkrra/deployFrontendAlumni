@@ -22,13 +22,12 @@ const StartPage = () => {
 
 
   //
-  if(keycloak.authenticated) return <Navigate to='/account'></Navigate>
+  if(keycloak.authenticated) return <Navigate to='/timeline'></Navigate>
   //
 
   return (
     
     <div className="bg-white max-w-[90%]">
-      {keycloak.token}
     <div className="flex justify-center h-screen">
         <div className="hidden bg-cover md:block lg:w-2/3" >
             <div className="flex items-center h-full px-20">

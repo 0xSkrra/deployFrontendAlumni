@@ -21,12 +21,13 @@ const AccountPage = () => {
     <div className="relative flex flex-col break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
         <div className="px-6 min-w-lg">
         <div className="flex flex-wrap justify-center">
-            <div className="w-full px-4 flex justify-center">
+            <div className="flex  w-full justify-center items-center">
             <div className="relative">
                 <img onError={({currentTarget}) => {
-                    currentTarget.src ="https://cdn-icons-png.flaticon.com/512/892/892694.png"
-                    currentTarget.onerror = null }}
-                    alt="..." src={user.picture} 
+                                currentTarget.src ="\\assets\\default_profile_img.jpg"
+                                currentTarget.onerror = null }}
+                                src={user ? user.picture !== null ? user.picture : '#ERROR' : '#ERROR'}
+                                alt=""
                     className="shadow-xl rounded-full w-32 md:w-48 lg:w-96  border-none -m-12 -ml-20 lg:-ml-16"/>
             </div>
             </div>

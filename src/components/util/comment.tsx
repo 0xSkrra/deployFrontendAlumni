@@ -4,9 +4,7 @@ import { Post } from "../../common/interface/Post"
 interface commentsProps{
     comments: Post[]
 }
-interface commentRepliesProps{
-  replies: Post[]
-}
+
 interface commentProps{
   comment: Post
 }
@@ -17,7 +15,7 @@ const CommentReply = ({comment}: commentProps) => {
     <div className="flex-shrink-0 mr-3">
       <img className="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8" src={comment.author?.picture} alt=""/>
     </div>
-    <div className="flex-1 bg-gray-100 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+    <div className="flex-1 bg-white rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
       <strong>{comment.author?.username}</strong> <span className="text-xs text-gray-400">{comment.lastUpdated}</span>
       <p className="text-xs sm:text-sm">
         {comment.body}
@@ -61,7 +59,6 @@ const Comment = ({comment}: commentProps) => {
   )
 }
 const Comments = ({comments}: commentsProps) => {
-  console.log('second checkpoint   ', comments ,' type ' , typeof comments)
   const newComments = comments.map((x) => {
     return <Comment key={x.id} comment={x} />
   })
