@@ -38,7 +38,6 @@ const EventTimeline = () => {
     
 
     useEffect(() => {
-        console.log("ficl   ",pagination.CurrentPage)
         const fetchAndCreatePosts = async () => {
             const response = (await getEventPosts(+param.id! , pagination.CurrentPage, postsPerPage))
             const relatedPosts: Post[] = response.data

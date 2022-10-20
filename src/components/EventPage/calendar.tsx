@@ -1,6 +1,7 @@
 import Kalend, { CalendarEvent, CalendarView } from 'kalend'
 import 'kalend/dist/styles/index.css'; // import styles
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CreateEventModal from '../CreateModal/CreateEventModal';
 
 export interface calendarProps{
@@ -19,13 +20,13 @@ const initialCalendarEvent = {
 const Calendar = ({formattedEvents}: calendarProps) => {
   const [showModal, SetShowModal] = useState(false)
   const [modalContent, setModalContent] = useState<CalendarEvent>(initialCalendarEvent)
+  const navigate = useNavigate()
     
   return (
     <>
     <Kalend
             onEventClick={(e)=> {
-                SetShowModal(true)
-                setModalContent(e)
+                navigate(`/events/${e.id}`)
             }}
             events={formattedEvents}
             initialDate={new Date().toISOString()}
