@@ -24,7 +24,6 @@ const ListRow = (props:any) => {
 
     const navigateToProp = () =>
     {
-        console.log(pathname)
         navigate(pathname + '/' + props.el.id)
     }
     

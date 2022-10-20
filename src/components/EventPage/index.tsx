@@ -21,7 +21,6 @@ const EventPage = () => {
             summary: e.description,
             color: 'blue',
             calendarID: 'work',
-            Banner: e.banner,
             timezoneStartAt: 'Europe/Berlin', // optional
             timezoneEndAt: 'Europe/Berlin', // optional
             

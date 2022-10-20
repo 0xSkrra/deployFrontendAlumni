@@ -1,6 +1,6 @@
 import { Group } from "./Group"
 import { Topic } from "./Topic"
-import { UserProfile } from "./UserProfile"
+import { defaultUserProfile, UserProfile } from "./UserProfile"
 
 export interface Event{
     id: number,
@@ -10,13 +10,18 @@ export interface Event{
     startTime: string,
     endTime: string,
     allowGuests: boolean
-    banner: string,
-    usersAccepted: UserProfile[],
-    //om event skal tilhøre både group og topic:
-    group: Group,
-    topic: Topic,
-    //eller om eventet kun skal tilhøre én:
-    parent: Group | Topic
-    //uten å vite hvordan dere bakendere har tenkt det, antar jeg 
+    usersAccepted?: UserProfile[],
+    author: UserProfile,
+}
 
+export const placeholderEvent = {
+    id: -1,
+    name: '',
+    description: '',
+    lastUpdated: '',
+    startTime: '',
+    endTime: '',
+    allowGuests: true,
+    usersAccepted: [],
+    author: defaultUserProfile,
 }

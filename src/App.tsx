@@ -17,6 +17,7 @@ import TopicTimeline from './components/TopicPage/TopicTimeline';
 import PrivateRoute from './routes/utils';
 import Dashboard from './view/Dashboard';
 import NotFoundPage from './components/NotFoundPage';
+import EventTimeline from './components/EventPage/EventTimeline';
 
 function App() {
   const { initialized, keycloak } = useKeycloak()
@@ -90,6 +91,11 @@ function App() {
             <Route path="/events"      element={
               <PrivateRoute>
                 <EventPage />
+              </PrivateRoute>
+            }/>
+            <Route path='/events/:id' element={
+              <PrivateRoute>
+                <EventTimeline />
               </PrivateRoute>
             }/>
             <Route path="*"  element={

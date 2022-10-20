@@ -2,41 +2,30 @@ import { useKeycloak } from "@react-keycloak/web"
 import dayjs from "dayjs"
 import React, { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { Group, placeholderGroup } from "../../common/interface/Group"
+import { Event, placeholderEvent } from "../../common/interface/Event"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
-import { addGroupMember, getGroupById, getGroupPosts, leaveGroup } from "../../common/util/API"
+import { addGroupMember, getEventById, getEventPosts, getGroupById, getGroupPosts, leaveGroup } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore"
 import PostItem from "../util/postItem"
 import PostModal from "../util/postModal"
 
 
 
-const GroupTimeline = () => {
-
+const EventTimeline = () => {
     const [postsRaw, setPostsRaw] = useState<Post[]>([])
     const [detailedPostView, setDetailedPostView] = useState<React.ReactNode|React.ReactNode[]>(<></>)
     const [pagination, setPagination] = useState<Paginate>(defaultPaginate)
     const postsPerPage = 7
     const [loading, setLoading] = useState<boolean>(false)
-    const [group, setGroup] = useState<Group>(placeholderGroup)
-    const param = useParams()
     const user = useUserStore((state) => state.User)
     const userState = useUserStore((state) => state)
-    const [membership, setMembership] = useState<boolean>(false)
     const params = useParams()
+    const param = useParams()
     const id = typeof params.id === 'undefined' ? -1 : params.id
-    const [groupId, setGroupId] = useState(isNaN(+id) ? -1 : +id)
-    const sortedEvents = group.events?.sort(function(a,b){
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
-        return new Date(a.startTime).getTime()-new Date(b.startTime).getTime()
-    })
-    console.log("sorted evetns", sortedEvents);
+    const [event, setEvent] = useState<Event>(placeholderEvent)
 
 
-
-    
 
     const onClickPost = async (postToDisplay: Post) => {
         // perhaps order post children from newest to oldest
@@ -46,10 +35,12 @@ const GroupTimeline = () => {
         setDetailedPostView(postJsx)
     }
 
+    
+
     useEffect(() => {
         console.log("ficl   ",pagination.CurrentPage)
         const fetchAndCreatePosts = async () => {
-            const response = (await getGroupPosts(+param.id! , pagination.CurrentPage, postsPerPage))
+            const response = (await getEventPosts(+param.id! , pagination.CurrentPage, postsPerPage))
             const relatedPosts: Post[] = response.data
             const headers = response.pagination
             // save posts to store here... create post store first...
@@ -64,45 +55,19 @@ const GroupTimeline = () => {
     }, [pagination.CurrentPage, param.id])
 
     useEffect(() => {
-        const fetchGroup = async () => {
+        const fetchEvent = async () => {
             setLoading(true)
-            const response = (await getGroupById(groupId))
-            const relatedTopic: Group = response
+            const response: Event = (await getEventById(+id))
+            console.log("event is...",response);
+            
+            const relatedEvent = response
             setLoading(false)
-            setGroup(relatedTopic)
+            setEvent(relatedEvent)
         }
-        fetchGroup()
-    },[groupId])
-    
-    const checkMembership = () => {
-        let member = userState.User.groups.find(x => x.id===group?.id)
+        fetchEvent()
+    },[+id])
 
-        if(member !== undefined){
-            setMembership(true)            
-        }
-    }
 
-    if (membership === false){
-        checkMembership()
-    }
-
-    const handleJoin = () => {
-        setLoading(true)
-        let req = addGroupMember(group.id)
-        const updatedUser = {...user, groups: [...user.groups , group ]}
-        userState.setUser(updatedUser)
-        const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setLoading(false))
-
-    }
-
-    const handleLeave = async () => {
-        setLoading(true)
-
-        let req = leaveGroup(group.id)
-        const updatedUser = {...user, groups: userState.User.groups.filter(t => t.id !== group.id)}
-        userState.setUser(updatedUser)
-        const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setLoading(false))
-    }
 
     const onClickNextPage = async () => {
         setPagination((state) => ({...state, CurrentPage: state.CurrentPage+1 }))
@@ -114,14 +79,21 @@ const GroupTimeline = () => {
         setPagination((state) => ({...state, CurrentPage: page}))
     }
 
-    return (
+return (
         <div>
         <div className="p-4 mb-4 flex flex-row rounded-lg ">
+            <div className="text-center">
+                HEAD OF THE EVENT|
+                {event.id}
+                <div className="eventDescription">
+                    {event.description}
+                </div>
+            </div>
 
             <div className="flex flex-col min-w-[70%]"> 
             <div className=" text-gray-800 ">
-                <div className= "justify-center flex mb-3"><h1 className="text-3xl font-semibold">{group?.title}</h1></div>
-                <div className= "justify-center flex text-center mb-3"><p>{group?.body}</p></div>
+                <div className= "justify-center flex mb-3"><h1 className="text-3xl font-semibold">{event?.name}</h1></div>
+                <div className= "justify-center flex text-center mb-3"><p>{event?.description}</p></div>
             </div> 
                 {postsRaw.map((p) => {
                     return p.parentId === null ?  (
@@ -186,42 +158,10 @@ const GroupTimeline = () => {
             {/*
             UPCOMING EVENTS HERE
             */}
-            <div className="flex flex-col min-w-[30.5%]">
-                <ol className="mt-3 pl-8 w-full max-w-full min-w-full divide-y divider-gray-200 ">
-                    <li>
-                        <div className=" p-3  border min-w-full border-gray-300 h-full rounded-lg sm:flex bg-gray-100">
-                            <div className="flex flex-col text-gray-600">
-                            <div className="text-base font-normal mb-3 text-center">{group.users?.length!==1 && <span className="font-medium text-gray-900 ">{group.users?.length} Members</span>}
-                            {group.users?.length===1 && <span className="font-medium text-gray-900">{group.users?.length} Member</span>}
-                            </div>
-                                <div className="flex flex-row items-center space-x-2 mb-2">
-                                    {membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2
-                                     focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleLeave()}}>Leave Topic</button>}
-                                    {!membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 
-                                    focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleJoin()}}>Join Topic</button>}
-                                <button className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200">New Post</button>
-                                </div>
-                                <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Upcoming Events</span></div>
-                                {sortedEvents != undefined ? sortedEvents.map((e) => { 
-                                    return (
-                                        <div className="flex inline-flex space-x-2">
-                                        <p>{e.name} </p><p className="text-gray-600"> in </p> 
-                                        <p>{dayjs(e.startTime).diff(dayjs(), 'days')} days</p>
-                                        </div>
-                                    ) 
-                                }) : <p>No upcoming Events</p>}
-                                 
-                                
-                            </div>
-                        </div>
-                    </li>
-                </ol>
-            </div>
+            
         </div>
         </div>
         )
     }
 
-
-export default GroupTimeline
-
+export default EventTimeline

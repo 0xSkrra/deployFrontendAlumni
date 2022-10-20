@@ -48,8 +48,10 @@ export const getGroupPosts = async (groupId: number, page:number, itemsPerPage: 
     const posts  = (await axios.get(`/api/posts/group/${groupId}?Page=${page}&ItemsPerPage=${itemsPerPage}`))
     return posts.data
 }
-
-
+export const getEventPosts = async (eventId: number, page:number, itemsPerPage: number): Promise<PostPaginationResponse> => {
+    const posts  = (await axios.get(`/api/posts/event/${eventId}?Page=${page}&ItemsPerPage=${itemsPerPage}`))
+    return posts.data
+}
 
 
 export const addCommentToPost = async (postId: number, comment: string): Promise<Post> => {
@@ -77,6 +79,11 @@ export const getTopicById = async (id:number): Promise<Topic> => {
 export const getGroupById = async (id:number): Promise<Group> => {
     return (await axios.get(`/api/groups/${id}`)).data
 }
+
+export const getEventById = async (id:number): Promise<Event> => {
+    return (await axios.get(`/api/events/${id}`)).data
+}
+
 
 export const addGroup = async (title: string, description: string, isPrivate: boolean): Promise<Group> => {
     const groupData = {
