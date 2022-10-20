@@ -22,7 +22,7 @@ const StartPage = () => {
 
 
   //
-  if(keycloak.authenticated) return <Navigate to='/account'></Navigate>
+  if(keycloak.authenticated) return <Navigate to='/timeline'></Navigate>
   //
 
   return (
