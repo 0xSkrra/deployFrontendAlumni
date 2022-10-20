@@ -140,27 +140,16 @@ const DashboardPage = () => {
                     <li className="min-h-full">
                         <div className=" p-3  border min-w-full min-h-full border-gray-300 h-full rounded-lg sm:flex bg-gray-100">
                             <div className="flex flex-col text-gray-600">
-                            <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Actions</span></div>
-                                <div className="flex flex-row items-center space-x-2 mb-2">
-                                <button className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200">New Post</button>
-                                </div>
-                                <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Upcoming Events</span></div>
+                                    <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Upcoming Events</span></div>
                                 {events.length >0 ? events.map((e) => { 
                                     return (
-                                        <div className="flex inline-flex space-x-2">
+                                        <div key={e.id} className="flex inline-flex space-x-2">
                                         <p>{e.name} </p><p className="text-gray-600"> in </p> 
                                         <p>{dayjs(e.startTime).diff(dayjs(), 'days')} days</p>
                                         </div>
                                     ) 
                                 }) : <p>No upcoming Events</p>}
-                                 {events.length >0 ? events.map((e) => { 
-                                    return (
-                                        <div className="flex inline-flex space-x-2">
-                                        <p>{e.name}</p><p className="text-gray-600"> in </p> 
-                                        <p>{dayjs(e.startTime).diff(dayjs(), 'days')} days</p>
-                                        </div>
-                                    ) 
-                                }) : <p>No upcoming Events</p>}
+                        
                                 
                                 <div className="flex flex-col">
                                 
