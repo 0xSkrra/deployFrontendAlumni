@@ -4,31 +4,53 @@ import 'kalend/dist/styles/index.css'; // import styles
 import { getUserEvents } from '../../common/util/API';
 import { Event } from '../../common/interface/Event';
 import Calendar from './calendar';
+import { useUserStore } from '../../common/util/Store/userStore';
+import { useBoundStore } from '../../common/util/Store/Store';
 
 
 const EventPage = () => {
-    const [events, setEvents] = useState<Event[]>([])
-    useEffect(() => {
-        const getData = async () => {
-            const response = await getUserEvents().then(r => {return r})
-            setEvents(response)
+    const userState = useUserStore((state) => state)
+    const store = useBoundStore((state) => state)
+
+    const formattedEvents: CalendarEvent[] = store.Events.map((e) => {
+        if(userState.User.respondedEvents.includes(e)){
+            return {
+                id: e.id,
+                startAt: e.startTime,
+                endAt: e.endTime,
+                summary: e.name,
+                color: 'green',
+                calendarID: 'work',
+                timezoneStartAt: 'Europe/Berlin', // optional
+                timezoneEndAt: 'Europe/Berlin', // optional
+                
+            }
+        }else if(userState.User.authoredEvents.includes(e)){
+            return {
+                id: e.id,
+                startAt: e.startTime,
+                endAt: e.endTime,
+                summary: e.name,
+                color: 'black',
+                calendarID: 'work',
+                timezoneStartAt: 'Europe/Berlin', // optional
+                timezoneEndAt: 'Europe/Berlin', // optional
+                
+            }
+        }else {
+            return {
+                id: e.id,
+                startAt: e.startTime,
+                endAt: e.endTime,
+                summary: e.name,
+                color: 'red',
+                calendarID: 'work',
+                timezoneStartAt: 'Europe/Berlin', // optional
+                timezoneEndAt: 'Europe/Berlin', // optional
+                
+            }
         }
-        getData()
-    })
-    const formattedEvents: CalendarEvent[] = events.map((e) => {
-        return {
-            id: e.id,
-            startAt: e.startTime,
-            endAt: e.endTime,
-            summary: e.name,
-            color: 'blue',
-            calendarID: 'work',
-            Banner: e.banner,
-            
-            timezoneStartAt: 'Europe/Berlin', // optional
-            timezoneEndAt: 'Europe/Berlin', // optional
-            
-        }
+
     })
     
   return (

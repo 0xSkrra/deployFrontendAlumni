@@ -5,6 +5,7 @@ import CreateEventModal from '../CreateModal/CreateEventModal';
 
 export interface calendarProps{
     formattedEvents: CalendarEvent[]
+
 }
 const initialCalendarEvent = {
     id: -1,
@@ -29,7 +30,7 @@ const Calendar = ({formattedEvents}: calendarProps) => {
             events={formattedEvents}
             initialDate={new Date().toISOString()}
             hourHeight={10}
-            initialView={CalendarView.WEEK}
+            initialView={CalendarView.AGENDA}
             disabledViews={[CalendarView.DAY]}
             onPageChange={(e) => console.log('fuck', e)}
             timeFormat={'24'}
