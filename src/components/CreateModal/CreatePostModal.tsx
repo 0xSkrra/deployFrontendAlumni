@@ -3,7 +3,11 @@ import { addPost } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore";
 import { Post } from "../../common/interface/Post";
 
-export default function CreatePostModal() {
+interface CreatePostProps {
+  id: number,
+  target: string,
+}
+export default function CreatePostModal({ id, target }:CreatePostProps) {
 
     const [showModal, setShowModal] = useState(false);
     const [post, setPost] = useState<Post>({id: 0, title: "", body: "", lastUpdated: "",author: undefined,parentId: undefined, replies: undefined,
@@ -14,8 +18,16 @@ export default function CreatePostModal() {
     const userState = useUserStore((state) => state)
 
     const postTopic = async () => {
-        // SET TARGET HERE.
-        let req: Post = await addPost(post.title, post.body); // Add target
+      if(target === 'topic'){
+        post.topicId=id
+      }
+      else if(target === 'group'){
+        post.groupId=id
+      }
+      else if(target === 'event'){
+        post.eventId=id
+      }
+        const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
         userState.User.authoredPosts.push(req)
         setShowModal(false);
         setPost((state) => ({...state, title: "", body: ""}))
