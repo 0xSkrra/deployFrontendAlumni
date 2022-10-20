@@ -1,6 +1,6 @@
 import { useKeycloak } from '@react-keycloak/web';
 import { useEffect } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { getOrCreateUserProfile } from './common/util/API';
 import { useUserStore } from './common/util/Store/userStore';

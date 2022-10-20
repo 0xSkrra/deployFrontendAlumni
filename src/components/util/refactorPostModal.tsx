@@ -1,11 +1,6 @@
-import { CalendarEvent } from "kalend/common/interface";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Event } from "../../common/interface/Event";
-import { Group } from "../../common/interface/Group";
 import { Post } from "../../common/interface/Post";
-import { Topic } from "../../common/interface/Topic";
-import { UserProfile } from "../../common/interface/UserProfile";
 import { addCommentToPost } from "../../common/util/API";
 import Comments from "./comment";
 interface props{

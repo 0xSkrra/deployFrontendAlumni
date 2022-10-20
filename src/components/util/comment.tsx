@@ -4,9 +4,7 @@ import { Post } from "../../common/interface/Post"
 interface commentsProps{
     comments: Post[]
 }
-interface commentRepliesProps{
-  replies: Post[]
-}
+
 interface commentProps{
   comment: Post
 }

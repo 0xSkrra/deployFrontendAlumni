@@ -1,11 +1,10 @@
 import { useCallback} from "react"
-import {  NavLink, useLocation, useNavigate } from "react-router-dom"
+import {  NavLink } from "react-router-dom"
 import { defaultUserProfile } from "../../common/interface/UserProfile"
 import { useUserStore } from "../../common/util/Store/userStore"
 import keycloak from "../../keycloak"
 
 const Navbar = () => {
-    const navigate = useNavigate()
     const userState = useUserStore((state) => state)
     const logout = useCallback( async () => {
     keycloak?.logout()
