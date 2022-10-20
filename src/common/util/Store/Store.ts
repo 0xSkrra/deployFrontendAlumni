@@ -73,7 +73,6 @@ const createEventSlice: StateCreator<
     set(() => ({ loadingEvents: false }))
     try{
       const response = (await getUserEvents())
-      console.log(response)
       set(() => ({ Events: response, loadingEvents: false}))
     }
     catch(err){
