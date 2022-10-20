@@ -4,6 +4,8 @@ import 'kalend/dist/styles/index.css'; // import styles
 import { getUserEvents } from '../../common/util/API';
 import { Event } from '../../common/interface/Event';
 import Calendar from './calendar';
+
+
 const EventPage = () => {
     const [events, setEvents] = useState<Event[]>([])
     useEffect(() => {
@@ -18,10 +20,11 @@ const EventPage = () => {
             id: e.id,
             startAt: e.startTime,
             endAt: e.endTime,
-            summary: e.description,
+            summary: e.name,
             color: 'blue',
             calendarID: 'work',
             Banner: e.banner,
+            
             timezoneStartAt: 'Europe/Berlin', // optional
             timezoneEndAt: 'Europe/Berlin', // optional
             
