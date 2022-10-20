@@ -1,5 +1,5 @@
 import { useKeycloak } from '@react-keycloak/web';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { getOrCreateUserProfile } from './common/util/API';
@@ -11,7 +11,7 @@ import EventPage from './components/EventPage';
 import GroupList from './components/GroupPage/GroupList';
 import GroupTimeline from './components/GroupPage/GroupTimeline';
 import Layout from './components/Layout';
-import StartPage from './components/StartPage';
+import StartPage from './components/startPage';
 import TopicList from './components/TopicPage/TopicList';
 import TopicTimeline from './components/TopicPage/TopicTimeline';
 import PrivateRoute from './routes/utils';
@@ -24,27 +24,40 @@ import { Spinner } from './components/util/spinner';
 
 function App() {
   const { initialized, keycloak } = useKeycloak()
+  const [loading, setLoading] = useState(false)
   const userState = useUserStore((state) => state)
   const store = useBoundStore((state) => state)
+
   useEffect(() => {
-    if(keycloak.authenticated){
-      if(userState.User.id === -1 || typeof userState.User === 'string') getOrCreateUserProfile().then((u) =>{ 
-        userState.setUser(u)
-        store.fetchEvents()
-        store.fetchGroups()
-        store.fetchTopics()
-      })
-    }else if(!keycloak.authenticated){
-      if(userState.User.id !== -1 || typeof userState.User === 'string'){
-        userState.setUser(defaultUserProfile)
-        store.removeEvents()
-        store.removeTopics()
-        store.removeGroups()
+      const setUserProfile = async () => {
+        if(keycloak.authenticated){
+          if(userState.User.id === -1 || typeof userState.User === 'string'){
+            setLoading(true)
+            console.log('set user')
+            await getOrCreateUserProfile()
+            .then((r) => {userState.setUser(r)
+            setLoading(false)})
+            .finally( async () => { console.log('user has been set now')
+              await store.fetchEvents()
+              await store.fetchGroups()
+              await store.fetchTopics()
+            })
+          }
+        }
+        else if(!keycloak.authenticated){
+          console.log('set user default')
+          if(userState.User.id !== -1 || typeof userState.User === 'string'){
+            userState.setUser(defaultUserProfile)
+            store.removeEvents()
+            store.removeTopics()
+            store.removeGroups()
+          } 
+        }
       }
-    }
+    setUserProfile()
   }, [keycloak.authenticated, userState, store])
   //console.log(store.Events)
-  if (!initialized) {
+  if (!initialized || loading) {
     return (<div className="h-screen w-screen"> <Spinner /></div>)
   }
 

@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import { useKeycloak } from "@react-keycloak/web"
 import dayjs from "dayjs"
-=======
->>>>>>> 5e022a6f67c8c71c974d6c9ccbf60b1c336d2fc7
 import React, { useEffect, useState } from "react"
 import {  useParams } from "react-router-dom"
 import { Group, placeholderGroup } from "../../common/interface/Group"
@@ -28,8 +25,7 @@ const GroupTimeline = () => {
     const [membership, setMembership] = useState<boolean>(false)
     const params = useParams()
     const id = typeof params.id === 'undefined' ? -1 : params.id
-<<<<<<< HEAD
-    const [groupId, setGroupId] = useState(isNaN(+id) ? -1 : +id)
+    const [groupId] = useState(isNaN(+id) ? -1 : +id)
     const sortedEvents = group.events?.sort(function(a,b){
         // Turn your strings into dates, and then subtract them
         // to get a value that is either negative, positive, or zero.
@@ -40,9 +36,6 @@ const GroupTimeline = () => {
 
 
     
-=======
-    const [groupId] = useState(isNaN(+id) ? -1 : +id)
->>>>>>> 5e022a6f67c8c71c974d6c9ccbf60b1c336d2fc7
 
 
     useEffect(() => {

@@ -1,18 +1,12 @@
 import { useKeycloak } from '@react-keycloak/web'
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import { Navigate } from 'react-router-dom'
-import { getOrCreateUserProfile } from '../../common/util/API'
 import { useUserStore } from '../../common/util/Store/userStore'
 
 const StartPage = () => {
   const {keycloak} = useKeycloak()
   const userState = useUserStore((state) => state)
 
-  useEffect(() => {
-      if(keycloak.authenticated){
-        if(userState.User.id === -1 || typeof userState.User === 'string') getOrCreateUserProfile().then((u) => userState.setUser(u))
-      }
-    }, [keycloak.authenticated, userState])
 
   const login = useCallback( async () => {
     keycloak?.login()

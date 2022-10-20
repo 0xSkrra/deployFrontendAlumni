@@ -7,13 +7,15 @@ import PostItem from "../util/postItem"
 import PostModal from "../util/postModal"
 import dayjs from 'dayjs'
 import { Spinner } from "../util/spinner"
+import { useBoundStore } from "../../common/util/Store/Store"
 
 
 const DashboardPage = () => {
     const [postsRaw, setPostsRaw] = useState<Post[]>([])
     const [pagination, setPagination] = useState<Paginate>(defaultPaginate)
     const [loading, setLoading] = useState<boolean>(false)
-    const [events, setEvents] = useState<Event[]>([])
+    const store = useBoundStore((state) => state) 
+    const [events, setEvents] = useState<Event[]>(store.Events)
     const postsPerPage = 7
 
     //
@@ -35,13 +37,6 @@ const DashboardPage = () => {
         }
         fetchAndCreatePosts()
     },[pagination.CurrentPage])
-    useEffect(() => {
-        const getEvents = async () => {
-            const response = await getUserEvents().then(r => {return r})
-            setEvents(response)
-        }
-        getEvents()
-    })
     //
     // PAGINATION METHODS
     //
