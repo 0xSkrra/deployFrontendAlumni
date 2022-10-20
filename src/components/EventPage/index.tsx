@@ -18,7 +18,7 @@ const EventPage = () => {
         const formatEvents = async () => {
             setLoading(true)
             const newEvents: CalendarEvent[] =  store.Events.map((e) => {
-                if(userState.User.respondedEvents.includes(e)){
+                if(userState.User.respondedEvents.some((ue) => e.id === ue.id)){
                     return {
                         id: e.id,
                         startAt: e.startTime,
@@ -30,7 +30,7 @@ const EventPage = () => {
                         timezoneEndAt: 'Europe/Berlin', // optional
                         
                     }
-                }else if(userState.User.authoredEvents.includes(e)){
+                }else if(userState.User.authoredEvents.some((ue) => e.id === ue.id)){
                     return {
                         id: e.id,
                         startAt: e.startTime,
