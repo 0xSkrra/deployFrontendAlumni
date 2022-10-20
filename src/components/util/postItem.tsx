@@ -17,40 +17,40 @@ const PostItem = ({post}: postItemProps) => {
     const date = post.lastUpdated.replace('T',' ').split('.')[0]
     useEffect(() => {
         const getTarget = async () => {
-        if(post.groupId !== null){
-            const group = store.Groups.find((g) => g.id === post.groupId)
-            if(group !== undefined){
-                setTargetString(`Group/${group.title}`)
-                setTargetRedirect(`/groups/${group.id}`)
-            }
-        }else if( post.topicId !== null){
-            const topic = store.Topics.find((t) => t.id === post.topicId)
-            if(topic !== undefined){
-                setTargetString(`Topic/${topic.title}`)
-                setTargetRedirect(`/topics/${topic.id}`)
-            }
-        }else if( post.eventId !== null){
-            const event = store.Events.find((e) => e.id === post.eventId)
-            if(event !== undefined){
-                setTargetString(`Event/${event.name}`)
-                setTargetRedirect('/event')
-            }
-        }else if( post.receiverId !== null && post.receiverId !== undefined){
-            const user = (await getUserById(post.receiverId))
-            if(user !== undefined){
-                setTargetString(`User/${user.username}`)
-                setTargetRedirect(`/account/${user.id}`)
+
+            if(post.groupId !== null){
+                const group = store.Groups.find((g) => g.id === post.groupId)
+                if(group !== undefined){
+                    setTargetString(`Group/${group.title}`)
+                    setTargetRedirect(`/groups/${group.id}`)
+                }
+            }else if( post.topicId !== null){
+                const topic = store.Topics.find((t) => t.id === post.topicId)
+                if(topic !== undefined){
+                    setTargetString(`Topic/${topic.title}`)
+                    setTargetRedirect(`/topics/${topic.id}`)
+                }
+            }else if( post.eventId !== null){
+                const event = store.Events.find((e) => e.id === post.eventId)
+                if(event !== undefined){
+                    setTargetString(`Event/${event.name}`)
+                    setTargetRedirect('/event')
+                }
+            }else if( post.receiverId !== null && post.receiverId !== undefined){
+                const user = (await getUserById(post.receiverId))
+                if(user !== undefined){
+                    setTargetString(`User/${user.username}`)
+                    setTargetRedirect(`/account/${user.id}`)
+                }
             }
         }
-    }
-    getTarget()
+
+        getTarget()
     }, [post.eventId, post.groupId, post.receiverId, post.topicId, store.Events, store.Groups, store.Topics])
     const handleOnClickTarget = () => {
         setShowModal(!showModal)
         navigate(targetRedirect)
     }
-    let pic=post.author?.picture
-    if(pic===null) pic = "\\assets\\default_profile_img.jpg"
 
     return (
         <React.Fragment key={post.id}>
@@ -58,7 +58,12 @@ const PostItem = ({post}: postItemProps) => {
                         <li onClick={() => setShowModal(!showModal)} >
                             <div  className=" p-3 hover:cursor-pointer border border-gray-200 max-h-30 rounded-lg sm:flex hover:bg-gray-100 shadow-lg bg-slate-50">
                                 <div className="flex-col rounded">                
-                                <img className=" w-12 h-12 rounded-full mr-3 sm:mb-0" src={pic} alt=""/>
+                                <img onError={({currentTarget}) => {
+                                currentTarget.src ="\\assets\\default_profile_img.jpg"
+                                currentTarget.onerror = null }}
+                                src={post.author ? post.author?.picture !== null ? post.author.picture : '#ERROR' : '#ERROR'}
+                                alt=""
+                                className=" w-12 h-12 rounded-full mr-3 sm:mb-0"/>
                                 </div>
                                 
                                 <div className="flex flex-col text-gray-600">
