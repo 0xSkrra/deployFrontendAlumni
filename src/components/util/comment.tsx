@@ -59,7 +59,6 @@ const Comment = ({comment}: commentProps) => {
   )
 }
 const Comments = ({comments}: commentsProps) => {
-  console.log('second checkpoint   ', comments ,' type ' , typeof comments)
   const newComments = comments.map((x) => {
     return <Comment key={x.id} comment={x} />
   })
