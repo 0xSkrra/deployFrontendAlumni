@@ -124,7 +124,7 @@ const TopicTimeline = () => {
             </div> 
                 {postsRaw.map((p) => {
                     return p.parentId === null ?  (
-                        <PostItem key={p.id} post={p} onClickPost={() => onClickPost(p)}/>
+                        <PostItem key={p.id} post={p}/>
                         )
                         : <React.Fragment key={p.id}></React.Fragment>
                 })}

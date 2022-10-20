@@ -1,19 +1,13 @@
-import { format } from 'path'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Group } from '../../common/interface/Group'
 import { Post } from '../../common/interface/Post'
-import { Topic } from '../../common/interface/Topic'
-import { Event } from '../../common/interface/Event'
-import { defaultUserProfile, UserProfile } from '../../common/interface/UserProfile'
 import { getUserById } from '../../common/util/API'
 import { useBoundStore } from '../../common/util/Store/Store'
 import RefactorPostModal from './refactorPostModal'
 interface postItemProps{
     post: Post
-    onClickPost: () => void
 }
-const PostItem = ({post, onClickPost}: postItemProps) => {
+const PostItem = ({post}: postItemProps) => {
     const store = useBoundStore((state)=> state) 
     const navigate = useNavigate()
     const [targetString, setTargetString] = useState<string>('')

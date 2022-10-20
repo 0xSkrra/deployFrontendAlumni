@@ -10,22 +10,11 @@ import dayjs from 'dayjs'
 
 const DashboardPage = () => {
     const [postsRaw, setPostsRaw] = useState<Post[]>([])
-    const [detailedPostView, setDetailedPostView] = useState<React.ReactNode|React.ReactNode[]>(<></>)
     const [pagination, setPagination] = useState<Paginate>(defaultPaginate)
     const [loading, setLoading] = useState<boolean>(false)
     const [events, setEvents] = useState<Event[]>([])
     const postsPerPage = 7
 
-    // 
-    // HANDLE POST CLICK
-    //
-    const onClickPost = async (postToDisplay: Post) => {
-        // perhaps order post children from newest to oldest
-        const postJsx = (
-            <PostModal postToDisplay={postToDisplay} removeModalMethod={() => setDetailedPostView(<></>)}/>
-        )
-        setDetailedPostView(postJsx)
-    }
     //
     // POSTS
     //
@@ -74,7 +63,7 @@ const DashboardPage = () => {
             <div className="flex flex-col min-w-[70%]"> 
                 {postsRaw.map((p) => {
                     return p.parentId === null ?  (
-                        <PostItem key={p.id} post={p} onClickPost={() => onClickPost(p)}/>
+                        <PostItem key={p.id} post={p} />
                         )
                         : <React.Fragment key={p.id}></React.Fragment>
                 })}
@@ -129,8 +118,6 @@ const DashboardPage = () => {
                 </div>
             </div>{/* PAGINATION END */}
             
-            {detailedPostView} {/* MODAL FOR POST DETAILED VIEW */}
-
 
             {/*
             UPCOMING EVENTS HERE
