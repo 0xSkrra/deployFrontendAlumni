@@ -1,6 +1,7 @@
 import { Group } from "./Group";
 import { Post } from "./Post";
 import { Topic } from "./Topic";
+import { Event } from "./Event";
 
 export interface UserProfile{
     id: number,
@@ -13,6 +14,7 @@ export interface UserProfile{
     authoredPosts: Post[];
     recievedPosts: Post[];
     authoredEvents: Event[];
+    invitedEvents: Event[];
     topics: Topic[];
     groups: Group[];
     respondedEvents: Event[];
@@ -37,6 +39,7 @@ export const defaultUserProfile: UserProfile = {
     authoredPosts: [],
     recievedPosts: [],
     authoredEvents: [],
+    invitedEvents: [],
     topics: [],
     groups: [],
     respondedEvents: [],
