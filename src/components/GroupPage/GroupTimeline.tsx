@@ -35,9 +35,7 @@ const GroupTimeline = () => {
 
             // save states
             setPostsRaw(relatedPosts)
-            console.log("prev");
             setPagination(headers)
-            console.log("post");
         }
         fetchAndCreatePosts()
     }, [pagination.CurrentPage, param.id])
