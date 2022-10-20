@@ -17,19 +17,31 @@ import TopicTimeline from './components/TopicPage/TopicTimeline';
 import PrivateRoute from './routes/utils';
 import Dashboard from './view/Dashboard';
 import NotFoundPage from './components/NotFoundPage';
+import { useBoundStore } from './common/util/Store/Store';
+import { defaultUserProfile } from './common/interface/UserProfile';
 
 function App() {
   const { initialized, keycloak } = useKeycloak()
   const userState = useUserStore((state) => state)
-
+  const store = useBoundStore((state) => state)
   useEffect(() => {
     if(keycloak.authenticated){
       if(userState.User.id === -1 || typeof userState.User === 'string') getOrCreateUserProfile().then((u) =>{ 
         userState.setUser(u)
+        store.fetchEvents()
+        store.fetchGroups()
+        store.fetchTopics()
       })
+    }else if(!keycloak.authenticated){
+      if(userState.User.id !== -1 || typeof userState.User === 'string'){
+        userState.setUser(defaultUserProfile)
+        store.removeEvents()
+        store.removeTopics()
+        store.removeGroups()
+      }
     }
-  }, [keycloak.authenticated, userState])
-
+  }, [keycloak.authenticated, userState, store])
+  //console.log(store.Events)
   if (!initialized) {
     return <div>Loading...</div>
   }

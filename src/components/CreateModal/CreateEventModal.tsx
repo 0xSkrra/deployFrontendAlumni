@@ -1,10 +1,12 @@
+import { CalendarEvent } from "kalend/common/interface";
 import React from "react";
 interface props{
   showModal: boolean
   setShowModal: () => void
+  modalContent: CalendarEvent
   
 }
-export default function CreateEventModal({showModal, setShowModal}: props) {
+export default function CreateEventModal({showModal, setShowModal, modalContent}: props) {
     return (
       <>
         {showModal ? (
@@ -18,7 +20,7 @@ export default function CreateEventModal({showModal, setShowModal}: props) {
                   {/*header*/}
                   <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                     <h3 className="text-3xl font-semibold">
-                      Modal Title
+                      modalContent.
                     </h3>
                     <button
                       className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"

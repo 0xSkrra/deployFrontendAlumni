@@ -1,5 +1,6 @@
 import create, { StateCreator } from "zustand";
 import {devtools, persist} from "zustand/middleware"
+import { Event } from "../../interface/Event";
 import { Group } from "../../interface/Group";
 import { Topic } from "../../interface/Topic";
 import { getUserEvents, getUserGroups, getUserTopics } from "../API";
@@ -15,18 +16,18 @@ const createTopicSlice: StateCreator<
   TopicSlice
 > = (set) => ({
   Topics: [],
-  loading: false,
-  hasErrors: false,
+  loadingTopics: false,
+  topicsHasErrors: false,
   addTopic: (newTopic: Topic) => set((state) => ({ Topics: [...state.Topics, newTopic] })),
   removeTopics: () => set(() => ({ Topics: [] })),
-  fetch: async () =>{
-    set(() => ({ loading: false }))
+  fetchTopics: async () =>{
+    set(() => ({ loadingTopics: false }))
     try{
       const response = (await getUserTopics())
-      set(() => ({ Topics: response, loading: false}))
+      set(() => ({ Topics: response, loadingTopics: false}))
     }
     catch(err){
-      set(() => ({loading: false}))
+      set(() => ({loadingTopics: false}))
     }
   }
 })
@@ -38,20 +39,20 @@ const createGroupSlice: StateCreator<
   GroupSlice
 > = (set) => ({
   Groups: [],
-  loading: false,
-  hasErrors: false,
+  loadingGroups: false,
+  groupsHasErrors: false,
   addGroup: (newGroup: Group) => set((state) => ({ Groups: [...state.Groups, newGroup] })),
   removeGroups: () => set(() => ({ Groups: [] })),
-  fetch: async () =>{
-    set(() => ({ loading: false }))
+  fetchGroups: async () =>{
+    set(() => ({ loadingGroups: false }))
     try{
       const response = (await getUserGroups())
-      set(() => ({ Groups: response, loading: false}))
+      set(() => ({ Groups: response, loadingGroups: false}))
 
     }
     catch(err){
       console.log(err)
-      set(() => ({loading: false}))
+      set(() => ({loadingGroups: false}))
     }
   }
   
@@ -64,19 +65,20 @@ const createEventSlice: StateCreator<
   EventSlice
 > = (set) => ({
   Events: [],
-  loading: false,
-  hasErrors: false,
+  loadingEvents: false,
+  eventsHasErrors: false,
   addEvent: (newEvent: Event) => set((state) => ({ Events: [...state.Events, newEvent] })),
   removeEvents: () => set(() => ({ Events: [] })),
-  fetch: async () =>{ 
-    set(() => ({ loading: false }))
+  fetchEvents: async () =>{ 
+    set(() => ({ loadingEvents: false }))
     try{
-      const response = (await getUserEvents().then((r) => {return r}))
+      const response = (await getUserEvents())
       console.log(response)
+      set(() => ({ Events: response, loadingEvents: false}))
     }
     catch(err){
       console.log(err)
-      set(() => ({loading: false}))
+      set(() => ({loadingEvents: false}))
     }
   },
 
