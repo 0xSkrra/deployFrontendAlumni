@@ -6,16 +6,25 @@ import CreateEventModal from '../CreateModal/CreateEventModal';
 export interface calendarProps{
     formattedEvents: CalendarEvent[]
 }
-
+const initialCalendarEvent = {
+    id: -1,
+    startAt: "",
+    endAt: "",
+    timezoneStartAt: "",
+    timezoneEndAt: "",
+    summary: "",
+    color: "",
+}
 const Calendar = ({formattedEvents}: calendarProps) => {
   const [showModal, SetShowModal] = useState(false)
+  const [modalContent, setModalContent] = useState<CalendarEvent>(initialCalendarEvent)
     
   return (
     <>
     <Kalend
             onEventClick={(e)=> {
                 SetShowModal(true)
-                console.log(e)
+                setModalContent(e)
             }}
             events={formattedEvents}
             initialDate={new Date().toISOString()}
@@ -31,7 +40,7 @@ const Calendar = ({formattedEvents}: calendarProps) => {
             disabledDragging={true}
             autoScroll={true}
             />
-        <CreateEventModal showModal={showModal} setShowModal={() => SetShowModal(!showModal)} />
+        <CreateEventModal showModal={showModal} modalContent={modalContent} setShowModal={() => SetShowModal(!showModal)} />
     </>
   )
 }
