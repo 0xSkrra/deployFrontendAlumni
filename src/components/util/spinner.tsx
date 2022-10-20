@@ -1,5 +1,5 @@
 import React from 'react'
-import { Puff, Vortex } from 'react-loader-spinner'
+import { Comment, Puff, Vortex } from 'react-loader-spinner'
 
 export const Spinner = () => {
   return (
@@ -16,4 +16,19 @@ export const Spinner = () => {
 />
   </div>
   )
+}
+
+export const NewCommentSpinner = () => {
+  return (
+    <Comment
+        visible={true}
+        height="40"
+        width="40"
+        ariaLabel="comment-loading"
+        wrapperStyle={{}}
+        wrapperClass="comment-wrapper"
+        color="#fff"
+        backgroundColor="#F4442E"
+        />
+    )
 }

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Post } from "../../common/interface/Post";
 import { addCommentToPost } from "../../common/util/API";
 import Comments from "./comment";
+import { NewCommentSpinner } from "./spinner";
 interface props{
   showModal: boolean
   setShowModal: () => void
@@ -17,12 +18,17 @@ export default function CreateEventModal({
     const navigate = useNavigate()
     const [newPostComment, setNewPostComment] = useState("")
     const [comments, setComments] = useState(post.replies!)
+    const [loading, setLoading] = useState(false)
     const onSubmitkNewComment = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+        setLoading(true)
         e.preventDefault()
         if(newPostComment.length < 1) return
-        const newComment = await addCommentToPost(post.id ,newPostComment)
-        setComments((state) => [...state, newComment])
-        setNewPostComment("")
+        const newComment = await addCommentToPost(post.id ,newPostComment).finally(() => {
+            setComments((state) => [...state, newComment])
+            setNewPostComment("")
+            setLoading(false)
+        })
+        
       }
     return (
       <>
@@ -68,7 +74,9 @@ export default function CreateEventModal({
                             <Comments comments={comments}/>
                         </div>
                         <form onSubmit={(e) => onSubmitkNewComment(e)}>
+                        
                             <div className="mb-4 w-full bg-white rounded-lg border-2 border-gray-300 ">
+                                
                                 <div className="py-2 px-4 bg-white rounded-t-lg ">
                                     <label htmlFor="comment" className="sr-only">Your comment</label>
                                     <textarea onChange={(e) => {
@@ -76,10 +84,12 @@ export default function CreateEventModal({
                                         setNewPostComment(e.target.value)
                                     }} id="comment" value={newPostComment} rows={4} className="p-2  outline-0 border-b border-gray-200  w-full text-sm text-gray-900 bg-white" placeholder="Write a comment..." required></textarea>
                                 </div>
+                                
                                 <div className="flex justify-between items-center py-2 px-3 ">
-                                <button type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800">
-                                        Post comment
-                                    </button>
+                                {loading   
+                                ? <NewCommentSpinner />
+                                : <button type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800">Post comment</button>
+                                }
                                 </div>
                             </div>
                         </form>
