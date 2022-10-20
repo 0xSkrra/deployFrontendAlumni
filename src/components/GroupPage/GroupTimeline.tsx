@@ -6,6 +6,7 @@ import { Post } from "../../common/interface/Post"
 import { addGroupMember, getGroupById, getGroupPosts, leaveGroup } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore"
 import PostItem from "../util/postItem"
+import { Spinner } from "../util/spinner"
 
 
 
@@ -92,6 +93,9 @@ const GroupTimeline = () => {
     const onClickSpecificPage = async (page: number) => {
         setPagination((state) => ({...state, CurrentPage: page}))
     }
+    
+    if(loading) return (
+        <Spinner />)
 
     return (
         <div>

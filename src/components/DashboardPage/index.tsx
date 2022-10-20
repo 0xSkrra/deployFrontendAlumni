@@ -6,6 +6,7 @@ import { Event } from "../../common/interface/Event"
 import PostItem from "../util/postItem"
 import PostModal from "../util/postModal"
 import dayjs from 'dayjs'
+import { Spinner } from "../util/spinner"
 
 
 const DashboardPage = () => {
@@ -54,10 +55,7 @@ const DashboardPage = () => {
         setPagination((state) => ({...state, CurrentPage: page}))
     }
     if(loading) return (
-    <div className="flex justify-center items-center self-center">
-        <div className="w-20 h-20 border-purple-200 border-2 rounded-full"><div className="w-20 h-20 border-purple-700 border-t-2 animate-spin relative rounded-full left-0 top-0"></div></div>
-        
-    </div>)
+        <Spinner />)
     return (
         <div className="p-4 mb-4 flex flex-row rounded-lg ">
             <div className="flex flex-col min-w-[70%]"> 

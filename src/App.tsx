@@ -19,6 +19,7 @@ import Dashboard from './view/Dashboard';
 import NotFoundPage from './components/NotFoundPage';
 import { useBoundStore } from './common/util/Store/Store';
 import { defaultUserProfile } from './common/interface/UserProfile';
+import { Spinner } from './components/util/spinner';
 
 function App() {
   const { initialized, keycloak } = useKeycloak()
@@ -43,7 +44,7 @@ function App() {
   }, [keycloak.authenticated, userState, store])
   //console.log(store.Events)
   if (!initialized) {
-    return <div>Loading...</div>
+    return (<div className="h-screen w-screen"> <Spinner /></div>)
   }
 
   

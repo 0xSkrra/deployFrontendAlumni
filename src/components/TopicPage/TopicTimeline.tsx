@@ -7,6 +7,7 @@ import {  addTopicMember, getAllPostsForTopic, getTopicById, leaveTopic } from "
 import { useUserStore } from "../../common/util/Store/userStore"
 import PostItem from "../util/postItem"
 import PostModal from "../util/postModal"
+import { Spinner } from "../util/spinner"
 
 
 const TopicTimeline = () => {
@@ -23,16 +24,6 @@ const TopicTimeline = () => {
     const id = typeof params.id === 'undefined' ? -1 : params.id
     const [topicId, setTopicId] = useState(isNaN(+id) ? -1 : +id)
 
-    // 
-    // HANDLE POST CLICK
-    //
-    const onClickPost = async (postToDisplay: Post) => {
-        // perhaps order post children from newest to oldest
-        const postJsx = (
-            <PostModal postToDisplay={postToDisplay} removeModalMethod={() => setDetailedPostView(<></>)}/>
-        )
-        setDetailedPostView(postJsx)
-    }
     //
     // POSTS
     //
@@ -110,6 +101,9 @@ const TopicTimeline = () => {
     const onClickSpecificPage = async (page: number) => {
         setPagination((state) => ({...state, CurrentPage: page}))
     }
+
+    if(loading) return (
+        <Spinner />)
 
     return (
 
