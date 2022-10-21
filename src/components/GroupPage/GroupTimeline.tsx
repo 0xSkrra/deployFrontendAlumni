@@ -1,11 +1,12 @@
 import { useKeycloak } from "@react-keycloak/web"
 import dayjs from "dayjs"
 import React, { useEffect, useState } from "react"
-import {  useParams } from "react-router-dom"
+import {  useNavigate, useParams } from "react-router-dom"
 import { Group, placeholderGroup } from "../../common/interface/Group"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
 import { addGroupMember, getGroupById, getGroupPosts, leaveGroup } from "../../common/util/API"
+import dateHandler from "../../common/util/dayjs"
 import { useBoundStore } from "../../common/util/Store/Store"
 import { useUserStore } from "../../common/util/Store/userStore"
 import CreatePostModal from "../CreateModal/CreatePostModal"
@@ -35,7 +36,8 @@ const GroupTimeline = () => {
         return new Date(a.startTime).getTime()-new Date(b.startTime).getTime()
     })
     const store = useBoundStore((state) => state)
-    console.log("sorted evetns", sortedEvents);
+    const navigate = useNavigate()
+
 
     useEffect(() => {
         const renderWhenPostIsCreated = async () => {
@@ -203,14 +205,22 @@ const GroupTimeline = () => {
                                 {membership && <CreatePostModal id={group.id} target={"group"}/>}
                                 </div>
                                 <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Upcoming Events</span></div>
-                                {sortedEvents !== undefined ? sortedEvents.map((e) => { 
+                                <ul>
+                                {sortedEvents.length >0 ? sortedEvents.sort((a,b) => dayjs(a.startTime).isAfter(dayjs(b.startTime)) ? 1 : -1).map((e) => { 
                                     return (
-                                        <div className="flex inline-flex space-x-2">
-                                        <p>{e.name} </p><p className="text-gray-600"> in </p> 
-                                        <p>{dayjs(e.startTime).diff(dayjs(), 'days')} days</p>
-                                        </div>
+                                    <li key={e.id} className="text-body-color mb-4 flex text-base text-ellipsis overflow-x-hidden">
+                                        <span className="text-primary mr-2 flex items-center rounded-full text-base">
+                                        <svg width="20" height="8" viewBox="0 0 20 8" className="fill-current">
+                                            <path
+                                            d="M19.2188 2.90626L17.0625 0.343758C16.875 0.125008 16.5312 0.0937583 16.2812 0.281258C16.0625 0.468758 16.0312 0.812508 16.2188 1.06251L18.25 3.46876H0.9375C0.625 3.46876 0.375 3.71876 0.375 4.03126C0.375 4.34376 0.625 4.59376 0.9375 4.59376H18.25L16.2188 7.00001C16.0312 7.21876 16.0625 7.56251 16.2812 7.78126C16.375 7.87501 16.5 7.90626 16.625 7.90626C16.7812 7.90626 16.9375 7.84376 17.0312 7.71876L19.1875 5.15626C19.75 4.46876 19.75 3.53126 19.2188 2.90626Z"
+                                            ></path>
+                                        </svg>
+                                        </span>
+                                        <span  onClick={() => navigate(`/events/${e.id}`)} className="hover:text-blue-300 hover:cursor-pointer text-xs mr-1 text-gray-900 text-bold">{e.name} </span><span className="text-xs"> in {dateHandler(e.startTime).fromNow(true)}</span>
+                                    </li>
                                     ) 
                                 }) : <p>No upcoming Events</p>}
+                                </ul>
                                  
                                 
                             </div>
