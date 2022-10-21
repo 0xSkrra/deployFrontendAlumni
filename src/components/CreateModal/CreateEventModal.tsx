@@ -1,5 +1,5 @@
 import { CalendarEvent } from "kalend/common/interface";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Event } from "../../common/interface/Event";
 import { addEvent, addEventGroup, addEventTopic } from "../../common/util/API";
 import { useUserStore } from "../../common/util/Store/userStore";
@@ -18,32 +18,71 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
   const [event, setEvent] = useState<Event>({id: 0, name: "", description: "", lastUpdated: "", startTime: "", endTime: "", allowGuests: true, authorId: -1, usersAccepted: [], author: userState.User, topics: [], groups: [], usersInvited: [], usersResponded: [], posts: [] })
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(new Date())
+  const [nameShaming, setNameShaming] = useState<boolean>(false)
+  const [descShaming, setDescShaming] = useState<boolean>(false)
+  const [dateShaming, setDateShaming] = useState<boolean>(false)
+  const [hasInit, setHasInit] = useState<boolean>(false)
 
+  useEffect(() => {
+    setNameShaming(false)
+    setDescShaming(false)
+    setDateShaming(false)
+    setHasInit(true)
+    }, [hasInit])
 
   const createEvent = async () => {
-//2022-10-29T19:00:00
     const myStartTime = startDate.getFullYear().toString() + "-" + (("00" +(startDate.getMonth() + 1)).toString()).slice(-2) + "-" + ("00" + startDate.getDate().toString()).slice(-2) + "T" + ("00" +startDate.getHours().toString()).slice(-2) + ":" + ("00" + startDate.getMinutes().toString()).slice(-2) + ":00"
     const myEndTime = endDate.getFullYear().toString() + "-" + (("00" + (endDate.getMonth()+1)).toString()).slice(-2) + "-" + ("00" + endDate.getDate().toString()).slice(-2) + "T" + ("00" +endDate.getHours().toString()).slice(-2) + ":" + ("00" + endDate.getMinutes().toString()).slice(-2) + ":00"
+    console.log(myStartTime)
+    console.log(myEndTime);
+    // error handling:
+    if (event.name.length < 1) {
+      setNameShaming(true)
+      return
+    }
+    if (event.description.length < 1) {
+      setDescShaming(true)
+      return
+    }
+    if (myEndTime < myStartTime || myEndTime === myStartTime) {
+      alert("give me a better time")
+      setDateShaming(true)
+      return
+    }
+    //remove if provided
+    if (event.name.length > 0) {
+      setNameShaming(false)
+    }
+    if (event.description.length > 0) {
+      setDescShaming(false)
+    }
+    if(myEndTime > myStartTime) {
+      setDateShaming(false)
+    }
+
 
     if(target === 'topic'){
       const topic = userState.User.topics.find(x=>x.id===id)
       const eventUpdate: Event = {id: 0, name: "", description: "", lastUpdated: "", startTime: "", endTime: "", allowGuests: true, usersAccepted: [], authorId: userState.User.id, author: userState.User, topics: [topic!], usersInvited: [], usersResponded: [], posts: [] }
       setEvent(eventUpdate)
       const req: Event = await addEvent(event.name, event.description,myStartTime, myEndTime); // Add target
-      await addEventTopic(req.id, topic!.id);
+      var request = await addEventTopic(req.id, topic!.id);
       userState.User.authoredEvents.push(req)
-
+      if (request.status === 200 || request.status === 201 || request.status === 204) {
+        setShowModal(false)
+      }
     }
     else if(target === 'group'){
       const group = userState.User.groups.find(x=>x.id===id)
       const groupUpdate: Event = {id: 0, name: "", description: "", lastUpdated: "", startTime: "", endTime: "", allowGuests: true, usersAccepted: [], authorId: userState.User.id, author: userState.User, groups: [group!], usersInvited: [], usersResponded: [], posts: [] }
       setEvent(groupUpdate)
       const req: Event = await addEvent(event.name, event.description,myStartTime, myEndTime); // Add target
-      await addEventGroup(req.id, group!.id);
+      request = await addEventGroup(req.id, group!.id);
       userState.User.authoredEvents.push(req)
-
+      if (request.status === 200 || request.status === 201 || request.status === 204) {
+        setShowModal(false)
+      }
     }
-
   }
 
   const createStartDate = (date:string) => {
@@ -84,6 +123,7 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
     
   }
 
+
   return (
     <>
       <button
@@ -120,34 +160,38 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
                   <label className="block text-black text-sm font-bold mb-1">
                     Name of Event
                   </label>
+                  
                   <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" required onChange={(e) => 
                   {
                       setEvent((state) => ({...state, name: e.target.value}))}} />
+                  {nameShaming && <p className="color-red-300">please provide a name</p>}
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Description</label>
-                  <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Description..."
+                  <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                  placeholder="Description..."
                   onChange={(e) => 
                       {
                           setEvent((state) => ({...state, description: e.target.value}))}} />
-
+                  {descShaming && <p className="color-red-300">please provide a description</p>}
                   <label className="block text-black text-sm font-bold mb-1" htmlFor="start">Start date:</label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="date" id="start" name="trip-start" max="2100-12-31" onChange={(e) => 
+                  <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="date" id="start" name="trip-start" max="2300-12-31" onChange={(e) => 
                   {createStartDate(e.target.value)}}
                    ></input>
                    <label className="block text-black text-sm font-bold mb-1" htmlFor="appt">Start time:</label>
-                   <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="time" id="appt" name="appt" min="09:00" max="18:00" required
+                   <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="time" id="appt" name="appt"  required
                    onChange={(e) => 
                     {createStartTime(e.target.value)}}></input>
                    <label className="block text-black text-sm font-bold mb-1" htmlFor="start">End date:</label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="date" id="start" name="trip-start" max="2100-12-31"
+                  <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="date" id="start" name="trip-start" max="2300-12-31"
                   onChange={(e) => 
                     {createEndDate(e.target.value)}}
                    ></input>
 
                 
                 <label className="block text-black text-sm font-bold mb-1" htmlFor="appt">End time:</label>
-                <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="time" id="appt" name="appt" min="09:00" max="18:00" required
+                <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="time" id="appt" name="appt" required
                 onChange={(e) => 
                   {createEndTime(e.target.value)}}></input>
+                {dateShaming && <p>Please, a valid date is needed</p>}
                 </form>
 
                 {/*footer*/}

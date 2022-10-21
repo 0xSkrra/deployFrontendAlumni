@@ -132,7 +132,7 @@ export const addEventTopic = async (eventId: number, topicId: number): Promise<a
         eventId: eventId,
         topicId: topicId
     }
-    return (await axios.post(`/api/events/${postData.eventId}/invite/topic/${postData.topicId}`, postData)).data
+    return (await axios.post(`/api/events/${postData.eventId}/invite/topic/${postData.topicId}`, postData))//.data
 }
 
 export const addEventGroup = async (eventId: number, groupId: number): Promise<any> => {
@@ -140,7 +140,7 @@ export const addEventGroup = async (eventId: number, groupId: number): Promise<a
         eventId: eventId,
         groupId: groupId
     }
-    return (await axios.post(`/api/events/${postData.eventId}/invite/group/${postData.groupId}`, postData)).data
+    return (await axios.post(`/api/events/${postData.eventId}/invite/group/${postData.groupId}`, postData))//.data
 }
 
 
