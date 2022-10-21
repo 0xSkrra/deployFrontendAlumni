@@ -37,15 +37,15 @@ const ListComponent = (props:any) => {
                 if(groups.length > 0) {
                     const newestGroup = groups[groups.length-1]
                     setContent((state)  => {
-                        return state.some((p) => p.id !== newestGroup.id) ? [newestGroup, ...state as Group[]] : [...state as Group[]]
+                        return [...groups]
                 })
                 }
             }else { // is a topic
                 const topics = store.Topics
                 if(topics.length > 0){
-                    const newestTopic = topics[topics.length-1]
+                    const newTopic = store.Topics[store.Topics.length -1]
                     setContent((state)  => {
-                        return state.some((p) => p.id !== newestTopic.id) ? [newestTopic, ...state as Topic[]] : [...state as Topic[]]
+                        return [...topics]
                 })
                 }
             }
