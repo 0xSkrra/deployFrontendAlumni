@@ -58,9 +58,7 @@ const EventTimeline = () => {
 
             // save states
             setPostsRaw(relatedPosts)
-            console.log("prev");
             setPagination(headers)
-            console.log("post");
         }
         fetchAndCreatePosts()
     }, [pagination.CurrentPage, param.id])
@@ -82,7 +80,6 @@ const EventTimeline = () => {
         const renderWhenPostIsCreated = async () => {
             const currEvent = store.Events.find((e) => e.id === event.id)
             if(currEvent && currEvent.posts.length > 0) {
-                console.log('hiya')
                 const newestPost = currEvent.posts[currEvent.posts.length-1]
                 setPostsRaw((state) => state.some((p) => p.id !== newestPost.id) ?  [newestPost, ...state] : [...state])
             }
