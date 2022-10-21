@@ -56,6 +56,10 @@ const DashboardPage = () => {
     if(loading) return (
         <Spinner />)
     return (
+        <div className='divide-y-2 divide-grey-800 divide-solid'>
+            <div className=" text-gray-800 ">
+                <div className= "justify-center flex mb-10 mt-3"><h1 className="text-3xl font-semibold">Timeline</h1></div>
+            </div> 
         <div className="p-4 mb-4 flex flex-row rounded-lg ">
             <div className="flex flex-col min-w-[70%]"> 
                 {postsRaw.sort((a,b) => dayjs(a.lastUpdated).isBefore(dayjs(b.lastUpdated)) ? 1 : -1).map((p) => {
@@ -151,7 +155,7 @@ const DashboardPage = () => {
                 </ol>
             </div>
         </div>
-
+        </div>
         )
     }
 
