@@ -7,9 +7,9 @@ export interface Group {
     title: string,
     body: string|null,
     isPrivate: boolean,
-    posts?: Post[],
-    users?: UserProfile[],
-    events?: Event[],
+    posts: Post[],
+    users: UserProfile[],
+    events: Event[],
 };
 
 export const placeholderGroup = {

@@ -1,3 +1,4 @@
+import { Event } from "./Event";
 import { Post } from "./Post";
 import { UserProfile } from "./UserProfile";
 
