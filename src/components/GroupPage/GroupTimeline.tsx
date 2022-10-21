@@ -43,7 +43,7 @@ const GroupTimeline = () => {
         const renderWhenPostIsCreated = async () => {
             const group = store.Groups.find((group) => group.id === groupId)
             if(group && group.posts.length > 0) {
-                const newestPost = group.posts[group.posts.length-1]
+                const newestPost = group.posts.sort((a,b) => dayjs(a.lastUpdated).isBefore(dayjs(b.lastUpdated)) ? 1 : -1)[0]
                 setPostsRaw((state) => state.some((p) => p.id !== newestPost.id) ? [newestPost, ...state] : [...state])
             }
         }
