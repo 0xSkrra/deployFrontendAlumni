@@ -39,8 +39,11 @@ const TopicTimeline = () => {
     useEffect(() => {
         const renderWhenPostIsCreated = async () => {
             const findTopic = store.Topics.find((topic) => topic.id === topicId)
-            if(findTopic) setPostsRaw((state) => [findTopic.posts[findTopic.posts.length -1], ...state])
-        }
+            if(findTopic && findTopic.posts.length > 0){
+                const newestPost = findTopic.posts[findTopic.posts.length-1]
+                setPostsRaw((state) => state.some((p) => p.id !== newestPost.id) ? [newestPost, ...state] : [...state])
+            }
+        }   
         renderWhenPostIsCreated()
     },[store.Topics, topicId])
 

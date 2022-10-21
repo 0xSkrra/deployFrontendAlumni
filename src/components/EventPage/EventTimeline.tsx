@@ -29,15 +29,6 @@ const EventTimeline = () => {
     const id = typeof params.id === 'undefined' ? -1 : params.id
     const [event, setEvent] = useState<Event>(placeholderEvent)
     const store = useBoundStore((state) => state)
-
-
-    const onClickPost = async (postToDisplay: Post) => {
-        // perhaps order post children from newest to oldest
-        const postJsx = (
-            <PostModal postToDisplay={postToDisplay} removeModalMethod={() => setDetailedPostView(<></>)}/>
-        )
-        setDetailedPostView(postJsx)
-    }
     
     const checkMembership = () => {
         let member = userState.User.respondedEvents.find(x => x.id===event?.id)
@@ -53,17 +44,10 @@ const EventTimeline = () => {
     const handleJoin = () => {
         setLoading(true)
         let req = addEventMember(event.id)
-        const updatedUser = {...user, events: [...user.respondedEvents , event ]}
-        userState.setUser(updatedUser)
+        userState.setUser({...userState.User, respondedEvents: [...userState.User.respondedEvents, event]})
         const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setLoading(false))
     }
-    useEffect(() => {
-        const renderWhenPostIsCreated = async () => {
-            const newestPost = store.Events.find((event) => event.id === +id)
-            if(newestPost) setPostsRaw((state) => [newestPost.posts[newestPost.posts.length-1], ...state])
-        }
-        renderWhenPostIsCreated()
-    },[id, store.Events])
+
     
     useEffect(() => {
         const fetchAndCreatePosts = async () => {
@@ -94,6 +78,18 @@ const EventTimeline = () => {
         fetchEvent()
     },[+id])
 
+    useEffect(() => {
+        const renderWhenPostIsCreated = async () => {
+            const currEvent = store.Events.find((e) => e.id === event.id)
+            if(currEvent && currEvent.posts.length > 0) {
+                console.log('hiya')
+                const newestPost = currEvent.posts[currEvent.posts.length-1]
+                setPostsRaw((state) => state.some((p) => p.id !== newestPost.id) ?  [newestPost, ...state] : [...state])
+            }
+        }
+        renderWhenPostIsCreated()
+    },[event.id, store.Events])
+
     const onClickNextPage = async () => {
         setPagination((state) => ({...state, CurrentPage: state.CurrentPage+1 }))
     }
@@ -114,10 +110,7 @@ return (
                 <div className= "justify-center flex text-center mb-3"><p>{event?.description}</p></div>
             </div> 
                 {postsRaw.sort((a,b) => dayjs(a.lastUpdated).isBefore(dayjs(b.lastUpdated)) ? 1 : -1).map((p) => {
-                    return p.parentId === null ?  (
-                        <PostItem key={p.id} post={p} />
-                        )
-                        : <React.Fragment key={p.id}></React.Fragment>
+                    return p.parentId === null ?  ( <PostItem key={p.id} post={p} />): <React.Fragment key={p.id}></React.Fragment>
                 })}
                 {/* 
                 PAGINATION
