@@ -117,6 +117,35 @@ export const addPost = async (title: string, description: string, topicId:number
     return post
 }
 
+export const addEvent = async (name: string, description: string,  startTime: string, endTime: string): Promise<Event> => {
+    const postData = {
+        name: name,
+        body: description,
+        startTime: startTime,
+        endTime: endTime,
+        allowGuests: true,
+    }
+    const event: Event = (await axios.post('/api/events', postData)).data
+    return event
+}
+
+export const addEventTopic = async (eventId: number, topicId: number): Promise<any> => {
+    const postData = {
+        eventId: eventId,
+        topicId: topicId
+    }
+    return (await axios.post(`/api/events/${postData.eventId}/invite/topic/${postData.topicId}`, postData)).data
+}
+
+export const addEventGroup = async (eventId: number, groupId: number): Promise<any> => {
+    const postData = {
+        eventId: eventId,
+        groupId: groupId
+    }
+    return (await axios.post(`/api/events/${postData.eventId}/invite/group/${postData.groupId}`, postData)).data
+}
+
+
 
 export const addTopicMember = async (topicId: number): Promise<any> => {
 

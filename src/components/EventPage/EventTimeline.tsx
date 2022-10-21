@@ -28,6 +28,8 @@ const EventTimeline = () => {
     const id = typeof params.id === 'undefined' ? -1 : params.id
     const [event, setEvent] = useState<Event>(placeholderEvent)
 
+    console.log(event.startTime)
+
 
 
     const onClickPost = async (postToDisplay: Post) => {

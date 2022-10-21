@@ -41,7 +41,7 @@ const Calendar = ({formattedEvents}: calendarProps) => {
             disabledDragging={true}
             autoScroll={true}
             />
-        <CreateEventModal showModal={showModal} modalContent={modalContent} setShowModal={() => SetShowModal(!showModal)} />
+        {/* <CreateEventModal showModal={showModal} modalContent={modalContent} setShowModal={() => SetShowModal(!showModal)} /> */}
     </>
   )
 }

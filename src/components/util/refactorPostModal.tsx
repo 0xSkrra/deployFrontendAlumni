@@ -12,7 +12,7 @@ interface props{
   targetOnClick: () => void
   
 }
-export default function CreateEventModal({
+export default function CreatePostModal({
     showModal, setShowModal, post, targetOnClick, targetString
 }   : props) {
     const navigate = useNavigate()

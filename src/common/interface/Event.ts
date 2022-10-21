@@ -12,6 +12,8 @@ export interface Event{
     allowGuests: boolean
     usersAccepted?: UserProfile[],
     author: UserProfile,
+    topics?: Topic[],
+    groups?: Group[]
 }
 
 export const placeholderEvent = {
@@ -24,4 +26,6 @@ export const placeholderEvent = {
     allowGuests: true,
     usersAccepted: [],
     author: defaultUserProfile,
+    topics: [],
+    groups: []
 }
