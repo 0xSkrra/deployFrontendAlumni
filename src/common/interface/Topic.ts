@@ -7,9 +7,9 @@ export interface Topic {
     id: number,
     title: string,
     body: string,
-    posts: Post[],//IPost[]|null,
-    users: UserProfile[],//IUser[]|null,
-    events: Event[],//IEvent[]|null,
+    posts: Post[],
+    users: UserProfile[],
+    events: Event[],
 };
 
 export const placeholderTopic = {
