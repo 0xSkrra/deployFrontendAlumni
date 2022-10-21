@@ -4,6 +4,10 @@ import { Post } from '../../common/interface/Post'
 import { getUserById } from '../../common/util/API'
 import { useBoundStore } from '../../common/util/Store/Store'
 import RefactorPostModal from './refactorPostModal'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import dateHandler from '../../common/util/dayjs'
+
+
 interface postItemProps{
     post: Post
 }
@@ -71,7 +75,8 @@ const PostItem = ({post}: postItemProps) => {
                                         {targetString}
                                     </span> 
                                     <span className="inline-flex ml-3 text-xs font-normal text-gray-500">
-                                        Posted by: <span onClick={() => navigate(`/account/${ post.author !== undefined ? post.author.id : -1}`)} className="inline-flex ml-1 mr-1 hover:text-blue-300 hover:cursor-pointer text-xs font-normal text-gray-900" >{post.author?.username}</span> on {date}
+                                        Posted by: <span onClick={() => navigate(`/account/${ post.author !== undefined ? post.author.id : -1}`)} className="inline-flex ml-1 mr-1 hover:text-blue-300 hover:cursor-pointer text-xs font-normal text-gray-900" >{post.author?.username}</span> 
+                                        <span title={dateHandler(post.lastUpdated).toString()} className='inline-flex text-xs font-normal text-gray-500'>{dateHandler(post.lastUpdated).fromNow(true)} ago</span>
                                     </span>
                                     </div>
                                     <button className="text-xs font-normal text-start hover:text-blue-300">Replies: {post.replies?.length}</button>
