@@ -36,12 +36,7 @@ const PostItem = ({post}: postItemProps) => {
                     setTargetString(`Event/${event.name}`)
                     setTargetRedirect('/event')
                 }
-            }else if( post.receiverId !== null && post.receiverId !== undefined){
-                const user = (await getUserById(post.receiverId))
-                if(user !== undefined){
-                    setTargetString(`User/${user.username}`)
-                    setTargetRedirect(`/account/${user.id}`)
-                }
+            
             }
         }
 
