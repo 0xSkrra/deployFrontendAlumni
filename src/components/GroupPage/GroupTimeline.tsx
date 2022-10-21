@@ -41,8 +41,11 @@ const GroupTimeline = () => {
 
     useEffect(() => {
         const renderWhenPostIsCreated = async () => {
-            const newestPost = store.Groups.find((group) => group.id === groupId)
-            if(newestPost) setPostsRaw((state) => [newestPost.posts[newestPost.posts.length-1], ...state])
+            const group = store.Groups.find((group) => group.id === groupId)
+            if(group && group.posts.length > 0) {
+                const newestPost = group.posts[group.posts.length-1]
+                setPostsRaw((state) => state.some((p) => p.id !== newestPost.id) ? [newestPost, ...state] : [...state])
+            }
         }
         renderWhenPostIsCreated()
     },[groupId, store.Groups])

@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { Group } from "../../common/interface/Group"
 import { addGroup } from "../../common/util/API"
+import { useBoundStore } from "../../common/util/Store/Store";
 import { useUserStore } from "../../common/util/Store/userStore";
 
 
@@ -9,10 +10,12 @@ export default function CreateGroupModal() {
     const [showModal, setShowModal] = useState(false);
     const [group, setGroup] = useState<Group>({id: 0, title: "", body: "", isPrivate: false, posts: [], users: [], events: []})
     const userState = useUserStore((state) => state)
+    const store = useBoundStore((state) => state)
 
     const postGroup = async () => {
         let req: Group = await addGroup(group.title, group.body!, group.isPrivate)
-        userState.User.groups.push(req);
+        userState.setUser({...userState.User, groups: [...userState.User.groups, req]})
+        store.addGroup(req)
         setShowModal(false);
         setGroup((state) => ({...state, title: "", body: "", isPrivate: false}))
     }
