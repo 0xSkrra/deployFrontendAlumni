@@ -7,6 +7,7 @@ import { Event, placeholderEvent } from "../../common/interface/Event"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
 import { addEventMember, addGroupMember, getEventById, getEventPosts, getGroupById, getGroupPosts, leaveGroup } from "../../common/util/API"
+import { useBoundStore } from "../../common/util/Store/Store"
 import { useUserStore } from "../../common/util/Store/userStore"
 import CreatePostModal from "../CreateModal/CreatePostModal"
 import PostItem from "../util/postItem"
@@ -27,7 +28,7 @@ const EventTimeline = () => {
     const param = useParams()
     const id = typeof params.id === 'undefined' ? -1 : params.id
     const [event, setEvent] = useState<Event>(placeholderEvent)
-
+    const store = useBoundStore((state) => state)
 
 
     const onClickPost = async (postToDisplay: Post) => {
@@ -56,8 +57,14 @@ const EventTimeline = () => {
         userState.setUser(updatedUser)
         const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setLoading(false))
     }
+    useEffect(() => {
+        const renderWhenPostIsCreated = async () => {
+            const newestPost = store.Events.find((event) => event.id === +id)
+            if(newestPost) setPostsRaw((state) => [newestPost.posts[newestPost.posts.length-1], ...state])
+        }
+        renderWhenPostIsCreated()
+    },[id, store.Events])
     
-
     useEffect(() => {
         const fetchAndCreatePosts = async () => {
             const response = (await getEventPosts(+param.id! , pagination.CurrentPage, postsPerPage))
@@ -106,7 +113,7 @@ return (
                 <div className= "justify-center flex mb-3"><h1 className="text-3xl font-semibold">{event?.name}</h1></div>
                 <div className= "justify-center flex text-center mb-3"><p>{event?.description}</p></div>
             </div> 
-                {postsRaw.map((p) => {
+                {postsRaw.sort((a,b) => dayjs(a.lastUpdated).isBefore(dayjs(b.lastUpdated)) ? 1 : -1).map((p) => {
                     return p.parentId === null ?  (
                         <PostItem key={p.id} post={p} />
                         )

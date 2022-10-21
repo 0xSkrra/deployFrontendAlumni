@@ -19,23 +19,25 @@ export default function CreatePostModal({ id, target }:CreatePostProps) {
       if(target === 'topic'){
         post.topicId=id
         const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
-        userState.User.authoredPosts.push(req)
+        userState.setUser({...userState.User, authoredPosts: [...userState.User.authoredPosts, req]})
+        //store.setTopics({...store.Topics, posts: [] })
+        store.addPostToTopic(req)
 
       }
       else if(target === 'group'){
         post.groupId=id
         const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
-        userState.User.authoredPosts.push(req)
-        store.Groups.find(x => x.id = id)?.posts?.push(req);
+        userState.setUser({...userState.User, authoredPosts: [...userState.User.authoredPosts, req]})
+        store.addPostToGroup(req)
 
       }
       else if(target === 'event'){
         post.eventId=id
         const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
-        userState.User.authoredPosts.push(req)
+        userState.setUser({...userState.User, authoredPosts: [...userState.User.authoredPosts, req]})
+        store.addPostToEvent(req)
 
       }
-        
         setShowModal(false);
         setPost((state) => ({...state, title: "", body: ""}))
     }

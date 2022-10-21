@@ -54,7 +54,7 @@ const DashboardPage = () => {
     return (
         <div className="p-4 mb-4 flex flex-row rounded-lg ">
             <div className="flex flex-col min-w-[70%]"> 
-                {postsRaw.map((p) => {
+                {postsRaw.sort((a,b) => dayjs(a.lastUpdated).isBefore(dayjs(b.lastUpdated)) ? 1 : -1).map((p) => {
                     return p.parentId === null ?  (
                         <PostItem key={p.id} post={p} />
                         )

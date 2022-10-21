@@ -1,9 +1,11 @@
+import dayjs from "dayjs"
 import React, {  useEffect, useState } from "react"
 import {  useParams } from "react-router-dom"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
 import { placeholderTopic, Topic } from "../../common/interface/Topic"
 import {  addTopicMember, getAllPostsForTopic, getTopicById, leaveTopic } from "../../common/util/API"
+import { useBoundStore } from "../../common/util/Store/Store"
 import { useUserStore } from "../../common/util/Store/userStore"
 import CreatePostModal from "../CreateModal/CreatePostModal"
 import PostItem from "../util/postItem"
@@ -24,10 +26,18 @@ const TopicTimeline = () => {
     const params = useParams()
     const id = typeof params.id === 'undefined' ? -1 : params.id
     const [topicId, setTopicId] = useState(isNaN(+id) ? -1 : +id)
+    const store = useBoundStore((state) => state)
 
     //
     // POSTS
     //
+    useEffect(() => {
+        const renderWhenPostIsCreated = async () => {
+            const findTopic = store.Topics.find((topic) => topic.id === topicId)
+            if(findTopic) setPostsRaw((state) => [findTopic.posts[findTopic.posts.length -1], ...state])
+        }
+        renderWhenPostIsCreated()
+    },[store.Topics, topicId])
 
     useEffect(() => {
         const fetchAndCreatePosts = async () => {
@@ -117,7 +127,7 @@ const TopicTimeline = () => {
                 <div className= "justify-center flex mb-3"><h1 className="text-3xl font-semibold">{topic?.title}</h1></div>
                 <div className= "justify-center flex text-center mb-3"><p>{topic?.body}</p></div>
             </div> 
-                {postsRaw.map((p) => {
+                {postsRaw.sort((a,b) => dayjs(a.lastUpdated).isBefore(dayjs(b.lastUpdated)) ? 1 : -1).map((p) => {
                     return p.parentId === null ?  (
                         <PostItem key={p.id} post={p}/>
                         )

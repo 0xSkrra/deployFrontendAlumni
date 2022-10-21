@@ -6,6 +6,7 @@ import { Group, placeholderGroup } from "../../common/interface/Group"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
 import { addGroupMember, getGroupById, getGroupPosts, leaveGroup } from "../../common/util/API"
+import { useBoundStore } from "../../common/util/Store/Store"
 import { useUserStore } from "../../common/util/Store/userStore"
 import CreatePostModal from "../CreateModal/CreatePostModal"
 import PostItem from "../util/postItem"
@@ -33,9 +34,16 @@ const GroupTimeline = () => {
         // to get a value that is either negative, positive, or zero.
         return new Date(a.startTime).getTime()-new Date(b.startTime).getTime()
     })
+    const store = useBoundStore((state) => state)
     console.log("sorted evetns", sortedEvents);
 
-
+    useEffect(() => {
+        const renderWhenPostIsCreated = async () => {
+            const newestPost = store.Groups.find((group) => group.id === groupId)
+            if(newestPost) setPostsRaw((state) => [newestPost.posts[newestPost.posts.length-1], ...state])
+        }
+        renderWhenPostIsCreated()
+    },[groupId, store.Groups])
 
     
 
@@ -117,7 +125,7 @@ const GroupTimeline = () => {
                 <div className= "justify-center flex mb-3"><h1 className="text-3xl font-semibold">{group?.title}</h1></div>
                 <div className= "justify-center flex text-center mb-3"><p>{group?.body}</p></div>
             </div> 
-                {postsRaw.map((p) => {
+                {postsRaw.sort((a,b) => dayjs(a.lastUpdated).isBefore(dayjs(b.lastUpdated)) ? 1 : -1).map((p) => {
                     return p.parentId === null ?  (
                         <PostItem key={p.id} post={p} />
                         )
