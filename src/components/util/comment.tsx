@@ -25,6 +25,9 @@ const CommentReply = ({comment}: commentProps) => {
   )
 }
 const Comment = ({comment}: commentProps) => {
+  const lastUpdated = comment.lastUpdated.split('.')[0].replace('T', ' ')
+  const imgauth = comment.author?.picture === null ? process.env.PUBLIC_URL+"assets/default_profile_img.jpg": comment.author?.picture
+  
   const [replies, setReplies] = useState<React.ReactNode|React.ReactNode[]>(<></>)
   useEffect(() => {
     if(comment.replies?.length! > 1) return
@@ -36,20 +39,17 @@ const Comment = ({comment}: commentProps) => {
   return (
   <div className="flex">
   <div className="flex-shrink-0 mr-3l">
-    <img className="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10" src={comment.author?.picture} alt=""/>
+    <img className="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10" src={imgauth} alt=""/>
   </div>
 
   {/* PARENT COMMENT */}
   <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed w-full">
-    <strong>{comment.author?.username}</strong> <span className="text-xs text-gray-400"> on {comment.lastUpdated}</span>
-    <div className="text-end">
-    <span className="text-sm text-gray-400 text-end">delete</span>
-    </div>
+    <strong>{comment.author?.username}</strong> <span className="text-xs text-gray-400"> on {lastUpdated}</span>
+
     <p className="text-sm">
       {comment.body}
     </p>
     
-    <h4 className="my-5 uppercase tracking-wide text-gray-400 font-bold text-xs">Replies</h4>
     {/* Child COMMENTS GO */}
     <div className="space-y-4">
       {replies}
