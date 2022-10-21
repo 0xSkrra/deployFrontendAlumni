@@ -2,11 +2,13 @@ import { useKeycloak } from "@react-keycloak/web"
 import dayjs from "dayjs"
 import React, { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import { createPostfix } from "typescript"
 import { Event, placeholderEvent } from "../../common/interface/Event"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
-import { addGroupMember, getEventById, getEventPosts, getGroupById, getGroupPosts, leaveGroup } from "../../common/util/API"
+import { addEventMember, addGroupMember, getEventById, getEventPosts, getGroupById, getGroupPosts, leaveGroup } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore"
+import CreatePostModal from "../CreateModal/CreatePostModal"
 import PostItem from "../util/postItem"
 import PostModal from "../util/postModal"
 
@@ -18,6 +20,7 @@ const EventTimeline = () => {
     const [pagination, setPagination] = useState<Paginate>(defaultPaginate)
     const postsPerPage = 7
     const [loading, setLoading] = useState<boolean>(false)
+    const [membership, setMembership] = useState<boolean>(false)
     const user = useUserStore((state) => state.User)
     const userState = useUserStore((state) => state)
     const params = useParams()
@@ -34,7 +37,25 @@ const EventTimeline = () => {
         )
         setDetailedPostView(postJsx)
     }
+    
+    const checkMembership = () => {
+        let member = userState.User.respondedEvents.find(x => x.id===event?.id)
 
+        if(member !== undefined){
+            setMembership(true)            
+        }
+    }
+    if (membership === false){
+        checkMembership()
+    }
+
+    const handleJoin = () => {
+        setLoading(true)
+        let req = addEventMember(event.id)
+        const updatedUser = {...user, events: [...user.respondedEvents , event ]}
+        userState.setUser(updatedUser)
+        const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setLoading(false))
+    }
     
 
     useEffect(() => {
@@ -66,8 +87,6 @@ const EventTimeline = () => {
         fetchEvent()
     },[+id])
 
-
-
     const onClickNextPage = async () => {
         setPagination((state) => ({...state, CurrentPage: state.CurrentPage+1 }))
     }
@@ -81,13 +100,6 @@ const EventTimeline = () => {
 return (
         <div>
         <div className="p-4 mb-4 flex flex-row rounded-lg ">
-            <div className="text-center">
-                HEAD OF THE EVENT|
-                {event.id}
-                <div className="eventDescription">
-                    {event.description}
-                </div>
-            </div>
 
             <div className="flex flex-col min-w-[70%]"> 
             <div className=" text-gray-800 ">
@@ -156,6 +168,28 @@ return (
 
             {/*
             UPCOMING EVENTS HERE
+            */}
+                        <div className="flex flex-col min-w-[30.5%]">
+                <ol className="mt-3 pl-8 w-full max-w-full min-w-full divide-y divider-gray-200 ">
+                    <li>
+                        <div className=" p-3  border min-w-full border-gray-300 h-full rounded-lg sm:flex bg-gray-100">
+                            <div className="flex flex-col text-gray-600">
+                            
+                                <div className="flex flex-row items-center space-x-2 mb-2">
+                                    {membership && <button disabled={true} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2
+                                     focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" >Event joined!</button>}
+                                    {!membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 
+                                    focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleJoin()}}>Join Event</button>}
+                                    <CreatePostModal id={event.id} target={"event"}/>
+                                </div>                                
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+
+            {/*
+            UPCOMING EVENTS END
             */}
             
         </div>

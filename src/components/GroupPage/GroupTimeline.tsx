@@ -7,6 +7,7 @@ import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
 import { addGroupMember, getGroupById, getGroupPosts, leaveGroup } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore"
+import CreatePostModal from "../CreateModal/CreatePostModal"
 import PostItem from "../util/postItem"
 import { Spinner } from "../util/spinner"
 
@@ -18,6 +19,7 @@ const GroupTimeline = () => {
     const [pagination, setPagination] = useState<Paginate>(defaultPaginate)
     const postsPerPage = 7
     const [loading, setLoading] = useState<boolean>(false)
+    const [buttonloading, setbuttonLoading] = useState<boolean>(false)
     const [group, setGroup] = useState<Group>(placeholderGroup)
     const param = useParams()
     const user = useUserStore((state) => state.User)
@@ -76,21 +78,21 @@ const GroupTimeline = () => {
     }
 
     const handleJoin = () => {
-        setLoading(true)
+        setbuttonLoading(true)
         let req = addGroupMember(group.id)
         const updatedUser = {...user, groups: [...user.groups , group ]}
         userState.setUser(updatedUser)
-        const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setLoading(false))
+        const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setbuttonLoading(false))
 
     }
 
     const handleLeave = async () => {
-        setLoading(true)
+        setbuttonLoading(true)
 
         let req = leaveGroup(group.id)
         const updatedUser = {...user, groups: userState.User.groups.filter(t => t.id !== group.id)}
         userState.setUser(updatedUser)
-        const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setLoading(false))
+        const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setbuttonLoading(false))
     }
 
     const onClickNextPage = async () => {
@@ -186,14 +188,14 @@ const GroupTimeline = () => {
                             {group.users?.length===1 && <span className="font-medium text-gray-900">{group.users?.length} Member</span>}
                             </div>
                                 <div className="flex flex-row items-center space-x-2 mb-2">
-                                    {membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2
-                                     focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleLeave()}}>Leave Topic</button>}
-                                    {!membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 
-                                    focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleJoin()}}>Join Topic</button>}
-                                <button className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200">New Post</button>
+                                    {membership && <button disabled={buttonloading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2
+                                     focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleLeave()}}>Leave Group</button>}
+                                    {!membership && <button disabled={buttonloading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 
+                                    focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleJoin()}}>Join Group</button>}
+                                <CreatePostModal id={group.id} target={"group"}/>
                                 </div>
                                 <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Upcoming Events</span></div>
-                                {sortedEvents != undefined ? sortedEvents.map((e) => { 
+                                {sortedEvents !== undefined ? sortedEvents.map((e) => { 
                                     return (
                                         <div className="flex inline-flex space-x-2">
                                         <p>{e.name} </p><p className="text-gray-600"> in </p> 

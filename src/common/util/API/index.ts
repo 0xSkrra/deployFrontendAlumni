@@ -102,10 +102,13 @@ export const addTopic = async (title: string, description: string): Promise<Topi
 }
 
 // Fix pls
-export const addPost = async (title: string, description: string): Promise<Post> => {
+export const addPost = async (title: string, description: string, topicId:number|undefined,eventId:number|undefined,groupId:number|undefined): Promise<Post> => {
     const postData = {
         title: title,
         body: description,
+        topicId: topicId,
+        eventId:eventId,
+        groupId:groupId,
     }
     const post: Post = (await axios.post('/api/posts', postData)).data
     return post
@@ -119,6 +122,10 @@ export const addTopicMember = async (topicId: number): Promise<any> => {
 
 export const addGroupMember = async (groupId: number): Promise<any> => {    
     return (await axios.post(`api/Groups/${groupId}/Join`))
+}
+
+export const addEventMember = async (eventId: number): Promise<any> => {
+    return (await axios.post(`api/events/${eventId}/rsvp`))
 }
 
 export const leaveGroup = async (groupId: number): Promise<any> => {

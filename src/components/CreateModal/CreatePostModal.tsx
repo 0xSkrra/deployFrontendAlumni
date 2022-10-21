@@ -2,21 +2,40 @@ import {useState} from "react";
 import { addPost } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore";
 import { Post } from "../../common/interface/Post";
+import { useBoundStore } from "../../common/util/Store/Store";
 
-export default function CreatePostModal() {
+interface CreatePostProps {
+  id: number,
+  target: string,
+}
+export default function CreatePostModal({ id, target }:CreatePostProps) {
 
     const [showModal, setShowModal] = useState(false);
-    const [post, setPost] = useState<Post>({id: 0, title: "", body: "", lastUpdated: "",author: undefined,parentId: undefined, replies: undefined,
-    receiverId: 0,
-    topicId: 0,
-    groupId: 0,
-    eventId: 0})
+    const [post, setPost] = useState<Post>({id: 0, title: "", body: "", lastUpdated: "",author: undefined,parentId: undefined, replies: undefined,receiverId: undefined,topicId: undefined,groupId: undefined,eventId: undefined})
     const userState = useUserStore((state) => state)
+    const store = useBoundStore();
 
     const postTopic = async () => {
-        // SET TARGET HERE.
-        let req: Post = await addPost(post.title, post.body); // Add target
+      if(target === 'topic'){
+        post.topicId=id
+        const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
         userState.User.authoredPosts.push(req)
+
+      }
+      else if(target === 'group'){
+        post.groupId=id
+        const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
+        userState.User.authoredPosts.push(req)
+        store.Groups.find(x => x.id = id)?.posts?.push(req);
+
+      }
+      else if(target === 'event'){
+        post.eventId=id
+        const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
+        userState.User.authoredPosts.push(req)
+
+      }
+        
         setShowModal(false);
         setPost((state) => ({...state, title: "", body: ""}))
     }
@@ -24,11 +43,11 @@ export default function CreatePostModal() {
     return (
       <>
         <button
-          className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200"
           type="button"
           onClick={() => setShowModal(true)}
         >
-          Create Post
+          New Post
         </button>
         {showModal ? (
           <>
