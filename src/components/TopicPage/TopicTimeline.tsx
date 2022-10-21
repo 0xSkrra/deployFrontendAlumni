@@ -5,6 +5,7 @@ import { Post } from "../../common/interface/Post"
 import { placeholderTopic, Topic } from "../../common/interface/Topic"
 import {  addTopicMember, getAllPostsForTopic, getTopicById, leaveTopic } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore"
+import CreatePostModal from "../CreateModal/CreatePostModal"
 import PostItem from "../util/postItem"
 import PostModal from "../util/postModal"
 import { Spinner } from "../util/spinner"
@@ -190,7 +191,7 @@ const TopicTimeline = () => {
                                 <div className="flex flex-row items-center space-x-2 mb-2">
                                     {membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleLeave()}}>Leave Topic</button>}
                                     {!membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleJoin()}}>Join Topic</button>}
-                                <button className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200">New Post</button>
+                                <CreatePostModal id={topic.id} target={"topic"}/>
                                 </div>
                                 <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Upcoming Events</span></div>
                                 <div className="flex flex-row">
