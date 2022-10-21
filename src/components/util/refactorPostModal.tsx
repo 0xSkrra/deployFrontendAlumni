@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Post } from "../../common/interface/Post";
 import { addCommentToPost } from "../../common/util/API";
+import dateHandler from "../../common/util/dayjs";
 import Comments from "./comment";
 import { NewCommentSpinner } from "./spinner";
 interface props{
@@ -52,7 +53,7 @@ export default function CreatePostModal({
                   <span className="inline-flex text-xs font-normal text-gray-600">
                   <span onClick={targetOnClick} className="inline-flex mr-1 hover:text-blue-300 hover:cursor-pointer text-xs font-normal text-gray-900" >
                                             {targetString} </span>* Posted by: <span onClick={() => navigate(`/account/${ post.author !== undefined ? post.author.id : -1}`)} className="inline-flex ml-1 mr-1 hover:text-blue-300 hover:cursor-pointer text-xs font-normal text-gray-900" >
-                                            {post.author?.username}</span> on {post.lastUpdated.replace('T',' ').split('.')[0]}
+                                            {post.author?.username}</span> on {dateHandler(post.lastUpdated).toString()}
                     </span>
                     <h3 className="text-3xl mt-1 inline-flex font-semibold">
                       {post.title}
