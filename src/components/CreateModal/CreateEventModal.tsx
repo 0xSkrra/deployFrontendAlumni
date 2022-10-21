@@ -15,7 +15,7 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
   
   const userState = useUserStore((state) => state)
   const [showModal, setShowModal] = useState(false);
-  const [event, setEvent] = useState<Event>({id: 0, name: "", description: "", lastUpdated: "", startTime: "", endTime: "", allowGuests: true, usersAccepted: undefined, author: userState.User, topics: undefined, groups: undefined })
+  const [event, setEvent] = useState<Event>({id: 0, name: "", description: "", lastUpdated: "", startTime: "", endTime: "", allowGuests: true, authorId: -1, usersAccepted: [], author: userState.User, topics: [], groups: [], usersInvited: [], usersResponded: [], posts: [] })
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(new Date())
 
@@ -27,7 +27,7 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
 
     if(target === 'topic'){
       const topic = userState.User.topics.find(x=>x.id===id)
-      const eventUpdate: Event = {id: 0, name: "", description: "", lastUpdated: "", startTime: "", endTime: "", allowGuests: true, usersAccepted: undefined, author: userState.User, topics: [topic!] }
+      const eventUpdate: Event = {id: 0, name: "", description: "", lastUpdated: "", startTime: "", endTime: "", allowGuests: true, usersAccepted: [], authorId: userState.User.id, author: userState.User, topics: [topic!], usersInvited: [], usersResponded: [], posts: [] }
       setEvent(eventUpdate)
       const req: Event = await addEvent(event.name, event.description,myStartTime, myEndTime); // Add target
       await addEventTopic(req.id, topic!.id);
@@ -36,7 +36,7 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
     }
     else if(target === 'group'){
       const group = userState.User.groups.find(x=>x.id===id)
-      const groupUpdate: Event = {id: 0, name: "", description: "", lastUpdated: "", startTime: "", endTime: "", allowGuests: true, usersAccepted: undefined, author: userState.User, groups: [group!] }
+      const groupUpdate: Event = {id: 0, name: "", description: "", lastUpdated: "", startTime: "", endTime: "", allowGuests: true, usersAccepted: [], authorId: userState.User.id, author: userState.User, groups: [group!], usersInvited: [], usersResponded: [], posts: [] }
       setEvent(groupUpdate)
       const req: Event = await addEvent(event.name, event.description,myStartTime, myEndTime); // Add target
       await addEventGroup(req.id, group!.id);
