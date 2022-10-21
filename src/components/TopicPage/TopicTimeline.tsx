@@ -12,6 +12,7 @@ import CreateEventModal from "../CreateModal/CreateEventModal"
 import PostItem from "../util/postItem"
 import PostModal from "../util/postModal"
 import { Spinner } from "../util/spinner"
+import dateHandler from "../../common/util/dayjs"
 
 
 const TopicTimeline = () => {
@@ -39,16 +40,6 @@ const TopicTimeline = () => {
     //
     // POSTS
     //
-    useEffect(() => {
-        const renderWhenPostIsCreated = async () => {
-            const findTopic = store.Topics.find((topic) => topic.id === topicId)
-            if(findTopic && findTopic.posts.length > 0){
-                const newestPost = findTopic.posts[findTopic.posts.length-1]
-                setPostsRaw((state) => state.some((p) => p.id !== newestPost.id) ? [newestPost, ...state] : [...state])
-            }
-        }   
-        renderWhenPostIsCreated()
-    },[store.Topics, topicId])
 
     useEffect(() => {
         const fetchAndCreatePosts = async () => {
@@ -214,7 +205,7 @@ const TopicTimeline = () => {
                                         onClick={() => {handleLeave()}}>Leave Topic</button>}
                                     {!membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" 
                                         onClick={() => {handleJoin()}}>Join Topic</button>}
-                                    {membership && <CreatePostModal id={topic.id} target={"topic"}/>}
+                                    {membership && <CreatePostModal posts={postsRaw} setPosts={setPostsRaw} id={topic.id} target={"topic"}/>}
                                     
                                 </div>
                                 <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Upcoming Events</span></div>

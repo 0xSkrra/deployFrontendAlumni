@@ -9,7 +9,6 @@ import { addGroupMember, getGroupById, getGroupPosts, leaveGroup } from "../../c
 import dateHandler from "../../common/util/dayjs"
 import { useBoundStore } from "../../common/util/Store/Store"
 import { useUserStore } from "../../common/util/Store/userStore"
-import CreateEventModal from "../CreateModal/CreateEventModal"
 import CreatePostModal from "../CreateModal/CreatePostModal"
 import PostItem from "../util/postItem"
 import { Spinner } from "../util/spinner"
@@ -38,18 +37,6 @@ const GroupTimeline = () => {
     })
     const store = useBoundStore((state) => state)
     const navigate = useNavigate()
-
-
-    useEffect(() => {
-        const renderWhenPostIsCreated = async () => {
-            const group = store.Groups.find((group) => group.id === groupId)
-            if(group && group.posts.length > 0) {
-                const newestPost = group.posts.sort((a,b) => dayjs(a.lastUpdated).isBefore(dayjs(b.lastUpdated)) ? 1 : -1)[0]
-                setPostsRaw((state) => state.some((p) => p.id !== newestPost.id) ? [newestPost, ...state] : [...state])
-            }
-        }
-        renderWhenPostIsCreated()
-    },[groupId, store.Groups])
 
     
 
@@ -206,7 +193,7 @@ const GroupTimeline = () => {
                                      focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleLeave()}}>Leave Group</button>}
                                     {!membership && <button disabled={buttonloading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 
                                     focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleJoin()}}>Join Group</button>}
-                                {membership && <CreatePostModal id={group.id} target={"group"}/>}
+                                {membership && <CreatePostModal posts={postsRaw} setPosts={setPostsRaw} id={group.id} target={"group"}/>}
                                 </div>
                                 <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Upcoming Events</span></div>
                                 <ul>
@@ -225,8 +212,7 @@ const GroupTimeline = () => {
                                     ) 
                                 }) : <p>No upcoming Events</p>}
                                 </ul>
-                                {membership && <CreateEventModal id={group.id} target={"group"}/>}
-
+                                 
                                 
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 import { addPost } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore";
 import { Post } from "../../common/interface/Post";
@@ -7,8 +7,10 @@ import { useBoundStore } from "../../common/util/Store/Store";
 interface CreatePostProps {
   id: number,
   target: string,
+  posts: Post[],
+  setPosts: Dispatch<SetStateAction<Post[]>>
 }
-export default function CreatePostModal({ id, target }:CreatePostProps) {
+export default function CreatePostModal({ id, target, posts, setPosts}:CreatePostProps) {
 
     const [showModal, setShowModal] = useState(false);
     const [post, setPost] = useState<Post>({id: 0, title: "", body: "", lastUpdated: "",author: undefined,parentId: undefined, replies: undefined,receiverId: undefined,topicId: undefined,groupId: undefined,eventId: undefined})
@@ -20,8 +22,8 @@ export default function CreatePostModal({ id, target }:CreatePostProps) {
         post.topicId=id
         const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
         userState.setUser({...userState.User, authoredPosts: [...userState.User.authoredPosts, req]})
-        //store.setTopics({...store.Topics, posts: [] })
         store.addPostToTopic(req)
+        setPosts((state) => [...state, req])
 
       }
       else if(target === 'group'){
@@ -29,6 +31,7 @@ export default function CreatePostModal({ id, target }:CreatePostProps) {
         const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
         userState.setUser({...userState.User, authoredPosts: [...userState.User.authoredPosts, req]})
         store.addPostToGroup(req)
+        setPosts((state) => [...state, req])
 
       }
       else if(target === 'event'){
@@ -36,6 +39,7 @@ export default function CreatePostModal({ id, target }:CreatePostProps) {
         const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
         userState.setUser({...userState.User, authoredPosts: [...userState.User.authoredPosts, req]})
         store.addPostToEvent(req)
+        setPosts((state) => [...state, req])
 
       }
         setShowModal(false);
