@@ -44,8 +44,7 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
       setDescShaming(true)
       return
     }
-    if (myEndTime < myStartTime || myEndTime === myStartTime) {
-      alert("give me a better time")
+    if (myEndTime < myStartTime || myEndTime === myStartTime) {      
       setDateShaming(true)
       return
     }
@@ -166,29 +165,31 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
                       setEvent((state) => ({...state, name: e.target.value}))}} />
                   {nameShaming && <p className="color-red-300">please provide a name</p>}
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Description</label>
-                  <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                  <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                   placeholder="Description..."
                   onChange={(e) => 
                       {
                           setEvent((state) => ({...state, description: e.target.value}))}} />
                   {descShaming && <p className="color-red-300">please provide a description</p>}
-                  <label className="block text-black text-sm font-bold mb-1" htmlFor="start">Start date:</label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="date" id="start" name="trip-start" max="2300-12-31" onChange={(e) => 
+                  <label className="block text-white text-sm font-bold mb-1" htmlFor="start">Start date:</label>
+                  <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black bg-white" type="date" id="start" name="trip-start" 
+                  max="2300-12-31" value={startDate.toISOString().split('T')[0]}
+                  onChange={(e) => 
                   {createStartDate(e.target.value)}}
                    ></input>
                    <label className="block text-black text-sm font-bold mb-1" htmlFor="appt">Start time:</label>
-                   <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="time" id="appt" name="appt"  required
+                   <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black bg-white" type="time" id="appt" name="appt"  required  value={`${startDate.getHours()}:${startDate.getMinutes()}`}
                    onChange={(e) => 
                     {createStartTime(e.target.value)}}></input>
                    <label className="block text-black text-sm font-bold mb-1" htmlFor="start">End date:</label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="date" id="start" name="trip-start" max="2300-12-31"
+                  <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="date" id="start" name="trip-start" max="2300-12-31" value={startDate.toISOString().split('T')[0]}
                   onChange={(e) => 
                     {createEndDate(e.target.value)}}
                    ></input>
 
                 
                 <label className="block text-black text-sm font-bold mb-1" htmlFor="appt">End time:</label>
-                <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="time" id="appt" name="appt" required
+                <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="time" id="appt" name="appt" required value={`${startDate.getHours()}:${startDate.getMinutes()}`}
                 onChange={(e) => 
                   {createEndTime(e.target.value)}}></input>
                 {dateShaming && <p>Please, a valid date is needed</p>}
