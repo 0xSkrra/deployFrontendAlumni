@@ -26,7 +26,7 @@ const CommentReply = ({comment}: commentProps) => {
 }
 const Comment = ({comment}: commentProps) => {
   const lastUpdated = comment.lastUpdated.split('.')[0].replace('T', ' ')
-  const imgauth = comment.author?.picture === null ? process.env.PUBLIC_URL+"assets/default_profile_img.jpg": comment.author?.picture
+  const imgauth = comment.author?.picture === null ? window.location.origin + '/assets/default_profile_img.jpg': comment.author?.picture
   
   const [replies, setReplies] = useState<React.ReactNode|React.ReactNode[]>(<></>)
   useEffect(() => {

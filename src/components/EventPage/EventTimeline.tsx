@@ -58,9 +58,7 @@ const EventTimeline = () => {
 
             // save states
             setPostsRaw(relatedPosts)
-            console.log("prev");
             setPagination(headers)
-            console.log("post");
         }
         fetchAndCreatePosts()
     }, [pagination.CurrentPage, param.id])
@@ -77,18 +75,6 @@ const EventTimeline = () => {
         }
         fetchEvent()
     },[+id])
-
-    useEffect(() => {
-        const renderWhenPostIsCreated = async () => {
-            const currEvent = store.Events.find((e) => e.id === event.id)
-            if(currEvent && currEvent.posts.length > 0) {
-                console.log('hiya')
-                const newestPost = currEvent.posts[currEvent.posts.length-1]
-                setPostsRaw((state) => state.some((p) => p.id !== newestPost.id) ?  [newestPost, ...state] : [...state])
-            }
-        }
-        renderWhenPostIsCreated()
-    },[event.id, store.Events])
 
     const onClickNextPage = async () => {
         setPagination((state) => ({...state, CurrentPage: state.CurrentPage+1 }))
@@ -180,7 +166,7 @@ return (
                                      focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" >Event joined!</button>}
                                     {!membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 
                                     focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleJoin()}}>Join Event</button>}
-                                    {membership && <CreatePostModal id={event.id} target={"event"}/>}
+                                    {membership && <CreatePostModal posts={postsRaw} setPosts={setPostsRaw} id={event.id} target={"event"}/>}
                                 </div>                                
                             </div>
                         </div>

@@ -33,7 +33,7 @@ const Calendar = ({formattedEvents}: calendarProps) => {
             hourHeight={10}
             initialView={CalendarView.AGENDA}
             disabledViews={[CalendarView.DAY]}
-            onPageChange={(e) => console.log('fuck', e)}
+            onPageChange={(e) => {}}
             timeFormat={'24'}
             weekDayStart={'Monday'}
             language={'en'}
