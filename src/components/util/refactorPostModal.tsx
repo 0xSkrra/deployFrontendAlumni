@@ -30,14 +30,20 @@ export default function CreatePostModal({
         })
         
       }
+    const onSubmitEditPost = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+
+    }
     return (
       <>
         {showModal ? (
           <>
             <div
+              onClick={() => console.log('hiyaaa')}
               className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
             >
-              <div className="modal-overlay absolute w-[70%] h-full bg-white">
+              <div
+              onClick={() => {}}
+               className="modal-overlay absolute w-[70%] h-full bg-white">
                 {/*content*/}
                 <div className="border-0 rounded-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   {/*header*/}
@@ -53,11 +59,11 @@ export default function CreatePostModal({
                     </h3>
                     </div>
                     <button
-                      className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                      className="p-1 ml-auto bg-transparent border-0 text-black  float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                       onClick={setShowModal}
                     >
-                      <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                        ×
+                      <span className="bg-transparent text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g data-name="Layer 2"><g data-name="close"><rect width="24" height="24" transform="rotate(180 12 12)" opacity="0"/><path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"/></g></g></svg>
                       </span>
                     </button>
                   </div>
@@ -86,7 +92,7 @@ export default function CreatePostModal({
                                 </div>
                                 
                                 <div className="flex justify-between items-center py-2 px-3 ">
-                                {loading   
+                                {loading  
                                 ? <NewCommentSpinner />
                                 : <button type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800">Post comment</button>
                                 }

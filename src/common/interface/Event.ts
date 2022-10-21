@@ -1,4 +1,5 @@
 import { Group } from "./Group"
+import { Post } from "./Post"
 import { Topic } from "./Topic"
 import { defaultUserProfile, UserProfile } from "./UserProfile"
 
@@ -12,8 +13,12 @@ export interface Event{
     allowGuests: boolean
     usersAccepted?: UserProfile[],
     author: UserProfile,
+    authorId: number,
     topics?: Topic[],
-    groups?: Group[]
+    groups?: Group[],
+    usersInvited: UserProfile[],
+    usersResponded: UserProfile[],
+    posts: Post[],
 }
 
 export const placeholderEvent = {
@@ -26,6 +31,11 @@ export const placeholderEvent = {
     allowGuests: true,
     usersAccepted: [],
     author: defaultUserProfile,
+    authorId: -1,
     topics: [],
-    groups: []
+    groups: [],
+    usersInvited: [],
+    usersResponded: [],
+    posts: []
+    
 }

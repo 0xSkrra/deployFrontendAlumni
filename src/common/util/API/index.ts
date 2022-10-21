@@ -8,14 +8,11 @@ import { PostPaginationResponse } from "../../interface/pagination"
 
 
 export const getOrCreateUserProfile = async (): Promise<UserProfile> => {
-    const userData: UserProfile = (await axios.get(`/api/users`)
-    .then(res => res)
-    .catch(async err => 
-        (await axios.post("/api/users"))
-        ))
-        .data
-
-    return userData
+    const userData = await axios.get('/api/Users')
+    if(userData.status !== 200){
+        return (await axios.post(`/api/users`,{})).data
+    }
+    return userData.data
 }
 
 export const updateUserProfile = async (user: UserProfile): Promise<number> => {

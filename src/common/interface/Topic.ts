@@ -1,6 +1,6 @@
+import { Event } from "./Event";
 import { Post } from "./Post";
 import { UserProfile } from "./UserProfile";
-import { Event } from "./Event"
 
 
 export interface Topic {

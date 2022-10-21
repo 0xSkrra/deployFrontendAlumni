@@ -2,16 +2,19 @@ import React, {useState} from "react";
 import { addTopic } from "../../common/util/API"
 import { Topic } from "../../common/interface/Topic";
 import { useUserStore } from "../../common/util/Store/userStore";
+import { useBoundStore } from "../../common/util/Store/Store";
 
 export default function CreateTopicModal() {
 
     const [showModal, setShowModal] = useState(false);
     const [topic, setTopic] = useState<Topic>({id: 0, title: "", body: "", posts: [], users:[], events:[]})
     const userState = useUserStore((state) => state)
+    const store = useBoundStore((state) => state)
 
     const postTopic = async () => {
         let req: Topic = await addTopic(topic.title, topic.body)
-        userState.User.topics.push(req)
+        userState.setUser({...userState.User, topics: [...userState.User.topics, req]})
+        store.addTopic(req)
         setShowModal(false);
         setTopic((state) => ({...state, title: "", body: "", isPrivate: false}))
     }
