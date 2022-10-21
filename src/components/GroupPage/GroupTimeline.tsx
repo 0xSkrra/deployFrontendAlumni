@@ -9,6 +9,7 @@ import { addGroupMember, getGroupById, getGroupPosts, leaveGroup } from "../../c
 import dateHandler from "../../common/util/dayjs"
 import { useBoundStore } from "../../common/util/Store/Store"
 import { useUserStore } from "../../common/util/Store/userStore"
+import CreateEventModal from "../CreateModal/CreateEventModal"
 import CreatePostModal from "../CreateModal/CreatePostModal"
 import PostItem from "../util/postItem"
 import { Spinner } from "../util/spinner"
@@ -224,7 +225,8 @@ const GroupTimeline = () => {
                                     ) 
                                 }) : <p>No upcoming Events</p>}
                                 </ul>
-                                 
+                                {membership && <CreateEventModal id={group.id} target={"group"}/>}
+
                                 
                             </div>
                         </div>
