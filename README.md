@@ -25,7 +25,7 @@ REACT_APP_KEYCLOAK_URL=(Authentication Address)
 
 
 ## API Documentation
-[Alumni Network User Manual](Alumni Network User Manual.pdf) 
+[Alumni Network User Manual](Alumni_Network_User_Manual.pdf) 
 
 
 ## Contributors
