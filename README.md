@@ -1,4 +1,4 @@
-# Alumni .NET Case Project - Backend
+# Alumni .NET Case Project - Frontend
 ## About the project
 
 The Alumni Project is the case period project for the Noroff Accelerate .NET program. This repository contains the frontend solution of the project. 
