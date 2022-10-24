@@ -5,6 +5,7 @@ import { Topic } from "../../interface/Topic"
 import { Group } from "../../interface/Group"
 import { Event } from "../../interface/Event"
 import { PostPaginationResponse } from "../../interface/pagination"
+import { stringify } from "querystring"
 
 
 export const getOrCreateUserProfile = async (): Promise<UserProfile> => {
@@ -166,4 +167,12 @@ export const leaveGroup = async (groupId: number): Promise<any> => {
 export const leaveTopic = async (topicId: number): Promise<any> => {
 
     return (await axios.delete(`api/Topics/${topicId}/Leave`))
+}
+
+export const patchComment = async (body: string, id: number): Promise<Post> => {
+    const postObj = {
+        id: id,
+        body: body
+    }
+    return (await axios.put(`api/posts/${id}`, postObj)).data
 }

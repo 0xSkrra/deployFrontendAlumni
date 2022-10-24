@@ -1,84 +1,118 @@
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { Group } from "../../common/interface/Group"
+import { Topic } from "../../common/interface/Topic"
+import {
+  addGroupMember,
+  addTopicMember,
+  leaveGroup,
+  leaveTopic,
+} from "../../common/util/API"
+import { useUserStore } from "../../common/util/Store/userStore"
 
+const ListRow = (props: any) => {
+  const [membership, setMembership] = useState(false)
+  const [loadingbutton, setButtonLoading] = useState(false)
+  const userState = useUserStore((state) => state)
+  const user = useUserStore((state) => state.User)
+  const pathname = window.location.pathname
+  const navigate = useNavigate()
 
-import {  useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Group } from '../../common/interface/Group'
-import { Topic } from '../../common/interface/Topic'
-import { addGroupMember, addTopicMember, leaveGroup, leaveTopic } from '../../common/util/API'
-import { useUserStore } from '../../common/util/Store/userStore'
+  const navigateToProp = () => {
+    navigate(pathname + "/" + props.el.id)
+  }
 
-
-const ListRow = (props:any) => {
-    const [membership, setMembership] = useState(false)
-    const [loadingbutton, setButtonLoading] = useState(false) 
-    const userState = useUserStore((state) => state)
-    const user = useUserStore((state) => state.User)
-    const pathname = window.location.pathname
-    const navigate = useNavigate()
-
-    const navigateToProp = () =>
-    {
-        navigate(pathname + '/' + props.el.id)
+  const handleClick = () => {
+    setButtonLoading(true)
+    if (pathname === "/groups" && !loadingbutton) {
+      const req = addGroupMember(props.el.id)
+      const updatedUser = {
+        ...user,
+        groups: [...user.groups, props.el],
+      }
+      userState.setUser(updatedUser)
+      req
+        .then((s) =>
+          s.status < 400
+            ? setMembership(!membership)
+            : setMembership(membership)
+        )
+        .finally(() => setButtonLoading(false))
+    } else if (pathname === `/topics` && !loadingbutton) {
+      let req = addTopicMember(props.el.id)
+      const updatedUser = {
+        ...user,
+        topics: [...user.topics, props.el],
+      }
+      userState.setUser(updatedUser)
+      req
+        .then((s) =>
+          s.status < 400
+            ? setMembership(!membership)
+            : setMembership(membership)
+        )
+        .finally(() => setButtonLoading(false))
+    } else {
+      alert("no action was taken since you're not in a valid spot")
     }
-    
+  }
 
-    const handleClick = () => {
-        setButtonLoading(true)
-        if (pathname === "/groups" && !loadingbutton){
-            const req = addGroupMember(props.el.id)
-            const updatedUser = {...user, groups: [...user.groups ,props.el ]}
-            userState.setUser(updatedUser)
-            req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setButtonLoading(false))
-        }
+  const handleLeave = async () => {
+    setButtonLoading(true)
+    if (pathname === "/groups" && !loadingbutton) {
+      const req = leaveGroup(props.el.id)
+      const updatedUser = {
+        ...user,
+        groups: userState.User.groups.filter(
+          (g) => g.id !== props.el.id
+        ),
+      }
+      userState.setUser(updatedUser)
+      req
+        .then((s) =>
+          s.status < 400
+            ? setMembership(!membership)
+            : setMembership(membership)
+        )
+        .finally(() => setButtonLoading(false))
+    } else if (pathname === `/topics` && !loadingbutton) {
+      let req = leaveTopic(props.el.id)
+      const updatedUser = {
+        ...user,
+        topics: userState.User.topics.filter(
+          (t) => t.id !== props.el.id
+        ),
+      }
+      userState.setUser(updatedUser)
+      req
+        .then((s) =>
+          s.status < 400
+            ? setMembership(!membership)
+            : setMembership(membership)
+        )
+        .finally(() => setButtonLoading(false))
+    } else {
+      alert("no action was taken since you're not in a valid spot")
+    }
+  }
 
-        else if (pathname === `/topics` && !loadingbutton) {
-            let req = addTopicMember(props.el.id)
-            const updatedUser = {...user, topics: [...user.topics ,props.el ]}
-            userState.setUser(updatedUser)
-            req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setButtonLoading(false))
-        }
-        else{
-            alert("no action was taken since you're not in a valid spot")
-        }
+  const checkMembership = () => {
+    let member: Group | Topic | undefined
+    if (pathname === "/groups") {
+      member = userState.User.groups.find((x) => x.id === props.el.id)
+    }
+    if (pathname === "/topics") {
+      member = userState.User.topics.find((x) => x.id === props.el.id)
     }
 
-    const handleLeave = async () => {
-        setButtonLoading(true)
-        if (pathname === "/groups" && !loadingbutton){
-            const req = leaveGroup(props.el.id)
-            const updatedUser = {...user, groups: userState.User.groups.filter(g => g.id !== props.el.id)}
-            userState.setUser(updatedUser)
-            req.then(s => s.status<400?setMembership(!membership): setMembership(membership)).finally(() => setButtonLoading(false))
-        }
-        else if (pathname === `/topics` && !loadingbutton) {
-            let req = leaveTopic(props.el.id)
-            const updatedUser = {...user, topics: userState.User.topics.filter(t => t.id !== props.el.id)}
-            userState.setUser(updatedUser)
-            req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setButtonLoading(false))
-        }
-        else{
-            alert("no action was taken since you're not in a valid spot")
-        }
+    if (member !== undefined) {
+      setMembership(true)
     }
+  }
 
-
-    const checkMembership = () => {
-        let member: Group|Topic|undefined
-        if(pathname === '/groups'){
-            member = userState.User.groups.find(x => x.id===props.el.id)
-        }
-        if(pathname === '/topics'){
-            member = userState.User.topics.find(x => x.id===props.el.id)
-        }
-
-        if(member !== undefined){
-            setMembership(true)            
-        }
-    }
-
-    if (membership === false){
-        checkMembership()
-    }
+  if (membership === false) {
+    checkMembership()
+  }
 
     
     
@@ -121,8 +155,5 @@ const ListRow = (props:any) => {
 
 
 }
-
-
-
 
 export default ListRow
