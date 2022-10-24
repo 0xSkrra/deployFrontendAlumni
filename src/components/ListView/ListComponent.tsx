@@ -55,14 +55,14 @@ const ListComponent = (props:any) => {
     },[isGroup, store.Groups, store.Topics])
 
     useEffect(() => {
-        const getListData = async (props:any) => {
+        const getListData = async (props: () => Group[]|Topic[]) => {
             setLoading(true)
-            const data = await props.apiFunction()
+            const data = await props()
             setLoading(false)
-            return setContent(data)
+            setContent(data)
         }
-        getListData(props)
-    }, [props])
+        getListData(props.apiFunction)
+    }, [props.apiFunction])
 
     if(loading) return (<div className='h-screen w-screen'> <Spinner /></div>)
     
