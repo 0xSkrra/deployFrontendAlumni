@@ -11,17 +11,9 @@ import { useBoundStore } from '../../common/util/Store/Store'
 const ListComponent = (props:any) => {
     const [content, setContent] = useState<Topic[]|Group[]>([])
     const [loading, setLoading] = useState(true)
-    const [showDetail, setShowDetail] = useState<boolean>(false)
-    const [activeDetail, setActiveDetail] = useState<Topic|Group>()
+
     const store = useBoundStore((state) => state)
     const isGroup = content.some((a) => 'isPrivate' in a)
-    const handleClickList = (el:Topic|Group) => {
-        setActiveDetail(el)
-    }
-    const handleSetDetail = () =>
-    {
-        setShowDetail(true)
-    }
 
     useEffect(() => {
         const renderWhenPostIsCreated = async () => {
@@ -62,7 +54,6 @@ const ListComponent = (props:any) => {
             <div className='grid grid-flow-rows grid-cols-2 gap-6 mt-5 mx-2 px-1'>
                 {content.map((x:Topic|Group) => {
                 return <ListRow el={x} key={x.id}
-                click={() => {handleClickList(x);handleSetDetail();}}
                  /> }
                 )}
             </div>
