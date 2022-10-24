@@ -17,22 +17,22 @@ const AccountPage = () => {
     }, [id, userState.User])
     
   return (
-    <div className="md:min-w-[85%] md:min-h-[85%] w-full mt-2 lg:w-4/12 px-4 mx-auto">
+    <div className=" h-6/6 flex flex-row rounded-lg ">    
     <div className="relative flex flex-col break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
         <div className="px-6 min-w-lg">
         <div className="flex flex-wrap justify-center">
             <div className="flex  w-full justify-center items-center">
-            <div className="relative">
+            <div className="relative flex">
                 <img onError={({currentTarget}) => {
                                 currentTarget.src ="\\assets\\default_profile_img.jpg"
                                 currentTarget.onerror = null }}
                                 src={user ? user.picture !== null ? user.picture : '#ERROR' : '#ERROR'}
                                 alt=""
-                    className="shadow-xl rounded-full w-32 md:w-48 lg:w-96  border-none -m-12 -ml-20 lg:-ml-16"/>
+                    className="shadow-xl rounded-full w-32 md:w-40 lg:w-48  border-none"/>
             </div>
             </div>
             <div className="w-full px-4 text-center mt-20">
-            <div className="flex justify-center py-4 lg:pt-4 pt-8">
+            <div className="flex justify-center">
                 <div className="mr-4 p-3 text-center">
                 <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                     {user.authoredEvents.length + user.respondedEvents.length}
