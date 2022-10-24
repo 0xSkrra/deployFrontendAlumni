@@ -22,6 +22,10 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
   const [descShaming, setDescShaming] = useState<boolean>(false)
   const [dateShaming, setDateShaming] = useState<boolean>(false)
   const [hasInit, setHasInit] = useState<boolean>(false)
+  const [displayStartTime, setDisplayStartTime] = useState(`${("0" + startDate.getHours()).substring(1,3)}:${("0" + startDate.getMinutes()).substring(1,3)}`)
+  const [displayEndTime, setDisplayEndTime] = useState(`${("0" + (startDate.getHours() + 1)).substring(1,3)}:${("0" + startDate.getMinutes()).substring(1,3)}`)
+  const [displayStartDate, setDisplayStartDate] = useState(`${startDate.toISOString().split('T')[0]}`)
+  const [displayEndDate, setDisplayEndDate] = useState(`${startDate.toISOString().split('T')[0]}`)
 
   useEffect(() => {
     setNameShaming(false)
@@ -29,12 +33,13 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
     setDateShaming(false)
     setHasInit(true)
     }, [hasInit])
+  
+  
 
   const createEvent = async () => {
     const myStartTime = startDate.getFullYear().toString() + "-" + (("00" +(startDate.getMonth() + 1)).toString()).slice(-2) + "-" + ("00" + startDate.getDate().toString()).slice(-2) + "T" + ("00" +startDate.getHours().toString()).slice(-2) + ":" + ("00" + startDate.getMinutes().toString()).slice(-2) + ":00"
     const myEndTime = endDate.getFullYear().toString() + "-" + (("00" + (endDate.getMonth()+1)).toString()).slice(-2) + "-" + ("00" + endDate.getDate().toString()).slice(-2) + "T" + ("00" +endDate.getHours().toString()).slice(-2) + ":" + ("00" + endDate.getMinutes().toString()).slice(-2) + ":00"
-    console.log(myStartTime)
-    console.log(myEndTime);
+    
     // error handling:
     if (event.name.length < 1) {
       setNameShaming(true)
@@ -83,6 +88,10 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
       }
     }
   }
+  
+  const formatTime = (time:Date) => {
+    return `${("0" + time.getHours()).substring(1,3)}:${("0" + time.getMinutes()).substring(1,3)}`
+  }
 
   const createStartDate = (date:string) => {
     const year = parseInt(date.slice(0,4))
@@ -91,17 +100,12 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
     startDate.setMonth(month)
     const day = parseInt(date.slice(8,10))
     startDate.setDate(day)
-
-    
-
   }
 
   const createStartTime = (time:string) => {
     const hour = parseInt(time.slice(0,2))
     const minute = parseInt(time.slice(3,5))
-    startDate.setHours(hour,minute)
-
-    
+    return startDate.setHours(hour,minute)
   }
 
   const createEndDate = (date:string) => {
@@ -117,18 +121,24 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
   const createEndTime = (time:string) => {
     const hour = parseInt(time.slice(0,2))
     const minute = parseInt(time.slice(3,5))
-    endDate.setHours(hour,minute)
-
-    
+    return endDate.setHours(hour,minute)
   }
 
+  const onCLickNewEvent = () => {
+    setStartDate(new Date()); setEndDate(new Date())
+    let endHours = startDate.getHours() + 1
+    endDate.setHours(endHours)
+    setDisplayStartTime(formatTime(startDate)); setDisplayEndTime(formatTime(endDate))
+    setShowModal(true)
+  }
+  
 
   return (
     <>
       <button
-        className="text-justify justify-center px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200"
+        className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200"
         type="button"
-        onClick={() => setShowModal(true)}
+        onClick={() => {onCLickNewEvent()}}
       >
         New Event
       </button>
@@ -164,48 +174,53 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
                   {
                       setEvent((state) => ({...state, name: e.target.value}))}} />
                   {nameShaming && <p className="color-red-300">please provide a name</p>}
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Description</label>
-                  <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                  <label className="block mb-2 text-sm font-medium text-gray-900">Description</label>
+                  <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                   placeholder="Description..."
                   onChange={(e) => 
                       {
                           setEvent((state) => ({...state, description: e.target.value}))}} />
                   {descShaming && <p className="color-red-300">please provide a description</p>}
-                  <label className="block text-white text-sm font-bold mb-1" htmlFor="start">Start date:</label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black bg-white" type="date" id="start" name="trip-start" 
-                  max="2300-12-31" value={startDate.toISOString().split('T')[0]}
+                  <label className="block text-black text-sm font-bold mb-1" htmlFor="start">Start date:</label>
+                  <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black bg-white" type="date" id="start" name="trip-start"
+                  max="2300-12-31" 
+                  value={displayStartDate} /* startDate.toISOString().split('T')[0]; */
                   onChange={(e) => 
-                  {createStartDate(e.target.value)}}
+                  {createStartDate(e.target.value); setDisplayStartDate(e.target.value)}}
                    ></input>
                    <label className="block text-black text-sm font-bold mb-1" htmlFor="appt">Start time:</label>
-                   <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black bg-white" type="time" id="appt" name="appt"  required  value={`${startDate.getHours()}:${startDate.getMinutes()}`}
+                   <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black bg-white" type="time" id="appt" name="appt"  required
+                   value={`${displayStartTime}`} /* value={`${startDate.getHours()}:${startDate.getMinutes()}`} */
                    onChange={(e) => 
-                    {createStartTime(e.target.value)}}></input>
+                    {createStartTime(e.target.value); setDisplayStartTime(e.target.value)}
+                    }></input>
                    <label className="block text-black text-sm font-bold mb-1" htmlFor="start">End date:</label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="date" id="start" name="trip-start" max="2300-12-31" value={startDate.toISOString().split('T')[0]}
+                  <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="date" id="start" name="trip-start" max="2300-12-31"
+                  value={displayEndDate}
                   onChange={(e) => 
-                    {createEndDate(e.target.value)}}
+                    {createEndDate(e.target.value); setDisplayEndDate(e.target.value)}}
                    ></input>
 
                 
                 <label className="block text-black text-sm font-bold mb-1" htmlFor="appt">End time:</label>
-                <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="time" id="appt" name="appt" required value={`${startDate.getHours()}:${startDate.getMinutes()}`}
+                <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" type="time" id="appt" name="appt" required
+                value={`${displayEndTime}`}
                 onChange={(e) => 
-                  {createEndTime(e.target.value)}}></input>
+                  {createEndTime(e.target.value); setDisplayEndTime(e.target.value)}}></input>
                 {dateShaming && <p>Please, a valid date is needed</p>}
                 </form>
 
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                   <button
-                    className="text-red-500 hover:text-red-600 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => setShowModal(false)}
                   >
                     Cancel
                   </button>
                   <button
-                    className="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => createEvent()}
                   >
