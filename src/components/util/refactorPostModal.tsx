@@ -31,9 +31,6 @@ export default function CreatePostModal({
         })
         
       }
-    const onSubmitEditPost = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-
-    }
     return (
       <>
         {showModal ? (

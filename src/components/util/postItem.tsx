@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Post } from '../../common/interface/Post'
-import { getUserById } from '../../common/util/API'
 import { useBoundStore } from '../../common/util/Store/Store'
 import RefactorPostModal from './refactorPostModal'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import dateHandler from '../../common/util/dayjs'
 
 
@@ -20,7 +18,6 @@ const PostItem = ({post}: postItemProps) => {
     const isTimeline = window.location.pathname === "/timeline"
 
 
-    const date = post.lastUpdated.replace('T',' ').split('.')[0]
     useEffect(() => {
         const getTarget = async () => {
 

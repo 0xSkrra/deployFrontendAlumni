@@ -1,25 +1,12 @@
 import Kalend, { CalendarEvent, CalendarView } from 'kalend'
 import 'kalend/dist/styles/index.css'; // import styles
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CreateEventModal from '../CreateModal/CreateEventModal';
 
 export interface calendarProps{
     formattedEvents: CalendarEvent[]
 
 }
-const initialCalendarEvent = {
-    id: -1,
-    startAt: "",
-    endAt: "",
-    timezoneStartAt: "",
-    timezoneEndAt: "",
-    summary: "",
-    color: "",
-}
 const Calendar = ({formattedEvents}: calendarProps) => {
-  const [showModal, SetShowModal] = useState(false)
-  const [modalContent, setModalContent] = useState<CalendarEvent>(initialCalendarEvent)
   const navigate = useNavigate()
     
   return (

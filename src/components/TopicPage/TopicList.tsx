@@ -1,12 +1,10 @@
-import React from 'react'
 import { getUserTopics } from '../../common/util/API'
-import { useUserStore } from '../../common/util/Store/userStore'
 import CreateTopicModal from '../CreateModal/CreateTopicModal'
 import ListComponent from '../ListView/ListComponent'
 
 
 const TopicList = () => {
-  
+
 
   return (
     <div className='divide-y-2 divide-grey-800 divide-solid'>

@@ -1,4 +1,3 @@
-import { useKeycloak } from "@react-keycloak/web"
 import dayjs from "dayjs"
 import React, { useEffect, useState } from "react"
 import {  useNavigate, useParams } from "react-router-dom"
@@ -7,7 +6,6 @@ import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
 import { addGroupMember, getGroupById, getGroupPosts, leaveGroup } from "../../common/util/API"
 import dateHandler from "../../common/util/dayjs"
-import { useBoundStore } from "../../common/util/Store/Store"
 import { useUserStore } from "../../common/util/Store/userStore"
 import CreateEventModal from "../CreateModal/CreateEventModal"
 import CreatePostModal from "../CreateModal/CreatePostModal"
@@ -83,7 +81,7 @@ const GroupTimeline = () => {
         let req = addGroupMember(group.id)
         const updatedUser = {...user, groups: [...user.groups , group ]}
         userState.setUser(updatedUser)
-        const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setbuttonLoading(false))
+        req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setbuttonLoading(false))
 
     }
 
@@ -93,7 +91,7 @@ const GroupTimeline = () => {
         let req = leaveGroup(group.id)
         const updatedUser = {...user, groups: userState.User.groups.filter(t => t.id !== group.id)}
         userState.setUser(updatedUser)
-        const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setbuttonLoading(false))
+        req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setbuttonLoading(false))
     }
 
     const onClickNextPage = async () => {
