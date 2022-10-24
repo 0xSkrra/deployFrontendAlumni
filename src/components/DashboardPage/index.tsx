@@ -17,7 +17,7 @@ const DashboardPage = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const store = useBoundStore((state) => state) 
     const [events, setEvents] = useState<Event[]>(store.Events)
-    const postsPerPage = 7
+    const postsPerPage = 6
     const navigate = useNavigate()
 
     //
