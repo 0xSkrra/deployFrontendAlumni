@@ -37,8 +37,21 @@ code {
 }
 
 .backgroundColor {
-  background-color: #4B97B3;
+  background-color: #6facc2;
 }
+
+.backgroundColor2 {
+  background-color: #c2856f;
+}
+
+.hoverColor:hover {
+  background-color: #4b63b3;
+}
+
+.hoverColor2:hover {
+  background-color: #b2674c;
+}
+
 
 /* .listrowdescription {
   overflow: 'hidden';

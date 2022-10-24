@@ -99,13 +99,17 @@ const ListRow = (props:any) => {
                 </div>
                     <div className='text-center'>
                         {!membership && 
-                        <button disabled={loadingbutton} className=' text-left align-bottom m-2 px-2 py-1 rounded-md hover:bg-slate-300 border-2 border-cyan-700'  
+                        <button disabled={loadingbutton} className='inline-flex text-left align-bottom m-2 px-5 py-2 rounded-md  border-2 backgroundColor text-color border-black hoverColor hover:text-white hover:fill-white'  
                         onClick={() => {handleClick()}}>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M12.5 11.95q.725-.8 1.113-1.825Q14 9.1 14 8t-.387-2.125Q13.225 4.85 12.5 4.05q1.5.2 2.5 1.325T16 8q0 1.5-1 2.625t-2.5 1.325ZM18 20v-3q0-.9-.4-1.712-.4-.813-1.05-1.438 1.275.45 2.363 1.162Q20 15.725 20 17v3Zm2-7v-2h-2V9h2V7h2v2h2v2h-2v2ZM8 12q-1.65 0-2.825-1.175Q4 9.65 4 8q0-1.65 1.175-2.825Q6.35 4 8 4q1.65 0 2.825 1.175Q12 6.35 12 8q0 1.65-1.175 2.825Q9.65 12 8 12Zm-8 8v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q6.35 13 8 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q16 16.35 16 17.2V20Zm8-10q.825 0 1.413-.588Q10 8.825 10 8t-.587-1.412Q8.825 6 8 6q-.825 0-1.412.588Q6 7.175 6 8t.588 1.412Q7.175 10 8 10Zm-6 8h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q9.4 15 8 15t-2.775.337Q3.85 15.675 2.5 16.35q-.225.125-.362.35-.138.225-.138.5ZM8 8Zm0 10Z"/></svg>
-                            {!loadingbutton ? <span>Join Community</span> : <span>loading...</span>}
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M18 14v-3h-3V9h3V6h2v3h3v2h-3v3Zm-9-2q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm-8 8v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm2-2h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0-2Zm0 10Z"/></svg>                            
+                        {!loadingbutton ? <span className='pl-2 font-medium '>Join Community</span> : <span>loading...</span>}
                         </button>}
-                        {membership && <button disabled={loadingbutton} className='bg-red-300 text-left align-bottom m-2 px-2 py-1 rounded-md' 
-                        onClick={() => {handleLeave()}}>{!loadingbutton ? "Leave Community" : "loading..."}
+
+                        {membership && 
+                        <button disabled={loadingbutton} className= 'inline-flex text-left align-bottom m-2 px-5 py-2 rounded-md  border-2 backgroundColor2 text-color border-black hoverColor2 hover:text-white hover:fill-white' 
+                        onClick={() => {handleLeave()}}>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M18 14v-3h-3V9h3V6h2v3h3v2h-3v3Zm-9-2q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm-8 8v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm2-2h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0-2Zm0 10Z"/></svg>                            
+                            {!loadingbutton ? <span className='pl-2 font-medium '>Leave Community</span> : <span>loading...</span>}
                         </button>}
                     </div> 
 
