@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Post } from "../../common/interface/Post"
 
 interface commentsProps{
@@ -27,7 +28,7 @@ const CommentReply = ({comment}: commentProps) => {
 const Comment = ({comment}: commentProps) => {
   const lastUpdated = comment.lastUpdated.split('.')[0].replace('T', ' ')
   const imgauth = comment.author?.picture === null ? window.location.origin + '/assets/default_profile_img.jpg': comment.author?.picture
-  
+  const navigate = useNavigate()
   const [replies, setReplies] = useState<React.ReactNode|React.ReactNode[]>(<></>)
   useEffect(() => {
     if(comment.replies?.length! > 1) return
@@ -38,13 +39,15 @@ const Comment = ({comment}: commentProps) => {
   }, [comment.replies])
   return (
   <div className="flex">
-  <div className="flex-shrink-0 mr-3l">
-    <img className="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10" src={imgauth} alt=""/>
-  </div>
+
 
   {/* PARENT COMMENT */}
-  <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed w-full">
-    <strong>{comment.author?.username}</strong> <span className="text-xs text-gray-400"> on {lastUpdated}</span>
+  <div className="flex border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed w-full">
+  <div className="flex-row min-w-[7%]">
+    <img className="w-full min-w-[5%]  rounded-full w-8 h-8 sm:w-10 sm:h-10" src={imgauth} alt=""/>
+  </div>
+  <div className="flex-row">
+    <strong className="hover:cursor-pointer hover:text-blue-300" onClick={() => navigate(`/account/${comment.author?.id}`)}>{comment.author?.username}</strong> <span className="text-xs text-gray-400"> on {lastUpdated}</span>
 
     <p className="text-sm">
       {comment.body}
@@ -53,6 +56,7 @@ const Comment = ({comment}: commentProps) => {
     {/* Child COMMENTS GO */}
     <div className="space-y-4">
       {replies}
+    </div>
     </div>
   </div>
   </div>

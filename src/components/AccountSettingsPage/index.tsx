@@ -19,9 +19,9 @@ const AccountSettings = () => {
 
   }
   return (
-  <div className="flex flex-col h-screen items-center py-5 mt-10  ">
+  <div className="flex flex-col h-screen items-center py-5 ">
 
-    <div className="bg-rounded-md max-h-[95%] flex flex-col items-center min-h-[90%] max-w-lg min-w-[75%]  rounded-lg  shadow-xl">
+    <div className="bg-rounded-md h-full flex flex-col items-center min-h-[90%] max-w-lg min-w-[75%]  rounded-lg  shadow-xl">
     <h1 className="text-5xl mt-10 mb-10 ">Settings for {userEdited.username}</h1>
       <div className=" self-center py-30">
         
