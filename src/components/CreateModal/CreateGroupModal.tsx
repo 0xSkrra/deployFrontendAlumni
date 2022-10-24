@@ -23,11 +23,12 @@ export default function CreateGroupModal() {
     return (
       <>
         <button
-          className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200"
+          className="px-4 flex py-2 text-black rounded-xl font-medium active:shadow-none active:scale-95  hover:text-white hover:fill-white hover:shadow-xl hoverColor disabled:bg-gray-400/80  transition-all border-2 border-black"
           type="button"
           onClick={() => setShowModal(true)}
         >
-          Create Group
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M12.5 11.95q.725-.8 1.113-1.825Q14 9.1 14 8t-.387-2.125Q13.225 4.85 12.5 4.05q1.5.2 2.5 1.325T16 8q0 1.5-1 2.625t-2.5 1.325ZM18 20v-3q0-.9-.4-1.712-.4-.813-1.05-1.438 1.275.45 2.363 1.162Q20 15.725 20 17v3Zm2-7v-2h-2V9h2V7h2v2h2v2h-2v2ZM8 12q-1.65 0-2.825-1.175Q4 9.65 4 8q0-1.65 1.175-2.825Q6.35 4 8 4q1.65 0 2.825 1.175Q12 6.35 12 8q0 1.65-1.175 2.825Q9.65 12 8 12Zm-8 8v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q6.35 13 8 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q16 16.35 16 17.2V20Zm8-10q.825 0 1.413-.588Q10 8.825 10 8t-.587-1.412Q8.825 6 8 6q-.825 0-1.412.588Q6 7.175 6 8t.588 1.412Q7.175 10 8 10Zm-6 8h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q9.4 15 8 15t-2.775.337Q3.85 15.675 2.5 16.35q-.225.125-.362.35-.138.225-.138.5ZM8 8Zm0 10Z"/></svg>          
+        <span className="ml-1"> Create Group</span>  
         </button>
         {showModal ? (
           <>
@@ -59,12 +60,12 @@ export default function CreateGroupModal() {
                     <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" onChange={(e) => 
                     {
                         setGroup((state) => ({...state, title: e.target.value}))}} />
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Group Description</label>
-                    <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Group description..."
+                    <label className="block mb-2 text-sm font-medium text-gray-900">Group Description</label>
+                    <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Group description..."
                     onChange={(e) => 
                         {
                             setGroup((state) => ({...state, body: e.target.value}))}} />
-                    <span className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Private</span>
+                    <span className="block mb-2 text-sm font-medium text-gray-900 ">Private</span>
                     <label htmlFor="private-toggle" className="inline-flex relative items-center cursor-pointer">
                     <input type="checkbox" value="" id="private-toggle" className="sr-only peer" onChange={(e) => 
                     {

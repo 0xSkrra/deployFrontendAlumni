@@ -17,7 +17,7 @@ const DashboardPage = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const store = useBoundStore((state) => state) 
     const [events, setEvents] = useState<Event[]>(store.Events)
-    const postsPerPage = 7
+    const postsPerPage = 6
     const navigate = useNavigate()
 
     //
@@ -58,7 +58,7 @@ const DashboardPage = () => {
     return (
         <div className='divide-y-2 divide-grey-800 divide-solid'>
             <div className=" text-gray-800 ">
-                <div className= "justify-center flex mb-10 mt-3"><h1 className="text-3xl font-semibold">Timeline</h1></div>
+                <div className= "justify-center flex mb-7 mt-3"><h1 className="text-3xl font-semibold mt-3">Timeline</h1></div>
             </div> 
         <div className="p-4 mb-4 flex flex-row rounded-lg ">
             <div className="flex flex-col min-w-[70%]"> 

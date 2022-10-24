@@ -3,14 +3,17 @@ import { addPost } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore";
 import { Post } from "../../common/interface/Post";
 import { useBoundStore } from "../../common/util/Store/Store";
+import { Paginate } from "../../common/interface/pagination";
 
 interface CreatePostProps {
   id: number,
   target: string,
   posts: Post[],
-  setPosts: Dispatch<SetStateAction<Post[]>>
+  setPosts: Dispatch<SetStateAction<Post[]>>,
+  pagination?: Paginate,
+  setPagination?: Dispatch<SetStateAction<Paginate>>,
 }
-export default function CreatePostModal({ id, target, posts, setPosts}:CreatePostProps) {
+export default function CreatePostModal({ id, target, posts, setPosts, pagination, setPagination}:CreatePostProps) {
 
     const [showModal, setShowModal] = useState(false);
     const [post, setPost] = useState<Post>({id: 0, title: "", body: "", lastUpdated: "",author: undefined,parentId: undefined, replies: undefined,receiverId: undefined,topicId: undefined,groupId: undefined,eventId: undefined})
@@ -23,15 +26,17 @@ export default function CreatePostModal({ id, target, posts, setPosts}:CreatePos
         const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
         userState.setUser({...userState.User, authoredPosts: [...userState.User.authoredPosts, req]})
         store.addPostToTopic(req)
-        setPosts((state) => [...state, req])
-
+        setPosts((state) => state.length === 6 ? [...state.slice(0,5), req] : [...state, req])
+        if(setPagination) setPagination((state) => ({...state, ElementCount: state.ElementCount }))
       }
       else if(target === 'group'){
         post.groupId=id
         const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
         userState.setUser({...userState.User, authoredPosts: [...userState.User.authoredPosts, req]})
         store.addPostToGroup(req)
-        setPosts((state) => [...state, req])
+        setPosts((state) => state.length === 6 ? [...state.slice(0,5), req] : [...state, req])
+        if(setPagination) setPagination((state) => ({...state, ElementCount: state.ElementCount+1 }))
+
 
       }
       else if(target === 'event'){
@@ -39,7 +44,8 @@ export default function CreatePostModal({ id, target, posts, setPosts}:CreatePos
         const req: Post = await addPost(post.title, post.body, post.topicId, post.eventId, post.groupId); // Add target
         userState.setUser({...userState.User, authoredPosts: [...userState.User.authoredPosts, req]})
         store.addPostToEvent(req)
-        setPosts((state) => [...state, req])
+        setPosts((state) => state.length === 6 ? [...state.slice(0,5), req] : [...state, req])
+        if(setPagination) setPagination((state) => ({...state, ElementCount: state.ElementCount<6 ? state.ElementCount+1: state.ElementCount }))
 
       }
         setShowModal(false);
@@ -85,8 +91,8 @@ export default function CreatePostModal({ id, target, posts, setPosts}:CreatePos
                     <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" onChange={(e) => 
                     {
                         setPost((state) => ({...state, title: e.target.value}))}} />
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Content</label>
-                    <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Content..."
+                    <label className="block text-black text-sm font-bold mb-1 mt-2">Content</label>
+                    <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Content..."
                     onChange={(e) => 
                         {
                             setPost((state) => ({...state, body: e.target.value}))}} />

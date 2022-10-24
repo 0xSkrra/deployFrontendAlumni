@@ -1,11 +1,9 @@
 import { useKeycloak } from '@react-keycloak/web'
 import { useCallback } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useUserStore } from '../../common/util/Store/userStore'
 
 const StartPage = () => {
   const {keycloak} = useKeycloak()
-  const userState = useUserStore((state) => state)
 
 
   const login = useCallback( async () => {

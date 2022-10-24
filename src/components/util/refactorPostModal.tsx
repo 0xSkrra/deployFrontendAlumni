@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { useNavigate } from "react-router-dom";
+import remarkGfm from "remark-gfm";
 import { Post } from "../../common/interface/Post";
 import { addCommentToPost } from "../../common/util/API";
 import dateHandler from "../../common/util/dayjs";
@@ -31,9 +33,6 @@ export default function CreatePostModal({
         })
         
       }
-    const onSubmitEditPost = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-
-    }
     return (
       <>
         {showModal ? (
@@ -71,7 +70,7 @@ export default function CreatePostModal({
                   {/*body*/}
                   <div className="relative min-h-full p-6 flex-auto">
                     <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                      {post.body}
+                    <ReactMarkdown children={post.body} remarkPlugins={[remarkGfm]} className="min-w-full prose" />
                     </p>
                   </div>
                   {/*footer*/}
