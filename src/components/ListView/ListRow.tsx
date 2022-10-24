@@ -81,7 +81,7 @@ const ListRow = (props:any) => {
     }
 
     if (membership === false){
-    checkMembership()
+        checkMembership()
     }
 
     

@@ -1,17 +1,23 @@
 import { CalendarEvent } from "kalend/common/interface";
 import React, { useEffect, useState } from "react";
 import { Event } from "../../common/interface/Event";
+import { Group } from "../../common/interface/Group";
+import { Topic } from "../../common/interface/Topic";
 import { addEvent, addEventGroup, addEventTopic } from "../../common/util/API";
+import { useBoundStore } from "../../common/util/Store/Store";
 import { useUserStore } from "../../common/util/Store/userStore";
 
 
 
 interface CreateEventProps{
   id: number,
-  target: string
-  
+  target: string,
+  group?: Group,
+  setGroup?: React.Dispatch<React.SetStateAction<Group>>
+  topic?: Topic
+  setTopic?: React.Dispatch<React.SetStateAction<Topic>>
 }
-export default function CreateEventModal({id, target}: CreateEventProps) {
+export default function CreateEventModal({id, target, group, topic, setTopic, setGroup}: CreateEventProps) {
   
   const userState = useUserStore((state) => state)
   const [showModal, setShowModal] = useState(false);
@@ -22,6 +28,7 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
   const [descShaming, setDescShaming] = useState<boolean>(false)
   const [dateShaming, setDateShaming] = useState<boolean>(false)
   const [hasInit, setHasInit] = useState<boolean>(false)
+  const store = useBoundStore((state) => state)
 
   useEffect(() => {
     setNameShaming(false)
@@ -66,8 +73,12 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
       setEvent(eventUpdate)
       const req: Event = await addEvent(event.name, event.description,myStartTime, myEndTime); // Add target
       var request = await addEventTopic(req.id, topic!.id);
-      userState.User.authoredEvents.push(req)
       if (request.status === 200 || request.status === 201 || request.status === 204) {
+        userState.setUser({...userState.User, authoredEvents: [...userState.User.authoredEvents, req]})
+        if(topic && setTopic){
+          store.addEventToTopic(req, topic.id)
+          setTopic((state) => ({...state, events: [...state.events, req]}))
+        }
         setShowModal(false)
       }
     }
@@ -77,8 +88,12 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
       setEvent(groupUpdate)
       const req: Event = await addEvent(event.name, event.description,myStartTime, myEndTime); // Add target
       request = await addEventGroup(req.id, group!.id);
-      userState.User.authoredEvents.push(req)
       if (request.status === 200 || request.status === 201 || request.status === 204) {
+        userState.setUser({...userState.User, authoredEvents: [...userState.User.authoredEvents, req]})
+        if(group && setGroup){
+          store.addEventToGroup(req, group.id)
+          setGroup((state) => ({...state, events: [...state.events, req]}))
+        }
         setShowModal(false)
       }
     }
@@ -164,8 +179,8 @@ export default function CreateEventModal({id, target}: CreateEventProps) {
                   {
                       setEvent((state) => ({...state, name: e.target.value}))}} />
                   {nameShaming && <p className="color-red-300">please provide a name</p>}
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Description</label>
-                  <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                  <label className="block text-black text-sm font-bold mb-1">Description</label>
+                  <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" 
                   placeholder="Description..."
                   onChange={(e) => 
                       {

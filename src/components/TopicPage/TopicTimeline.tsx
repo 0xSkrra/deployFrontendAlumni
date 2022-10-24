@@ -24,7 +24,7 @@ const TopicTimeline = () => {
     const user = useUserStore((state) => state.User)
     const [membership, setMembership] = useState<boolean>(false)
     const userState = useUserStore((state) => state)
-    const postsPerPage = 7
+    const postsPerPage = 6
     const params = useParams()
     const id = typeof params.id === 'undefined' ? -1 : params.id
     const [topicId, setTopicId] = useState(isNaN(+id) ? -1 : +id)
@@ -205,7 +205,7 @@ const TopicTimeline = () => {
                                         onClick={() => {handleLeave()}}>Leave Topic</button>}
                                     {!membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" 
                                         onClick={() => {handleJoin()}}>Join Topic</button>}
-                                    {membership && <CreatePostModal posts={postsRaw} setPosts={setPostsRaw} id={topic.id} target={"topic"}/>}
+                                    {membership && <CreatePostModal posts={postsRaw} setPagination={setPagination} setPosts={setPostsRaw} id={topic.id} target={"topic"}/>}
                                     
                                 </div>
                                 <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Upcoming Events</span></div>
@@ -225,7 +225,7 @@ const TopicTimeline = () => {
                                     ) 
                                 }) : <p>No upcoming Events</p>}
                                 </ul>
-                                {membership && <CreateEventModal id={topic.id} target={"topic"}/>}
+                                {membership && <CreateEventModal topic={topic} setTopic={setTopic} id={topic.id} target={"topic"}/>}
                             </div>
                         </div>
                     </li>

@@ -20,7 +20,7 @@ const GroupTimeline = () => {
 
     const [postsRaw, setPostsRaw] = useState<Post[]>([])
     const [pagination, setPagination] = useState<Paginate>(defaultPaginate)
-    const postsPerPage = 7
+    const postsPerPage = 6
     const [loading, setLoading] = useState<boolean>(false)
     const [buttonloading, setbuttonLoading] = useState<boolean>(false)
     const [group, setGroup] = useState<Group>(placeholderGroup)
@@ -36,7 +36,6 @@ const GroupTimeline = () => {
         // to get a value that is either negative, positive, or zero.
         return new Date(a.startTime).getTime()-new Date(b.startTime).getTime()
     })
-    const store = useBoundStore((state) => state)
     const navigate = useNavigate()
 
     
@@ -194,7 +193,7 @@ const GroupTimeline = () => {
                                      focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleLeave()}}>Leave Group</button>}
                                     {!membership && <button disabled={buttonloading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 
                                     focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleJoin()}}>Join Group</button>}
-                                {membership && <CreatePostModal posts={postsRaw} setPosts={setPostsRaw} id={group.id} target={"group"}/>}
+                                {membership && <CreatePostModal pagination={pagination} setPagination={setPagination} posts={postsRaw} setPosts={setPostsRaw} id={group.id} target={"group"}/>}
                                 </div>
                                 <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Upcoming Events</span></div>
                                 <ul>
@@ -213,7 +212,7 @@ const GroupTimeline = () => {
                                     ) 
                                 }) : <p>No upcoming Events</p>}
                                 </ul>
-                                {membership && <CreateEventModal id={group.id} target={"group"}/>}
+                                {membership && <CreateEventModal group={group} setGroup={setGroup} id={group.id} target={"group"}/>}
                                 
                             </div>
                         </div>
