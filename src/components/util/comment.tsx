@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react"
+import ReactMarkdown from "react-markdown"
 import { useNavigate } from "react-router-dom"
+import remarkGfm from "remark-gfm"
 import { Post } from "../../common/interface/Post"
+import dateHandler from "../../common/util/dayjs"
 
 interface commentsProps{
     comments: Post[]
@@ -47,10 +50,10 @@ const Comment = ({comment}: commentProps) => {
     <img className="w-full min-w-[5%]  rounded-full w-8 h-8 sm:w-10 sm:h-10" src={imgauth} alt=""/>
   </div>
   <div className="flex-row">
-    <strong className="hover:cursor-pointer hover:text-blue-300" onClick={() => navigate(`/account/${comment.author?.id}`)}>{comment.author?.username}</strong> <span className="text-xs text-gray-400"> on {lastUpdated}</span>
+    <strong className="hover:cursor-pointer hover:text-blue-300" onClick={() => navigate(`/account/${comment.author?.id}`)}>{comment.author?.username}</strong> <span  title={dateHandler(lastUpdated).toString()} className="text-xs text-gray-400">{dateHandler(lastUpdated).fromNow(true)} ago</span>
 
     <p className="text-sm">
-      {comment.body}
+    <ReactMarkdown children={comment.body} remarkPlugins={[remarkGfm]} className="min-w-full prose" />
     </p>
     
     {/* Child COMMENTS GO */}
