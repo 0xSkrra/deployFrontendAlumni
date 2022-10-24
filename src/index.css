@@ -37,7 +37,7 @@ code {
 }
 
 .backgroundColor {
-  background-color: #6facc2;
+  background-color: #67AFCB;
 }
 
 .backgroundColor2 {
@@ -45,11 +45,15 @@ code {
 }
 
 .hoverColor:hover {
-  background-color: #4b63b3;
+  background-color: #1A3E4C;
 }
 
 .hoverColor2:hover {
   background-color: #b2674c;
+}
+
+.backgroundcolor3 {
+  background-color: #E4F1F6;
 }
 
 
