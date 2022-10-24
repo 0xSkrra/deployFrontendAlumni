@@ -35,15 +35,15 @@ const AccountPage = () => {
             <div className="flex justify-center">
                 <div className="mr-4 p-3 text-center">
                 <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                    {user.authoredEvents.length + user.respondedEvents.length}
-                </span>
-                <span className="text-sm text-blueGray-400">Events</span>
-                </div>
-                <div className="mr-4 p-3 text-center">
-                <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                     {user.authoredPosts.length}
                 </span>
                 <span className="text-sm text-blueGray-400">Posts</span>
+                </div>
+                <div className="mr-4 p-3 text-center">
+                <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+                    {user.authoredEvents.length + user.respondedEvents.length}
+                </span>
+                <span className="text-sm text-blueGray-400">Events</span>
                 </div>
                 <div className="lg:mr-4 p-3 text-center">
                 <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
@@ -51,25 +51,23 @@ const AccountPage = () => {
                 </span>
                 <span className="text-sm text-blueGray-400">Topics</span>
                 </div>
+                <div className="lg:mr-4 p-3 text-center">
+                <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+                    {user.groups.length}
+                </span>
+                <span className="text-sm text-blueGray-400">Groups</span>
+                </div>
             </div>
             </div>
         </div>
         <div className="text-center mt-12">
-            <h3 className="text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+            <h3 className="text-xl font-semibold leading-normal mb-2 text-blueGray-700">
             {user.username}
             </h3>
             <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
             <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
             {user.status}
             </div>
-{/*             <div className="mb-2 text-blueGray-600 mt-10">
-            <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-            Solution Manager - Creative Tim Officer
-            </div>
-            <div className="mb-2 text-blueGray-600">
-            <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
-            University of Computer Science
-            </div> */}
         </div>
         <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
             <div className="flex flex-wrap justify-center">
