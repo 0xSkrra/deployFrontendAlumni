@@ -7,7 +7,7 @@ interface baseLayoutProps{
 const Layout = ({children}: baseLayoutProps) => {
 
   return (   
-  <div className="flex row">
+  <div className="flex row backgroundcolor3">
     <div className="h-screen fixed top-0">
       <Navbar />
     </div>

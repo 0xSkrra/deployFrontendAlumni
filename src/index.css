@@ -36,6 +36,27 @@ code {
   max-width: 640px;
 }
 
+.backgroundColor {
+  background-color: #67AFCB;
+}
+
+.backgroundColor2 {
+  background-color: #c2856f;
+}
+
+.hoverColor:hover {
+  background-color: #1A3E4C;
+}
+
+.hoverColor2:hover {
+  background-color: #b2674c;
+}
+
+.backgroundcolor3 {
+  background-color: #E4F1F6;
+}
+
+
 /* .listrowdescription {
   overflow: 'hidden';
   text-overflow: 'ellipsis';

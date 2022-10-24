@@ -23,7 +23,7 @@ export default function CreateGroupModal() {
     return (
       <>
         <button
-          className="px-4 flex py-2 text-black rounded-xl font-medium active:shadow-none active:scale-95 hover:bg-purple-900 hover:text-white hover:fill-white hover:shadow-xl hover:shadow-purple-800 disabled:bg-gray-400/80  transition-all border-2 border-black"
+          className="px-4 flex py-2 text-black rounded-xl font-medium active:shadow-none active:scale-95  hover:text-white hover:fill-white hover:shadow-xl hoverColor disabled:bg-gray-400/80  transition-all border-2 border-black"
           type="button"
           onClick={() => setShowModal(true)}
         >
