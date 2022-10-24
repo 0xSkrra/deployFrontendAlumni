@@ -59,7 +59,7 @@ export default function CreatePostModal({ id, target, posts, setPosts, paginatio
           type="button"
           onClick={() => setShowModal(true)}
         >
-          New Post - length: {posts.length}
+          New Post
         </button>
         {showModal ? (
           <>

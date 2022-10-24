@@ -4,15 +4,11 @@ import {  useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Group } from '../../common/interface/Group'
 import { Topic } from '../../common/interface/Topic'
-import { addGroupMember, addTopicMember, getUserGroups, getUserTopics, leaveGroup, leaveTopic } from '../../common/util/API'
+import { addGroupMember, addTopicMember, leaveGroup, leaveTopic } from '../../common/util/API'
 import { useUserStore } from '../../common/util/Store/userStore'
 
-interface ListRowProps {
-    elem: Group|Topic
-}
 
 const ListRow = (props:any) => {
-    const [hover, setHover] = useState(false) // for conditionally viewed desc
     const [membership, setMembership] = useState(false)
     const [loadingbutton, setButtonLoading] = useState(false) 
     const userState = useUserStore((state) => state)
@@ -32,14 +28,14 @@ const ListRow = (props:any) => {
             const req = addGroupMember(props.el.id)
             const updatedUser = {...user, groups: [...user.groups ,props.el ]}
             userState.setUser(updatedUser)
-            const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setButtonLoading(false))
+            req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setButtonLoading(false))
         }
 
         else if (pathname === `/topics` && !loadingbutton) {
             let req = addTopicMember(props.el.id)
             const updatedUser = {...user, topics: [...user.topics ,props.el ]}
             userState.setUser(updatedUser)
-            const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setButtonLoading(false))
+            req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setButtonLoading(false))
         }
         else{
             alert("no action was taken since you're not in a valid spot")
@@ -52,13 +48,13 @@ const ListRow = (props:any) => {
             const req = leaveGroup(props.el.id)
             const updatedUser = {...user, groups: userState.User.groups.filter(g => g.id !== props.el.id)}
             userState.setUser(updatedUser)
-            const promise = req.then(s => s.status<400?setMembership(!membership): setMembership(membership)).finally(() => setButtonLoading(false))
+            req.then(s => s.status<400?setMembership(!membership): setMembership(membership)).finally(() => setButtonLoading(false))
         }
         else if (pathname === `/topics` && !loadingbutton) {
             let req = leaveTopic(props.el.id)
             const updatedUser = {...user, topics: userState.User.topics.filter(t => t.id !== props.el.id)}
             userState.setUser(updatedUser)
-            const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setButtonLoading(false))
+            req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setButtonLoading(false))
         }
         else{
             alert("no action was taken since you're not in a valid spot")

@@ -1,6 +1,5 @@
 import create from "zustand";
 import {devtools, persist} from "zustand/middleware"
-import { Post } from "../../interface/Post";
 import { defaultUserProfile, UserProfile } from "../../interface/UserProfile";
 import { UserSlice } from "./Slices/UserSlice";
 

@@ -1,4 +1,3 @@
-import { CalendarEvent } from "kalend/common/interface";
 import React, { useEffect, useState } from "react";
 import { Event } from "../../common/interface/Event";
 import { Group } from "../../common/interface/Group";
@@ -22,8 +21,8 @@ export default function CreateEventModal({id, target, group, topic, setTopic, se
   const userState = useUserStore((state) => state)
   const [showModal, setShowModal] = useState(false);
   const [event, setEvent] = useState<Event>({id: 0, name: "", description: "", lastUpdated: "", startTime: "", endTime: "", allowGuests: true, authorId: -1, usersAccepted: [], author: userState.User, topics: [], groups: [], usersInvited: [], usersResponded: [], posts: [] })
-  const [startDate, setStartDate] = useState<Date>(new Date())
-  const [endDate, setEndDate] = useState<Date>(new Date())
+  const [startDate] = useState<Date>(new Date())
+  const [endDate] = useState<Date>(new Date())
   const [nameShaming, setNameShaming] = useState<boolean>(false)
   const [descShaming, setDescShaming] = useState<boolean>(false)
   const [dateShaming, setDateShaming] = useState<boolean>(false)

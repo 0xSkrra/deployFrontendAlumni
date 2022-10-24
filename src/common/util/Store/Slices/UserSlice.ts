@@ -1,4 +1,3 @@
-import { Post } from "../../../interface/Post";
 import { UserProfile } from "../../../interface/UserProfile";
 
 export interface UserSlice{

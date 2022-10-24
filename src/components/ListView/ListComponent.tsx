@@ -1,19 +1,12 @@
 
 
 import {useState, useEffect } from 'react'
-import PopupView from '../../view/PopupView'
-import ListDetail from './ListDetail'
-import { getUserGroups, getUserTopics } from '../../common/util/API'
 import ListRow from './ListRow'
 import { Topic } from '../../common/interface/Topic'
 import { Group } from '../../common/interface/Group'
 import { Spinner } from '../util/spinner'
 import { useBoundStore } from '../../common/util/Store/Store'
 
-interface ListComponentProps{
-    apiFunction: () => Group[]|Topic[]
-
-}
 // no paginations as of yet
 const ListComponent = (props:any) => {
     const [content, setContent] = useState<Topic[]|Group[]>([])
@@ -35,16 +28,14 @@ const ListComponent = (props:any) => {
             if(isGroup){ // is a group
                 const groups = store.Groups
                 if(groups.length > 0) {
-                    const newestGroup = groups[groups.length-1]
-                    setContent((state)  => {
+                    setContent(()  => {
                         return [...groups]
                 })
                 }
             }else { // is a topic
                 const topics = store.Topics
                 if(topics.length > 0){
-                    const newTopic = store.Topics[store.Topics.length -1]
-                    setContent((state)  => {
+                    setContent(()  => {
                         return [...topics]
                 })
                 }
