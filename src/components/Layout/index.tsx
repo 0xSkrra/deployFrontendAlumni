@@ -11,7 +11,7 @@ const Layout = ({children}: baseLayoutProps) => {
     <div className="h-screen fixed top-0">
       <Navbar />
     </div>
-    <div className="lg:w-96 md:min-w-65 h-screen mr-28 bg-white"></div>
+    <div className="lg:w-96 md:min-w-65 h-screen md:mr-24 lg:mr-10 bg-white"></div>
     <main className="h-screen w-screen">
       {children}
     </main>
