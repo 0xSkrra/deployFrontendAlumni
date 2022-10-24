@@ -59,12 +59,12 @@ export default function CreateGroupModal() {
                     <input className="shadow appearance-none border rounded w-full py-2 px-1 text-black" onChange={(e) => 
                     {
                         setGroup((state) => ({...state, title: e.target.value}))}} />
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Group Description</label>
-                    <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Group description..."
+                    <label className="block mb-2 text-sm font-medium text-gray-900">Group Description</label>
+                    <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Group description..."
                     onChange={(e) => 
                         {
                             setGroup((state) => ({...state, body: e.target.value}))}} />
-                    <span className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Private</span>
+                    <span className="block mb-2 text-sm font-medium text-gray-900 ">Private</span>
                     <label htmlFor="private-toggle" className="inline-flex relative items-center cursor-pointer">
                     <input type="checkbox" value="" id="private-toggle" className="sr-only peer" onChange={(e) => 
                     {
