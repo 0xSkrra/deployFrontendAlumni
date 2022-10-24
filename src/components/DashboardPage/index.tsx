@@ -56,9 +56,9 @@ const DashboardPage = () => {
     if(loading) return (
         <Spinner />)
     return (
-        <div className='divide-y-2 divide-grey-800 divide-solid'>
-            <div className=" text-gray-800 ">
-                <div className= "justify-center flex mb-7 mt-3"><h1 className="text-3xl font-semibold mt-3">Timeline</h1></div>
+        <div className='divide-y-2 divide-grey-800 divide-solid backgroundcolorMain'>
+            <div className=" text-gray-800 backgroundColor">
+                <div className= "justify-center flex pb-8 pt-5"><h1 className="text-3xl font-semibold pt-3">Timeline</h1></div>
             </div> 
         <div className="p-4 mb-4 flex flex-row rounded-lg ">
             <div className="flex flex-col min-w-[70%]"> 
@@ -124,9 +124,9 @@ const DashboardPage = () => {
             UPCOMING EVENTS HERE
             */}
             <div className="flex flex-col min-h-full w-full">
-                <ol className="mt-3 pl-8 min-h-full w-full max-w-full min-w-full divide-y divider-gray-200 ">
+                <ol className="mt-2 pl-8 min-h-full w-full max-w-full min-w-full divide-y divider-gray-200 ">
                     <li className="min-h-full w-full">
-                        <div className=" p-3  border min-w-full min-h-full border-gray-300 h-full rounded-lg sm:flex bg-gray-100">
+                        <div className=" p-3  border min-w-full min-h-full border-gray-300 h-full rounded-lg sm:flex bg-white">
                             <div className="flex flex-col text-gray-600 w-full">
                               <div className="text-base font-normal"><span className="font-medium text-gray-900 ">Upcoming Events</span></div>
                                 <ul>

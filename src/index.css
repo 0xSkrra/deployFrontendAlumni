@@ -40,8 +40,12 @@ code {
   background-color: #67AFCB;
 }
 
-.backgroundColor2 {
-  background-color: #c2856f;
+.buttonColor {
+  background-color: #E4F1F6;
+}
+
+.buttonColor2 {
+  background-color: #f6e9e4;
 }
 
 .hoverColor:hover {
@@ -49,13 +53,20 @@ code {
 }
 
 .hoverColor2:hover {
-  background-color: #b2674c;
+  background-color: #b84112;
 }
 
-.backgroundcolor3 {
+.backgroundcolorMain {
   background-color: #E4F1F6;
 }
 
+.hoverColorCard:hover{
+  background-color: #d1e7f0;
+}
+
+.mt-22 {
+  margin-top: 92px;
+}
 
 /* .listrowdescription {
   overflow: 'hidden';

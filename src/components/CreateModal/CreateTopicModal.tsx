@@ -22,11 +22,12 @@ export default function CreateTopicModal() {
     return (
       <>
         <button
-          className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200"
+          className="px-4 flex py-2 text-black rounded-xl font-medium active:shadow-none active:scale-95  hover:text-white hover:fill-white hover:shadow-xl hoverColor transition-all duration-200 border-2 border-black"
           type="button"
           onClick={() => setShowModal(true)}
         >
-          Create Topic
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6 12h12v-2H6Zm0 4h8v-2H6Zm-2 4q-.825 0-1.412-.587Q2 18.825 2 18V6q0-.825.588-1.412Q3.175 4 4 4h6l2 2h8q.825 0 1.413.588Q22 7.175 22 8v10q0 .825-.587 1.413Q20.825 20 20 20ZM4 6v12h16V8h-8.825l-2-2H4Zm0 0v12Z"/></svg>
+          <span className="ml-1">Create Topic</span> 
         </button>
         {showModal ? (
           <>
