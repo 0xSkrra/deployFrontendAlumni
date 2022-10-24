@@ -57,12 +57,12 @@ const createGroupSlice: StateCreator<
   removeGroups: () => set(() => ({ Groups: [] })),
   addPostToGroup: (post: Post) => {
     set((state) => ({
-      Groups: state.Groups.map((group) => group.id === post.topicId ? ({...group, posts: [...group.posts, post]}) : group)
+      Groups: state.Groups.map((group) => group.id === post.groupId ? ({...group, posts: [...group.posts, post]}) : group)
     }))
   },
-  addEventToGroup: (eventToAdd: Event, topicId: number) => {
+  addEventToGroup: (eventToAdd: Event, groupId: number) => {
     set((state) => ({
-      Groups: state.Groups.map((group) => topicId === group.id ? ({...group, events: [...group.events, eventToAdd]}) : group)
+      Groups: state.Groups.map((group) => groupId === group.id ? ({...group, events: [...group.events, eventToAdd]}) : group)
     }))
   },
   fetchGroups: async () =>{

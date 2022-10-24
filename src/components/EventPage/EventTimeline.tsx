@@ -1,34 +1,27 @@
-import { useKeycloak } from "@react-keycloak/web"
 import dayjs from "dayjs"
 import React, { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import { createPostfix } from "typescript"
+import { useParams } from "react-router-dom"
 import { Event, placeholderEvent } from "../../common/interface/Event"
 import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
-import { addEventMember, addGroupMember, getEventById, getEventPosts, getGroupById, getGroupPosts, leaveGroup } from "../../common/util/API"
-import { useBoundStore } from "../../common/util/Store/Store"
+import { addEventMember, getEventById, getEventPosts } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore"
 import CreatePostModal from "../CreateModal/CreatePostModal"
 import PostItem from "../util/postItem"
-import PostModal from "../util/postModal"
 
 
 
 const EventTimeline = () => {
     const [postsRaw, setPostsRaw] = useState<Post[]>([])
-    const [detailedPostView, setDetailedPostView] = useState<React.ReactNode|React.ReactNode[]>(<></>)
     const [pagination, setPagination] = useState<Paginate>(defaultPaginate)
-    const postsPerPage = 7
+    const postsPerPage = 6
     const [loading, setLoading] = useState<boolean>(false)
     const [membership, setMembership] = useState<boolean>(false)
-    const user = useUserStore((state) => state.User)
     const userState = useUserStore((state) => state)
     const params = useParams()
     const param = useParams()
     const id = typeof params.id === 'undefined' ? -1 : params.id
     const [event, setEvent] = useState<Event>(placeholderEvent)
-    const store = useBoundStore((state) => state)
     
     const checkMembership = () => {
         let member = userState.User.respondedEvents.find(x => x.id===event?.id)
@@ -45,7 +38,7 @@ const EventTimeline = () => {
         setLoading(true)
         let req = addEventMember(event.id)
         userState.setUser({...userState.User, respondedEvents: [...userState.User.respondedEvents, event]})
-        const promise = req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setLoading(false))
+        req.then(s => s.status<400?setMembership(!membership):setMembership(membership)).finally(() => setLoading(false))
     }
 
     
@@ -74,7 +67,7 @@ const EventTimeline = () => {
             setEvent(relatedEvent)
         }
         fetchEvent()
-    },[+id])
+    },[id])
 
     const onClickNextPage = async () => {
         setPagination((state) => ({...state, CurrentPage: state.CurrentPage+1 }))
@@ -149,7 +142,6 @@ return (
                 </div>
             </div>{/* PAGINATION END */}
             
-            {detailedPostView} {/* MODAL FOR POST DETAILED VIEW */}
 
 
             {/*
@@ -166,7 +158,7 @@ return (
                                      focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" >Event joined!</button>}
                                     {!membership && <button disabled={loading} className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 
                                     focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200" onClick={() => {handleJoin()}}>Join Event</button>}
-                                    {membership && <CreatePostModal posts={postsRaw} setPosts={setPostsRaw} id={event.id} target={"event"}/>}
+                                    {membership && <CreatePostModal posts={postsRaw} setPagination={setPagination} setPosts={setPostsRaw} id={event.id} target={"event"}/>}
                                 </div>                                
                             </div>
                         </div>
