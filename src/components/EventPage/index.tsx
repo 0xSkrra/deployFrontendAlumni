@@ -1,8 +1,6 @@
 import { CalendarEvent } from "kalend"
 import { useEffect, useState } from "react"
 import "kalend/dist/styles/index.css" // import styles
-import { getUserEvents } from "../../common/util/API"
-import { Event } from "../../common/interface/Event"
 import Calendar from "./calendar"
 import { useUserStore } from "../../common/util/Store/userStore"
 import { useBoundStore } from "../../common/util/Store/Store"

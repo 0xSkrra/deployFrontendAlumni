@@ -57,11 +57,11 @@ card-container {
   color: whitesmoke;
 }
 
-.active-nav-item button{
+.active-nav-item button {
   --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity))
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
-.active-nav-item #profileNavItem{
+.active-nav-item #profileNavItem {
   --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity))
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }

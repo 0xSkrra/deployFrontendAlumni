@@ -1,6 +1,3 @@
-import { Group } from "../../common/interface/Group"
-import { Topic } from "../../common/interface/Topic"
-
 interface ListDetailProps {
   title: string
   body: string
