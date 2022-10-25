@@ -37,23 +37,23 @@ code {
 }
 
 .backgroundColor {
-  background-color: #67AFCB;
+  background-color: 	#f5a24e;
 }
 
 .buttonColor {
-  background-color: #E4F1F6;
+  background-color: #66d356;
 }
 
 .buttonColor2 {
-  background-color: #f6e9e4;
+  background-color:#f54e4e;
 }
 
 .hoverColor:hover {
-  background-color: #1A3E4C;
+  background-color: #5bbd4d;
 }
 
 .hoverColor2:hover {
-  background-color: #b84112;
+  background-color: #dc4646;
 }
 
 .backgroundcolorMain {
