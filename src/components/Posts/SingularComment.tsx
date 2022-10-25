@@ -104,26 +104,6 @@ const SingularComment = ({
                   {dateHandler(comment.lastUpdated).fromNow(true)} ago
                 </span>
               </div>
-              <div className="max-w-1 ml-80">
-                {comment.author && comment.author.id === user.id ? (
-                  <div className="">
-                    <h1
-                      onClick={() => {
-                        setEditCommentVisible(!editCommentVisible)
-                        setEditComment((state) => ({
-                          ...state,
-                          body: comment.body,
-                        }))
-                      }}
-                      className="text-xs text-blue-500 hover:cursor-pointer hover:text-blue-300"
-                    >
-                      {editCommentVisible ? "close" : "edit"}
-                    </h1>
-                  </div>
-                ) : (
-                  <></>
-                )}
-              </div>
             </div>
           </div>
 
@@ -175,8 +155,26 @@ const SingularComment = ({
           </>
 
           {/* Child COMMENTS GO */}
-          <div className="-ml-12">
+          <div className="-ml-12 space-x-1 inline-flex">
             {/* {replies} */}
+            {comment.author && comment.author.id === user.id ? (
+              <div className="">
+                <h1
+                  onClick={() => {
+                    setEditCommentVisible(!editCommentVisible)
+                    setEditComment((state) => ({
+                      ...state,
+                      body: comment.body,
+                    }))
+                  }}
+                  className="text-xs text-blue-500 hover:cursor-pointer hover:text-blue-300"
+                >
+                  {editCommentVisible ? "Close" : "Edit"}
+                </h1>
+              </div>
+            ) : (
+              <></>
+            )}
             <span
               onClick={() => setReplyComment(CommentReply)}
               className="text-xs text-blue-500 hover:cursor-pointer hover:text-blue-300"
