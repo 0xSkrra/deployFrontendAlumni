@@ -4,7 +4,7 @@ import ListComponent from "../ListView/ListComponent"
 
 const TopicList = () => {
   return (
-    <div className="h-full backgroundcolorMain mb-5">
+    <div className="h-screen backgroundcolorMain mb-5">
       <div>
         <div className="pt-3 pb-7 flex justify-start">
           <div className="w-[46%]"></div>

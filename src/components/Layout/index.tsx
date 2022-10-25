@@ -6,11 +6,13 @@ interface baseLayoutProps {
 
 const Layout = ({ children }: baseLayoutProps) => {
   return (
-    <div className="flex ">
+    <div className="flex backgroundcolorMain">
       <div className="h-screen fixed top-0 flex flex-col backgroundcolorMain ">
         <Navbar />
       </div>
-      <main className="h-screen md:ml-96 w-full">{children}</main>
+      <main className="h-screen md:ml-96 w-full backgroundcolorMain">
+        {children}
+      </main>
     </div>
   )
 }
