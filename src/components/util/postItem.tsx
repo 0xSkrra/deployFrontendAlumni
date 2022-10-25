@@ -60,7 +60,7 @@ const PostItem = ({ post }: postItemProps) => {
         className="mt-2 divide-y divider-gray-200 max-h-full max-w-full"
       >
         <li onClick={() => setShowModal(!showModal)}>
-          <div className=" p-3 hover:cursor-pointer border border-gray-200 max-h-30 rounded-lg sm:flex hover:bg-gray-100 shadow-lg bg-slate-50">
+          <div className=" p-3 hover:cursor-pointer border border-gray-200 max-h-30 rounded-lg sm:flex hoverColorCard shadow-lg bg-slate-50 transition-all duration-200">
             <div className="flex-col rounded">
               <img
                 onError={({ currentTarget }) => {
