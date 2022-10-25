@@ -12,4 +12,5 @@ export interface Post {
     topicId?: number,
     groupId?: number,
     eventId?: number,
+    authorId?: number
 }

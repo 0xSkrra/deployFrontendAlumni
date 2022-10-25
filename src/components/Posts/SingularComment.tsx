@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown"
 import { useNavigate } from "react-router-dom"
 import remarkGfm from "remark-gfm"
 import { Post } from "../../common/interface/Post"
-import { putComment } from "../../common/util/API"
+import { getUserById, putComment } from "../../common/util/API"
 import dateHandler from "../../common/util/dayjs"
 import { useUserStore } from "../../common/util/Store/userStore"
 import { NewCommentSpinner } from "../util/spinner"
@@ -25,6 +25,16 @@ const SingularComment = ({
   const [editComment, setEditComment] = useState<Post>(comment)
   const [loading, setLoading] = useState(false)
 
+  // duct tape solution for author not being included in comment object sometimes lol
+  if (!comment.author && comment.authorId) {
+    getUserById(comment.authorId).then((r) => {
+      setComments((state) =>
+        state.map((x) =>
+          x.id === comment.id ? { ...comment, author: r } : comment
+        )
+      )
+    })
+  }
   const CommentReply = `### ${
     comment.author ? comment.author.username : "#Error"
   } on ${dateHandler(comment.lastUpdated).toString()}
