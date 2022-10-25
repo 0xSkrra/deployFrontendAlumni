@@ -53,7 +53,7 @@ const ListComponent = (props: any) => {
     )
 
   return (
-    <div>
+    <div className="min-w-full min-h-full backgroundcolorMain">
       <div className="grid grid-flow-rows grid-cols-2 gap-6 mt-5 mx-2 px-1 pb-10">
         {content.map((x: Topic | Group) => {
           return <ListRow el={x} key={x.id} />
