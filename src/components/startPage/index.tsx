@@ -27,10 +27,15 @@ const StartPage = () => {
               </h2>
 
               <p className="max-w-xl mt-3 text-gray-700">
-                Lorem ipsum dolor sit, amet consectetur adipisicing
-                elit. In autem ipsa, nulla laboriosam dolores,
-                repellendus perferendis libero suscipit nam temporibus
-                molestiae
+                The Experis Academy fullstack developer course with
+                Noroff Accelerate has been run many times and in many
+                different locations since the programme first began.
+                Both Experis and Noroff have experienced difficulty in
+                maintaining contact with past candidates to notify
+                them of social events and gather data for quality
+                assurance purposes. This product's primary task was to
+                create an Alumni Network Portal to facilitate this
+                kind of communication.
               </p>
             </div>
           </div>
