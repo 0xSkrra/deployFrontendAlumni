@@ -47,7 +47,7 @@ const ListComponent = (props: any) => {
 
   if (loading)
     return (
-      <div className="w-full h-4/6">
+      <div className="w-full h-full">
         <Spinner />
       </div>
     )
