@@ -68,6 +68,11 @@ code {
   margin-top: 92px;
 }
 
+.divide-gray-900 > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-opacity: 1;
+  border-color: rgb(26 62 76 / var(--tw-divide-opacity));
+}
+
 /* .listrowdescription {
   overflow: 'hidden';
   text-overflow: 'ellipsis';
