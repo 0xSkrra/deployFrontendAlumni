@@ -4,6 +4,8 @@ import { Post } from "../../common/interface/Post"
 import { useBoundStore } from "../../common/util/Store/Store"
 import RefactorPostModal from "./PostDetailModal"
 import dateHandler from "../../common/util/dayjs"
+import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
 
 interface postItemProps {
   post: Post
@@ -14,6 +16,7 @@ const PostItem = ({ post }: postItemProps) => {
   const [targetString, setTargetString] = useState<string>("")
   const [targetRedirect, setTargetRedirect] = useState<string>("")
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [expandPost, setExpandPost] = useState<boolean>(false)
 
   useEffect(() => {
     const getTarget = async () => {
@@ -80,13 +83,34 @@ const PostItem = ({ post }: postItemProps) => {
               />
             </div>
 
-            <div className="flex flex-col text-gray-600">
+            <div className="flex w-full flex-col text-gray-600">
               <div className="text-base font-normal">
                 <span className="font-medium text-gray-900 ">
                   {post.title}
                 </span>
               </div>
-              <div className="flex flex-row">
+              <span
+                onClick={(event) => {
+                  event.stopPropagation()
+                  setExpandPost(!expandPost)
+                }}
+                className="text-md max-w-12 flex font-normal text-start hover:text-blue-300"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-arrows-angle-expand"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707z"
+                  />
+                </svg>
+              </span>
+              <div className="flex flex-row w-full">
                 <span
                   onClick={() => {
                     handleOnClickTarget()
@@ -132,6 +156,19 @@ const PostItem = ({ post }: postItemProps) => {
                   </span>
                 </span>
               </div>
+
+              {expandPost ? (
+                <div className="flex h-full w-full items-center justify-center">
+                  <ReactMarkdown
+                    children={post.body}
+                    remarkPlugins={[remarkGfm]}
+                    unwrapDisallowed={true}
+                    className="min-w-full my-4 text-slate-500 text-lg leading-relaxed prose"
+                  />
+                </div>
+              ) : (
+                <></>
+              )}
               <button className="text-xs font-normal text-start hover:text-blue-300">
                 Replies: {post.replies?.length}
               </button>
