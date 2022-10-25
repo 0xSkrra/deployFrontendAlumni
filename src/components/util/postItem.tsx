@@ -33,7 +33,7 @@ const PostItem = ({ post }: postItemProps) => {
         const event = store.Events.find((e) => e.id === post.eventId)
         if (event !== undefined) {
           setTargetString(`Event/${event.name}`)
-          setTargetRedirect("/event")
+          setTargetRedirect(`/events/${event.id}`)
         }
       }
     }
