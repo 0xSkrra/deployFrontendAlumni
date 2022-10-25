@@ -3,7 +3,7 @@ import { defaultPaginate, Paginate } from "../../common/interface/pagination"
 import { Post } from "../../common/interface/Post"
 import { getAllPosts } from "../../common/util/API"
 import { Event } from "../../common/interface/Event"
-import PostItem from "../util/postItem"
+import PostItem from "../Posts/PostItem"
 import dayjs from 'dayjs'
 import { Spinner } from "../util/spinner"
 import { useBoundStore } from "../../common/util/Store/Store"

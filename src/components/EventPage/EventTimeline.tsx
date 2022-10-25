@@ -7,7 +7,7 @@ import { Post } from "../../common/interface/Post"
 import { addEventMember, getEventById, getEventPosts } from "../../common/util/API"
 import { useUserStore } from "../../common/util/Store/userStore"
 import CreatePostModal from "../CreateModal/CreatePostModal"
-import PostItem from "../util/postItem"
+import PostItem from "../Posts/PostItem"
 
 
 

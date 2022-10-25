@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import ReactMarkdown from "react-markdown"
 import { useNavigate } from "react-router-dom"
 import remarkGfm from "remark-gfm"
@@ -6,42 +6,15 @@ import { Post } from "../../common/interface/Post"
 import { putComment } from "../../common/util/API"
 import dateHandler from "../../common/util/dayjs"
 import { useUserStore } from "../../common/util/Store/userStore"
-import { NewCommentSpinner } from "./spinner"
-
-interface commentsProps {
-  comments: Post[]
-  setComments: React.Dispatch<React.SetStateAction<Post[]>>
-  setReplyComment: React.Dispatch<React.SetStateAction<string>>
-}
+import { NewCommentSpinner } from "../util/spinner"
 
 interface commentProps {
   comment: Post
   setComments: React.Dispatch<React.SetStateAction<Post[]>>
   setReplyComment: React.Dispatch<React.SetStateAction<string>>
 }
-const CommentReply = ({ comment }: commentProps) => {
-  return (
-    <div className="flex">
-      <div className="flex-shrink-0 mr-3">
-        <img
-          className="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
-          src={comment.author ? comment.author.picture : ""}
-          alt=""
-        />
-      </div>
-      <div className="flex-1 bg-white rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-        <strong>
-          {comment.author ? comment.author.username : "not Found"}
-        </strong>{" "}
-        <span className="text-xs text-gray-400">
-          {comment.lastUpdated}
-        </span>
-        <p className="text-xs sm:text-sm">{comment.body}</p>
-      </div>
-    </div>
-  )
-}
-const Comment = ({
+
+const SingularComment = ({
   comment,
   setComments,
   setReplyComment,
@@ -121,7 +94,7 @@ const Comment = ({
                   {dateHandler(comment.lastUpdated).fromNow(true)} ago
                 </span>
               </div>
-              <div className="ml-96">
+              <div className="max-w-1 ml-80">
                 {comment.author && comment.author.id === user.id ? (
                   <div className="">
                     <h1
@@ -206,23 +179,5 @@ const Comment = ({
     </div>
   )
 }
-const Comments = ({
-  comments,
-  setComments,
-  setReplyComment,
-}: commentsProps) => {
-  const newComments = comments.map((x) => {
-    return (
-      <Comment
-        key={x.id}
-        comment={x}
-        setReplyComment={setReplyComment}
-        setComments={setComments}
-      />
-    )
-  })
 
-  return <div className="flex space-y-1 flex-col">{newComments}</div>
-}
-
-export default Comments
+export default SingularComment

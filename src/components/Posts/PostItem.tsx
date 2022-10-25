@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Post } from "../../common/interface/Post"
 import { useBoundStore } from "../../common/util/Store/Store"
-import RefactorPostModal from "./refactorPostModal"
+import RefactorPostModal from "./PostDetailModal"
 import dateHandler from "../../common/util/dayjs"
 
 interface postItemProps {

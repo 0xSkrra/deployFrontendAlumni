@@ -18,7 +18,7 @@ import { useBoundStore } from "../../common/util/Store/Store"
 import { useUserStore } from "../../common/util/Store/userStore"
 import CreateEventModal from "../CreateModal/CreateEventModal"
 import CreatePostModal from "../CreateModal/CreatePostModal"
-import PostItem from "../util/postItem"
+import PostItem from "../Posts/PostItem"
 import { Spinner } from "../util/spinner"
 
 const GroupTimeline = () => {

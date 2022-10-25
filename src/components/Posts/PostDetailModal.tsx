@@ -5,8 +5,9 @@ import remarkGfm from "remark-gfm"
 import { Post } from "../../common/interface/Post"
 import { addCommentToPost } from "../../common/util/API"
 import dateHandler from "../../common/util/dayjs"
-import Comments from "./comment"
-import { NewCommentSpinner } from "./spinner"
+
+import { NewCommentSpinner } from "../util/spinner"
+import Comments from "./Comments"
 interface props {
   showModal: boolean
   setShowModal: () => void
@@ -25,6 +26,7 @@ export default function CreatePostModal({
   const [newPostComment, setNewPostComment] = useState("")
   const [comments, setComments] = useState(post.replies!)
   const [loading, setLoading] = useState(false)
+
   const onSubmitkNewComment = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {

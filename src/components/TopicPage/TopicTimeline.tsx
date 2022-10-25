@@ -16,7 +16,7 @@ import {
 import { useUserStore } from "../../common/util/Store/userStore"
 import CreatePostModal from "../CreateModal/CreatePostModal"
 import CreateEventModal from "../CreateModal/CreateEventModal"
-import PostItem from "../util/postItem"
+import PostItem from "../Posts/PostItem"
 import { Spinner } from "../util/spinner"
 import dateHandler from "../../common/util/dayjs"
 import { useBoundStore } from "../../common/util/Store/Store"
