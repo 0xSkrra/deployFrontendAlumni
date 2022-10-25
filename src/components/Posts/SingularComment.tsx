@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ReactMarkdown from "react-markdown"
 import { useNavigate } from "react-router-dom"
 import remarkGfm from "remark-gfm"
@@ -25,12 +25,11 @@ const SingularComment = ({
   const [editComment, setEditComment] = useState<Post>(comment)
   const [loading, setLoading] = useState(false)
 
-  // duct tape solution for author not being included in comment object sometimes lol
   if (!comment.author && comment.authorId) {
     getUserById(comment.authorId).then((r) => {
       setComments((state) =>
         state.map((x) =>
-          x.id === comment.id ? { ...comment, author: r } : comment
+          x.id === comment.id ? { ...x, author: r } : x
         )
       )
     })
@@ -104,6 +103,26 @@ const SingularComment = ({
                   {dateHandler(comment.lastUpdated).fromNow(true)} ago
                 </span>
               </div>
+              <div className="max-w-1 ml-80">
+                {comment.author && comment.author.id === user.id ? (
+                  <div className="">
+                    <h1
+                      onClick={() => {
+                        setEditCommentVisible(!editCommentVisible)
+                        setEditComment((state) => ({
+                          ...state,
+                          body: comment.body,
+                        }))
+                      }}
+                      className="text-xs text-blue-500 hover:cursor-pointer hover:text-blue-300"
+                    >
+                      {editCommentVisible ? "close" : "edit"}
+                    </h1>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
           </div>
 
@@ -155,26 +174,8 @@ const SingularComment = ({
           </>
 
           {/* Child COMMENTS GO */}
-          <div className="-ml-12 space-x-1 inline-flex">
+          <div className="-ml-12">
             {/* {replies} */}
-            {comment.author && comment.author.id === user.id ? (
-              <div className="">
-                <h1
-                  onClick={() => {
-                    setEditCommentVisible(!editCommentVisible)
-                    setEditComment((state) => ({
-                      ...state,
-                      body: comment.body,
-                    }))
-                  }}
-                  className="text-xs text-blue-500 hover:cursor-pointer hover:text-blue-300"
-                >
-                  {editCommentVisible ? "Close" : "Edit"}
-                </h1>
-              </div>
-            ) : (
-              <></>
-            )}
             <span
               onClick={() => setReplyComment(CommentReply)}
               className="text-xs text-blue-500 hover:cursor-pointer hover:text-blue-300"

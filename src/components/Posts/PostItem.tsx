@@ -17,7 +17,6 @@ const PostItem = ({ post }: postItemProps) => {
   const [targetRedirect, setTargetRedirect] = useState<string>("")
   const [showModal, setShowModal] = useState<boolean>(false)
   const [expandPost, setExpandPost] = useState<boolean>(false)
-
   useEffect(() => {
     const getTarget = async () => {
       if (post.groupId !== null) {
