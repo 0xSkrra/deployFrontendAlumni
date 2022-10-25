@@ -3,78 +3,226 @@ import ReactMarkdown from "react-markdown"
 import { useNavigate } from "react-router-dom"
 import remarkGfm from "remark-gfm"
 import { Post } from "../../common/interface/Post"
+import { putComment } from "../../common/util/API"
 import dateHandler from "../../common/util/dayjs"
+import { useUserStore } from "../../common/util/Store/userStore"
+import { NewCommentSpinner } from "./spinner"
 
-interface commentsProps{
-    comments: Post[]
+interface commentsProps {
+  comments: Post[]
+  setComments: React.Dispatch<React.SetStateAction<Post[]>>
+  setReplyComment: React.Dispatch<React.SetStateAction<string>>
 }
 
-interface commentProps{
+interface commentProps {
   comment: Post
+  setComments: React.Dispatch<React.SetStateAction<Post[]>>
+  setReplyComment: React.Dispatch<React.SetStateAction<string>>
 }
-const CommentReply = ({comment}: commentProps) => {
+const CommentReply = ({ comment }: commentProps) => {
+  return (
+    <div className="flex">
+      <div className="flex-shrink-0 mr-3">
+        <img
+          className="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
+          src={comment.author ? comment.author.picture : ""}
+          alt=""
+        />
+      </div>
+      <div className="flex-1 bg-white rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+        <strong>
+          {comment.author ? comment.author.username : "not Found"}
+        </strong>{" "}
+        <span className="text-xs text-gray-400">
+          {comment.lastUpdated}
+        </span>
+        <p className="text-xs sm:text-sm">{comment.body}</p>
+      </div>
+    </div>
+  )
+}
+const Comment = ({
+  comment,
+  setComments,
+  setReplyComment,
+}: commentProps) => {
+  const navigate = useNavigate()
+  const user = useUserStore((state) => state.User)
+  const [editCommentVisible, setEditCommentVisible] = useState(false)
+  const [editComment, setEditComment] = useState<Post>(comment)
+  const [loading, setLoading] = useState(false)
+
+  const CommentReply = `### ${
+    comment.author ? comment.author.username : "#Error"
+  } on ${dateHandler(comment.lastUpdated).toString()}
+  >${comment.body} 
+  
+  
+  `
+
+  const onSubmitEditComment = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault()
+    setEditCommentVisible(false)
+    setLoading(true)
+
+    // do stuff
+    const newComment: boolean | void = await putComment(editComment)
+      .then((r) => r)
+      .catch((e) => console.log(e))
+
+    if (newComment)
+      setComments((state) =>
+        state.map((x) => (x.id === editComment.id ? editComment : x))
+      )
+    setLoading(false)
+  }
 
   return (
     <div className="flex">
-    <div className="flex-shrink-0 mr-3">
-      <img className="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8" src={comment.author?.picture} alt=""/>
+      {/* PARENT COMMENT */}
+      <div className="flex border border-gray-400 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed w-full">
+        <div className="flex-row sm:min-w-[5%] md:min-w-[7%] lg:min-w-[3%] mr-2">
+          <img
+            className="w-full sm:min-w-[5%] md:min-w-[7%] lg:min-w-[3%]  rounded-full w-8 h-8 sm:w-10 sm:h-10"
+            onError={({ currentTarget }) => {
+              currentTarget.src = "\\assets\\default_profile_img.jpg"
+              currentTarget.onerror = null
+            }}
+            src={
+              comment.author
+                ? comment.author.picture !== null
+                  ? comment.author.picture
+                  : "#ERROR"
+                : "#ERROR"
+            }
+            alt=""
+          />
+        </div>
+        <div className="flex-row w-full">
+          <div className="flex-row w-full">
+            <div className="flex w-full">
+              <div className="">
+                <strong
+                  className="hover:cursor-pointer hover:text-blue-300 text-blue-900"
+                  onClick={() =>
+                    navigate(`/account/${comment.author?.id}`)
+                  }
+                >
+                  {comment.author
+                    ? comment.author.username
+                    : "#Error"}
+                </strong>{" "}
+                <span
+                  title={dateHandler(comment.lastUpdated).toString()}
+                  className="text-xs text-gray-400"
+                >
+                  {dateHandler(comment.lastUpdated).fromNow(true)} ago
+                </span>
+              </div>
+              <div className="ml-96">
+                {comment.author && comment.author.id === user.id ? (
+                  <div className="">
+                    <h1
+                      onClick={() => {
+                        setEditCommentVisible(!editCommentVisible)
+                        setEditComment((state) => ({
+                          ...state,
+                          body: comment.body,
+                        }))
+                      }}
+                      className="text-xs text-blue-500 hover:cursor-pointer hover:text-blue-300"
+                    >
+                      {editCommentVisible ? "close" : "edit"}
+                    </h1>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <>
+            {!editCommentVisible ? (
+              <ReactMarkdown
+                children={comment.body}
+                remarkPlugins={[remarkGfm]}
+                className="min-w-full prose"
+              />
+            ) : (
+              <form onSubmit={onSubmitEditComment}>
+                <div className="py-2 px-4 bg-white rounded-t-lg ">
+                  <label htmlFor="comment" className="sr-only">
+                    Your comment
+                  </label>
+                  <textarea
+                    onChange={(e) => {
+                      e.preventDefault()
+                      setEditComment((state) => ({
+                        ...state,
+                        body: e.target.value,
+                      }))
+                    }}
+                    id="comment"
+                    defaultValue={comment.body}
+                    rows={4}
+                    className="p-2  outline-0 border-b border-gray-200  w-full text-sm text-gray-900 bg-white"
+                    placeholder="Write a comment..."
+                    required
+                  ></textarea>
+                  <div className="flex justify-between items-center py-2 px-3 ">
+                    {loading ? (
+                      <NewCommentSpinner />
+                    ) : (
+                      <>
+                        <button
+                          type="submit"
+                          className="inline-flex py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800"
+                        >
+                          Save
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </form>
+            )}
+          </>
+
+          {/* Child COMMENTS GO */}
+          <div className="-ml-12">
+            {/* {replies} */}
+            <span
+              onClick={() => setReplyComment(CommentReply)}
+              className="text-xs text-blue-500 hover:cursor-pointer hover:text-blue-300"
+            >
+              Reply
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div className="flex-1 bg-white rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-      <strong>{comment.author?.username}</strong> <span className="text-xs text-gray-400">{comment.lastUpdated}</span>
-      <p className="text-xs sm:text-sm">
-        {comment.body}
-      </p>
-    </div>
-  </div>
   )
 }
-const Comment = ({comment}: commentProps) => {
-  const lastUpdated = comment.lastUpdated.split('.')[0].replace('T', ' ')
-  const imgauth = comment.author?.picture === null ? window.location.origin + '/assets/default_profile_img.jpg': comment.author?.picture
-  const navigate = useNavigate()
-  const [replies, setReplies] = useState<React.ReactNode|React.ReactNode[]>(<></>)
-  useEffect(() => {
-    if(comment.replies?.length! > 1) return
-    const newReplies = comment.replies?.map((c) => {
-      return ( <CommentReply key={c.id} comment={c} /> )
-    })
-    setReplies(newReplies)
-  }, [comment.replies])
-  return (
-  <div className="flex">
-
-
-  {/* PARENT COMMENT */}
-  <div className="flex border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed w-full">
-  <div className="flex-row min-w-[7%]">
-    <img className="w-full min-w-[5%]  rounded-full w-8 h-8 sm:w-10 sm:h-10" src={imgauth} alt=""/>
-  </div>
-  <div className="flex-row">
-    <strong className="hover:cursor-pointer hover:text-blue-300" onClick={() => navigate(`/account/${comment.author?.id}`)}>{comment.author?.username}</strong> <span  title={dateHandler(lastUpdated).toString()} className="text-xs text-gray-400">{dateHandler(lastUpdated).fromNow(true)} ago</span>
-
-    <p className="text-sm">
-    <ReactMarkdown children={comment.body} remarkPlugins={[remarkGfm]} className="min-w-full prose" />
-    </p>
-    
-    {/* Child COMMENTS GO */}
-    <div className="space-y-4">
-      {replies}
-    </div>
-    </div>
-  </div>
-  </div>
-  )
-}
-const Comments = ({comments}: commentsProps) => {
+const Comments = ({
+  comments,
+  setComments,
+  setReplyComment,
+}: commentsProps) => {
   const newComments = comments.map((x) => {
-    return <Comment key={x.id} comment={x} />
+    return (
+      <Comment
+        key={x.id}
+        comment={x}
+        setReplyComment={setReplyComment}
+        setComments={setComments}
+      />
+    )
   })
-  
-  return (
-    <div className="flex space-y-3 flex-col">
-      {newComments}
-    </div>
-  )
+
+  return <div className="flex space-y-1 flex-col">{newComments}</div>
 }
 
 export default Comments

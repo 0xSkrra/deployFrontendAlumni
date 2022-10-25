@@ -169,10 +169,17 @@ export const leaveTopic = async (topicId: number): Promise<any> => {
     return (await axios.delete(`api/Topics/${topicId}/Leave`))
 }
 
-export const patchComment = async (body: string, id: number): Promise<Post> => {
-    const postObj = {
-        id: id,
-        body: body
+export const putComment = async (comment: Post): Promise<boolean> => {
+    const putObj = {
+        "id": comment.id,
+        "title": comment.title,
+        "body": comment.body,
+        "authorId": comment.author ? comment.author.id : -1,
+        "recieverId": comment.receiverId,
+        "topicId": comment.topicId,
+        "groupId": comment.groupId,
+        "eventId": comment.eventId,
+        "parentId": comment.parentId
     }
-    return (await axios.put(`api/posts/${id}`, postObj)).data
+    return (await axios.put(`api/posts/${comment.id}`, putObj)).status === 204
 }
