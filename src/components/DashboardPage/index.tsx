@@ -67,7 +67,7 @@ const DashboardPage = () => {
   }
   if (loading) return <Spinner />
   return (
-    <div className=" backgroundcolorMain">
+    <div className=" backgroundcolorMain h-full">
       <div className=" text-gray-800 ">
         <div className="justify-center flex pb-8 pt-5">
           <h1 className="text-3xl font-semibold pt-3">Timeline</h1>

@@ -5,7 +5,7 @@ import ListComponent from "../ListView/ListComponent"
 
 const GroupList = () => {
   return (
-    <div className="h-full backgroundcolorMain mb-5">
+    <div className="backgroundcolorMain mb-5">
       <div>
         <div className="pt-3 pb-7 flex justify-start ">
           <div className="w-[45%]"></div>

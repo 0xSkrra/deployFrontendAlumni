@@ -280,25 +280,37 @@ const GroupTimeline = () => {
                     {membership && (
                       <button
                         disabled={buttonloading}
-                        className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2
-                                     focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200"
+                        className="inline-flex text-left text-red-700 fill-red-700 align-bottom px-3 py-2 rounded-md  border-2  text-color border-red-700 hoverColor2 hover:text-white hover:fill-white transition-all duration-200"
                         onClick={() => {
                           handleLeave()
                         }}
                       >
-                        Leave Group
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="24"
+                          width="24"
+                          >
+                          <path d="M16 11V9h6v2Zm-7 1q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm-8 8v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm2-2h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0-2Zm0 10Z" />
+                        </svg>
+                         <span className="ml-1">Leave Group</span>
                       </button>
                     )}
                     {!membership && (
                       <button
                         disabled={buttonloading}
-                        className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 
-                                    focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200"
+                        className="inline-flex text-left text-green-700 fill-green-700 align-bottom px-3 py-2 rounded-md  border-2 text-color border-green-700 hoverColor hover:text-white hover:fill-white transition-all duration-200"
                         onClick={() => {
                           handleJoin()
                         }}
                       >
-                        Join Group
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24"
+                        width="24"
+                        >
+                        <path d="M18 14v-3h-3V9h3V6h2v3h3v2h-3v3Zm-9-2q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm-8 8v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm2-2h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0-2Zm0 10Z" />
+                      </svg>
+                        <span className="ml-1">Join Group</span>
                       </button>
                     )}
                     {membership && (
@@ -312,6 +324,14 @@ const GroupTimeline = () => {
                       />
                     )}
                   </div>
+                  {membership && (
+                    <CreateEventModal
+                      group={group}
+                      setGroup={setGroup}
+                      id={group.id}
+                      target={"group"}
+                    />
+                  )}
                   <div className="text-base font-normal">
                     <span className="font-medium text-gray-900 ">
                       Upcoming Events
@@ -365,14 +385,6 @@ const GroupTimeline = () => {
                       <p>No upcoming Events</p>
                     )}
                   </ul>
-                  {membership && (
-                    <CreateEventModal
-                      group={group}
-                      setGroup={setGroup}
-                      id={group.id}
-                      target={"group"}
-                    />
-                  )}
                 </div>
               </div>
             </li>

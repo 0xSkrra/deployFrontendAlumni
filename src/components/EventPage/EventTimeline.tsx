@@ -106,7 +106,7 @@ const EventTimeline = () => {
   }
 
   return (
-    <div>
+    <div className="backgroundcolorMain h-full">
       <div className="p-4 mb-4 flex flex-row rounded-lg ">
         <div className="flex flex-col min-w-[70%]">
           <div className=" text-gray-800 ">
@@ -221,9 +221,9 @@ const EventTimeline = () => {
             UPCOMING EVENTS HERE
             */}
         <div className="flex flex-col min-w-[30.5%]">
-          <ol className="mt-3 pl-8 w-full max-w-full min-w-full divide-y divider-gray-200 ">
+          <ol className="mt-22 pl-8 w-full max-w-full min-w-full divide-y divider-gray-200 ">
             <li>
-              <div className=" p-3  border min-w-full border-gray-300 h-full rounded-lg sm:flex bg-gray-100">
+              <div className=" p-3  border min-w-full border-gray-300 h-full rounded-lg sm:flex bg-white">
                 <div className="flex flex-col text-gray-600">
                   <div className="flex flex-row items-center space-x-2 mb-2">
                     {membership && (
@@ -238,13 +238,13 @@ const EventTimeline = () => {
                     {!membership && (
                       <button
                         disabled={loading}
-                        className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 
-                                    focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200"
+                        className="inline-flex text-justify justify-center text-green-700 fill-green-700 align-bottom px-3 py-2 rounded-md  border-2 text-color border-green-700 hoverColor hover:text-white hover:fill-white transition-all duration-200"
                         onClick={() => {
                           handleJoin()
                         }}
                       >
-                        Join Event
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10.95 18.35 7.4 14.8l1.45-1.45 2.1 2.1 4.2-4.2 1.45 1.45ZM5 22q-.825 0-1.413-.587Q3 20.825 3 20V6q0-.825.587-1.412Q4.175 4 5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588Q21 5.175 21 6v14q0 .825-.587 1.413Q19.825 22 19 22Zm0-2h14V10H5v10ZM5 8h14V6H5Zm0 0V6v2Z"/></svg>
+                       <span className="ml-1">Join Event</span> 
                       </button>
                     )}
                     {membership && (

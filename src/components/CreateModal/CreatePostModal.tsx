@@ -122,11 +122,12 @@ export default function CreatePostModal({
   return (
     <>
       <button
-        className="px-4 flex py-2 bg-indigo-500 outline-none rounded text-white shadow-indigo-200 shadow-lg font-medium active:shadow-none active:scale-95 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200"
+        className="inline-flex text-left text-green-700 fill-green-700 align-bottom px-3 py-2 rounded-md  border-2 text-color border-green-700 hoverColor hover:text-white hover:fill-white transition-all duration-200"
         type="button"
         onClick={() => setShowModal(true)}
       >
-        New Post
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M5 21q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h9v2H5v14h14v-9h2v9q0 .825-.587 1.413Q19.825 21 19 21Zm3-4v-2h8v2Zm0-3v-2h8v2Zm0-3V9h8v2Zm9-2V7h-2V5h2V3h2v2h2v2h-2v2Z"/></svg>
+         <span className="ml-1">New Post</span> 
       </button>
       {showModal ? (
         <>
