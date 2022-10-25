@@ -17,8 +17,8 @@ const StartPage = () => {
   //
 
   return (
-    <div className="bg-white -ml-48 max-w-[90%]">
-      <div className="flex justify-center h-screen">
+    <div className="backgroundcolorMain  -ml-96  max-w-screen">
+      <div className="flex justify-center mr-48 h-screen">
         <div className="hidden bg-cover md:block lg:w-2/3">
           <div className="flex items-center h-full px-20">
             <div>

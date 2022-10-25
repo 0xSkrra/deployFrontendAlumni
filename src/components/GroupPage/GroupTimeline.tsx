@@ -108,8 +108,8 @@ const GroupTimeline = () => {
         <Spinner />)
 
     return (
-        <div>
-        <div className="p-4 mb-4 flex flex-row rounded-lg ">
+        <div className="backgroundcolorMain h-full">
+        <div className="p-4 pb-4 flex flex-row rounded-lg backgroundcolorMain">
 
             <div className="flex flex-col min-w-[70%]"> 
             <div className=" text-gray-800 ">
@@ -179,9 +179,9 @@ const GroupTimeline = () => {
             UPCOMING EVENTS HERE
             */}
             <div className="flex flex-col min-w-[30.5%]">
-                <ol className="mt-3 pl-8 w-full max-w-full min-w-full divide-y divider-gray-200 ">
+                <ol className="mt-22 pl-8 w-full max-w-full min-w-full divide-y divider-gray-200 ">
                     <li>
-                        <div className=" p-3  border min-w-full border-gray-300 h-full rounded-lg sm:flex bg-gray-100">
+                        <div className=" p-3  border min-w-full border-gray-300 h-full rounded-lg sm:flex bg-white">
                             <div className="flex flex-col text-gray-600">
                             <div className="text-base font-normal mb-3 text-center">{group.users?.length!==1 && <span className="font-medium text-gray-900 ">{group.users?.length} Members</span>}
                             {group.users?.length===1 && <span className="font-medium text-gray-900">{group.users?.length} Member</span>}
