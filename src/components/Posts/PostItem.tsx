@@ -63,7 +63,7 @@ const PostItem = ({ post }: postItemProps) => {
         className="mt-2 divide-y divider-gray-200 max-h-full max-w-full"
       >
         <li onClick={() => setShowModal(!showModal)}>
-          <div className=" p-3 hover:cursor-pointer border border-gray-200 max-h-30 rounded-lg sm:flex hoverColorCard shadow-lg bg-slate-50 transition-all duration-200">
+          <div className="p-3 hover:cursor-pointer border border-gray-200 max-h-30 rounded-lg sm:flex hoverColorCard shadow-lg bg-slate-50 transition-all duration-200">
             <div className="flex-col rounded">
               <img
                 onError={({ currentTarget }) => {
@@ -89,27 +89,30 @@ const PostItem = ({ post }: postItemProps) => {
                   {post.title}
                 </span>
               </div>
-              <span
-                onClick={(event) => {
-                  event.stopPropagation()
-                  setExpandPost(!expandPost)
-                }}
-                className="text-md max-w-12 flex font-normal text-start hover:text-blue-300"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-arrows-angle-expand"
-                  viewBox="0 0 16 16"
+              <div className="max-w-[3%] mt-1 mb-1">
+                <span
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    setExpandPost(!expandPost)
+                  }}
+                  className="text-md max-w-12 flex font-normal text-start hover:text-blue-300"
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707z"
-                  />
-                </svg>
-              </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-arrows-angle-expand"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707z"
+                    />
+                  </svg>
+                </span>
+              </div>
+
               <div className="flex flex-row w-full">
                 <span
                   onClick={() => {
