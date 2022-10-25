@@ -116,7 +116,7 @@ const TopicTimeline = () => {
 
     return (
 
-        <div className="backgroundcolorMain">
+        <div className="backgroundcolorMain h-full">
            
         <div className="p-4 mb-4 flex flex-row rounded-lg">
 

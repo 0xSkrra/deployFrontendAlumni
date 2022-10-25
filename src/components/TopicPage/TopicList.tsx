@@ -7,7 +7,7 @@ const TopicList = () => {
 
 
   return (
-    <div className='divide-y-2 divide-grey-800 divide-solid backgroundcolorMain'>
+    <div className='divide-y-2 divide-gray-900 divide-solid backgroundcolorMain mb-5'>
     <div>      
     <div className= "pt-3 pb-7 flex justify-start">
       <div className='w-[46%]'></div>
